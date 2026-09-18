@@ -1,0 +1,171 @@
+/* =============================================================================
+   Raio Som — painel interno da central
+   Tela de trabalho: densidade alta, sem enfeite. Legibilidade acima de tudo.
+   ========================================================================== */
+
+.painel-barra {
+  border-bottom: 1px solid var(--borda);
+  background: var(--navy-800);
+  color: var(--branco);
+}
+
+.painel-barra__conteudo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-4);
+  padding-block: var(--e-4);
+}
+
+.painel-barra__marca {
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-lg);
+  font-weight: var(--peso-forte);
+  color: var(--branco);
+  text-decoration: none;
+}
+
+.painel-barra__usuario {
+  display: flex;
+  align-items: center;
+  gap: var(--e-4);
+  font-size: var(--txt-sm);
+  color: var(--texto-suave-sobre-escuro);
+}
+
+.painel-corpo {
+  padding-block: var(--e-8) var(--e-16);
+}
+
+.painel-busca {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-3);
+  margin-block: var(--e-6);
+}
+
+.painel-busca input {
+  flex: 1;
+  min-width: 240px;
+}
+
+.painel-tabela-caixa {
+  overflow-x: auto;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+}
+
+.painel-protocolo {
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-semi);
+  white-space: nowrap;
+  color: var(--navy-800);
+  text-decoration: none;
+}
+
+.painel-protocolo:hover {
+  text-decoration: underline;
+}
+
+.status-select {
+  padding: var(--e-1) var(--e-2);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-sm);
+  background: var(--branco);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-xs);
+  font-weight: var(--peso-semi);
+}
+
+.status-select[data-status="pendente"] {
+  border-color: var(--alerta-500);
+  background: var(--alerta-fundo);
+  color: #78350f;
+}
+
+.status-select[data-status="em_atendimento"] {
+  border-color: var(--agua-600);
+  background: var(--agua-100);
+  color: #094a52;
+}
+
+.status-select[data-status="confirmado"] {
+  border-color: var(--ok-500);
+  background: #dcfce7;
+  color: #14532d;
+}
+
+.status-select[data-status="cancelado"] {
+  border-color: var(--borda-forte);
+  background: var(--neutro-100);
+  color: var(--texto-suave);
+}
+
+.painel-login {
+  max-width: 420px;
+  margin: clamp(var(--e-12), 10vh, var(--e-24)) auto;
+  padding: var(--e-8);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+  box-shadow: var(--sombra-md);
+}
+
+.painel-login__campos {
+  display: grid;
+  gap: var(--e-5);
+  margin-top: var(--e-6);
+}
+
+.ficha {
+  display: grid;
+  gap: var(--e-6);
+  grid-template-columns: minmax(0, 1fr) 320px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .ficha {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ficha__lista {
+  display: grid;
+  gap: var(--e-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 620px) {
+  .ficha__lista {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ficha__rotulo {
+  font-size: var(--txt-xs);
+  font-weight: var(--peso-semi);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+}
+
+.ficha__valor {
+  margin-top: var(--e-1);
+  font-size: var(--txt-base);
+  color: var(--texto);
+}
+
+.ficha__valor--destaque {
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.painel-vazio {
+  padding: var(--e-10);
+  text-align: center;
+  color: var(--texto-suave);
+}

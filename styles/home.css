@@ -1,0 +1,405 @@
+/* =============================================================================
+   Raio Som — Home
+   ========================================================================== */
+
+/* ── Hero ───────────────────────────────────────────────────────────────── */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  color: var(--texto-sobre-escuro);
+  /* Fallback para quando a foto não carrega (offline, bloqueio de imagem). */
+  background: linear-gradient(140deg, var(--navy-800) 0%, var(--navy-900) 100%);
+}
+
+.hero__foto {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+/* Véu escuro sobre a foto: mais forte à esquerda (onde fica o texto branco,
+   que precisa de contraste suficiente) e mais suave à direita, deixando a
+   foto da recepção aparecer perto do card branco. */
+.hero__veu {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    100deg,
+    rgb(15 27 61 / 93%) 0%,
+    rgb(15 27 61 / 88%) 45%,
+    rgb(15 27 61 / 60%) 100%
+  );
+}
+
+.hero__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--e-12);
+  align-items: center;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.9fr);
+  padding-block: clamp(var(--e-12), 5vw, var(--e-20));
+}
+
+@media (max-width: 1000px) {
+  .hero__grid {
+    grid-template-columns: 1fr;
+    gap: var(--e-10);
+  }
+}
+
+.hero__kicker {
+  display: block;
+  margin-bottom: var(--e-5);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-sm);
+  font-weight: var(--peso-semi);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cor-acao-sobre-escuro);
+}
+
+.hero__titulo {
+  /* Duas linhas no desktop, como no Figma — 14ch quebrava em quatro. */
+  max-width: 19ch;
+  color: var(--branco);
+  font-size: clamp(2.25rem, 1.4rem + 3.6vw, 3.5rem);
+}
+
+.hero__sub {
+  max-width: 60ch;
+  margin-top: var(--e-5);
+  font-size: var(--txt-lg);
+  color: var(--texto-suave-sobre-escuro);
+}
+
+/* Barra de busca: input e botão dentro da mesma "pílula" branca. */
+.busca {
+  display: flex;
+  gap: var(--e-2);
+  max-width: 840px;
+  margin-top: var(--e-8);
+  padding: var(--e-2);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+  box-shadow: var(--sombra-lg);
+}
+
+.busca__campo {
+  flex: 1;
+  min-width: 0;
+  padding: var(--e-4) var(--e-4);
+  border: 0;
+  background: transparent;
+  font-family: var(--fonte-texto);
+  font-size: var(--txt-base);
+  color: var(--texto);
+}
+
+.busca__campo:focus {
+  outline: none;
+}
+
+.busca:focus-within {
+  outline: 3px solid var(--agua-500);
+  outline-offset: 2px;
+}
+
+.busca__campo::placeholder {
+  color: var(--texto-tenue);
+}
+
+.hero__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-3);
+  margin-top: var(--e-6);
+}
+
+.hero__confianca {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--e-4);
+  margin-top: var(--e-8);
+  font-size: var(--txt-sm);
+  color: var(--texto-suave-sobre-escuro);
+}
+
+/* ── Card de resultados do hero ─────────────────────────────────────────── */
+
+.hero-card {
+  padding: var(--e-8);
+  border-radius: var(--raio-lg);
+  background: var(--branco);
+  box-shadow: var(--sombra-lg);
+}
+
+.hero-card__titulo {
+  margin-top: var(--e-5);
+  font-size: var(--txt-xl);
+}
+
+.hero-card__texto {
+  margin-top: var(--e-3);
+  color: var(--texto-suave);
+  font-size: var(--txt-base);
+}
+
+.hero-card__acoes {
+  display: grid;
+  gap: var(--e-3);
+  margin-top: var(--e-6);
+}
+
+/* Escolha da loja (Android/iOS) dentro de um <details> */
+.baixar-app__gatilho {
+  cursor: pointer;
+  list-style: none;
+}
+
+/* O marcador padrão do <summary> apareceria junto do rótulo do botão. */
+.baixar-app__gatilho::-webkit-details-marker {
+  display: none;
+}
+
+.baixar-app__gatilho::after {
+  content: "▾";
+  font-size: var(--txt-sm);
+}
+
+.baixar-app[open] .baixar-app__gatilho::after {
+  content: "▴";
+}
+
+.baixar-app__opcoes {
+  display: grid;
+  gap: var(--e-3);
+  margin-top: var(--e-3);
+}
+
+/* ── Grade de exames ────────────────────────────────────────────────────── */
+
+.grade-exames {
+  display: grid;
+  gap: var(--e-5);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1080px) {
+  .grade-exames {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .grade-exames {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card-exame__titulo {
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-lg);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.card-exame__acao {
+  margin-top: auto;
+  padding-top: var(--e-5);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-sm);
+  font-weight: var(--peso-semi);
+  color: var(--cor-acao);
+}
+
+.card-exame:hover .card-exame__acao {
+  text-decoration: underline;
+}
+
+/* ── Passos ─────────────────────────────────────────────────────────────── */
+
+.passos {
+  display: grid;
+  gap: var(--e-6);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+  .passos {
+    grid-template-columns: 1fr;
+  }
+}
+
+.passo__numero {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--navy-800);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-lg);
+  font-weight: var(--peso-forte);
+  color: var(--branco);
+}
+
+.passo__titulo {
+  margin-top: var(--e-5);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-lg);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.passo__texto {
+  margin-top: var(--e-3);
+  font-size: var(--txt-base);
+  color: var(--texto-suave);
+}
+
+/* ── Convênios ──────────────────────────────────────────────────────────── */
+
+.convenios-nomes {
+  max-width: 90ch;
+  margin-top: var(--e-6);
+  font-size: var(--txt-sm);
+  color: var(--texto-suave);
+}
+
+/* ── Unidades ───────────────────────────────────────────────────────────── */
+
+.grade-unidades {
+  display: grid;
+  gap: var(--e-6);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+  .grade-unidades {
+    grid-template-columns: 1fr;
+  }
+}
+
+.unidade-card {
+  overflow: hidden;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+}
+
+.unidade-card__mapa {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 150px;
+  background: var(--navy-100);
+}
+
+.unidade-card__foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Unidade sem foto real ainda: mostra o nome em vez de uma foto de outra
+   unidade, que enganaria o paciente. */
+.unidade-card__mapa--sem-foto {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: var(--e-4);
+  background: linear-gradient(135deg, var(--navy-800), var(--navy-600));
+  color: var(--branco);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-lg);
+  font-weight: var(--peso-semi);
+  text-align: center;
+}
+
+.unidade-card__corpo {
+  padding: var(--e-6);
+}
+
+.unidade-card__nome {
+  margin-top: var(--e-4);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-xl);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.unidade-card__endereco {
+  margin-top: var(--e-2);
+  font-size: var(--txt-sm);
+  color: var(--texto-suave);
+}
+
+.unidade-card__horarios {
+  display: grid;
+  gap: var(--e-2);
+  padding-left: 0;
+  margin-top: var(--e-4);
+  list-style: none;
+  font-size: var(--txt-sm);
+}
+
+.unidade-card__horarios li {
+  display: flex;
+  align-items: center;
+  gap: var(--e-3);
+}
+
+.unidade-card__horarios li::before {
+  content: "";
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ok-500);
+}
+
+.unidade-card__telefone {
+  display: inline-block;
+  margin-top: var(--e-4);
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-forte);
+  color: var(--navy-800);
+  text-decoration: none;
+}
+
+.unidade-card__acoes {
+  display: flex;
+  gap: var(--e-3);
+  margin-top: var(--e-5);
+}
+
+.unidade-card__acoes .btn:first-child {
+  flex: 1;
+}
+
+@media (max-width: 420px) {
+  .unidade-card__acoes {
+    flex-direction: column;
+  }
+}
+
+/* ── Resultado da busca sem correspondência ─────────────────────────────── */
+
+.busca-vazia {
+  padding: var(--e-10);
+  border: 1px dashed var(--borda-forte);
+  border-radius: var(--raio-md);
+  background: var(--neutro-100);
+  text-align: center;
+}

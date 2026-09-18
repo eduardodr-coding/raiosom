@@ -1,0 +1,132 @@
+/* =============================================================================
+   Raio Som — tokens do design system
+   -----------------------------------------------------------------------------
+   Fonte única de verdade para cor, tipografia, espaçamento e sombra. Nenhum
+   componente escreve um valor cru: tudo referencia uma variável daqui.
+   ========================================================================== */
+
+:root {
+  /* ── Paleta da marca ─────────────────────────────────────────────────── */
+  --navy-900: #0f1b3d;
+  --navy-800: #16255a; /* marca — headers e textos de destaque */
+  --navy-700: #1f2e63;
+  --navy-600: #2a3c7d;
+  --navy-100: #e8ecf7;
+
+  --agua-700: #0a6570; /* texto sobre agua-100 — ver nota abaixo */
+  --agua-600: #00808f;
+  --agua-500: #00a3b5; /* cor de ação */
+  --agua-100: #e0f5f7;
+
+  --neutro-900: #111827;
+  --neutro-600: #5b6478;
+  --neutro-400: #9aa2b4;
+  --neutro-200: #e3e7ef;
+  --neutro-100: #f4f6fa;
+  --branco: #ffffff;
+
+  --alerta-500: #d97706; /* avisos de preparo */
+  --alerta-fundo: #fef3c7;
+  --ok-500: #16a34a; /* sucesso, confirmação, WhatsApp */
+  --erro-500: #dc2626;
+  --erro-fundo: #fef2f2;
+
+  /* ── Papéis semânticos ───────────────────────────────────────────────────
+     Sobre fundo claro usamos agua-600 (4,7:1 com branco — passa no WCAG AA
+     para texto normal). O agua-500 é 3,0:1 com branco: serve como acento
+     sobre o navy escuro e para bordas/ícones, nunca para texto pequeno em
+     fundo branco. Está documentado aqui porque é o erro mais fácil de
+     cometer com esta paleta.                                                */
+  --cor-acao: var(--agua-600);
+  --cor-acao-hover: color-mix(in srgb, var(--agua-600) 88%, black);
+  --cor-acao-ativa: color-mix(in srgb, var(--agua-600) 80%, black);
+  --cor-acao-sobre-escuro: var(--agua-500);
+  /* Sobre fundo agua-100 o agua-600 dá 4,1:1 — abaixo do mínimo. */
+  --cor-acao-sobre-claro: var(--agua-700);
+
+  --texto: var(--neutro-900);
+  --texto-suave: var(--neutro-600);
+  /* Não usa neutro-400 (#9AA2B4): 2,6:1 no branco, reprova no WCAG AA para
+     texto. O neutro-400 continua valendo como borda (--borda-forte), onde o
+     critério é 3:1 de componente de interface. */
+  --texto-tenue: #6e7689;
+  --texto-sobre-escuro: var(--branco);
+  --texto-suave-sobre-escuro: #c3cbe2;
+
+  --fundo: var(--branco);
+  --fundo-alt: var(--neutro-100);
+  --fundo-escuro: var(--navy-900);
+  --borda: var(--neutro-200);
+  --borda-forte: var(--neutro-400);
+
+  --whatsapp: #25d366;
+  --whatsapp-escuro: #1da851;
+
+  /* ── Tipografia ──────────────────────────────────────────────────────────
+     As duas famílias entram por next/font (app/layout.tsx), que injeta
+     --fonte-titulo (Poppins) e --fonte-texto (Lato).                        */
+  --fonte-titulo: var(--fonte-poppins), system-ui, -apple-system, sans-serif;
+  --fonte-texto: var(--fonte-lato), system-ui, -apple-system, sans-serif;
+
+  --txt-xs: 0.75rem; /* 12px */
+  --txt-sm: 0.875rem; /* 14px */
+  --txt-base: 1rem; /* 16px */
+  --txt-md: 1.0625rem; /* 17px */
+  --txt-lg: 1.25rem; /* 20px */
+  --txt-xl: 1.5rem; /* 24px */
+  --txt-2xl: 1.875rem; /* 30px */
+  --txt-3xl: 2.25rem; /* 36px */
+  --txt-4xl: 3rem; /* 48px */
+
+  --peso-normal: 400;
+  --peso-medio: 500;
+  --peso-semi: 600;
+  --peso-forte: 700;
+  --peso-extra: 800;
+
+  --altura-apertada: 1.15;
+  --altura-titulo: 1.25;
+  --altura-texto: 1.6;
+
+  /* ── Espaçamento (escala de 4px) ─────────────────────────────────────── */
+  --e-1: 0.25rem;
+  --e-2: 0.5rem;
+  --e-3: 0.75rem;
+  --e-4: 1rem;
+  --e-5: 1.25rem;
+  --e-6: 1.5rem;
+  --e-8: 2rem;
+  --e-10: 2.5rem;
+  --e-12: 3rem;
+  --e-16: 4rem;
+  --e-20: 5rem;
+  --e-24: 6rem;
+
+  /* ── Formas ──────────────────────────────────────────────────────────── */
+  --raio-sm: 6px;
+  --raio: 10px;
+  --raio-md: 14px;
+  --raio-lg: 20px;
+  --raio-pilula: 999px;
+
+  --sombra-sm: 0 1px 2px rgb(15 27 61 / 6%);
+  --sombra: 0 2px 8px rgb(15 27 61 / 8%);
+  --sombra-md: 0 6px 20px rgb(15 27 61 / 10%);
+  --sombra-lg: 0 16px 40px rgb(15 27 61 / 14%);
+
+  /* ── Layout ──────────────────────────────────────────────────────────── */
+  --largura-conteudo: 1280px;
+  --largura-texto: 68ch;
+  --gutter: var(--e-6);
+  --altura-header: 88px;
+
+  /* ── Movimento ───────────────────────────────────────────────────────── */
+  --transicao-rapida: 120ms ease;
+  --transicao: 200ms ease;
+  --transicao-lenta: 420ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ── Camadas ─────────────────────────────────────────────────────────── */
+  --z-header: 50;
+  --z-menu-mobile: 60;
+  --z-toast: 80;
+}

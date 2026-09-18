@@ -1,0 +1,312 @@
+/* =============================================================================
+   Raio Som — fluxo de agendamento (dados + pedido, e handoff no WhatsApp)
+   ========================================================================== */
+
+.fluxo-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-4);
+  min-height: 80px;
+  padding-block: var(--e-4);
+}
+
+.fluxo-topo .marca__logo {
+  --logo-altura: 56px;
+}
+
+.fluxo-topo .marca__sub {
+  margin-top: var(--e-1);
+}
+
+.fluxo-topo__ajuda {
+  display: flex;
+  align-items: center;
+  gap: var(--e-3);
+  font-size: var(--txt-sm);
+  color: var(--texto-suave);
+}
+
+.fluxo-topo__telefone {
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+  text-decoration: none;
+}
+
+.agendar-corpo {
+  display: grid;
+  gap: var(--e-8);
+  grid-template-columns: minmax(0, 1fr) 340px;
+  align-items: start;
+  padding-block: var(--e-10);
+}
+
+@media (max-width: 1000px) {
+  .agendar-corpo {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-card {
+  padding: clamp(var(--e-5), 3vw, var(--e-8));
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+  box-shadow: var(--sombra-sm);
+}
+
+.form-card__titulo {
+  font-size: var(--txt-2xl);
+}
+
+.form-card__sub {
+  margin-top: var(--e-3);
+  color: var(--texto-suave);
+}
+
+.form-secao {
+  margin-top: var(--e-8);
+}
+
+/* Fieldset zera a moldura nativa sem perder o espaçamento da seção. */
+fieldset.form-secao {
+  padding: 0;
+  border: 0;
+}
+
+.form-secao__titulo {
+  margin-bottom: var(--e-4);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-lg);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.form-secao__ajuda {
+  margin-top: var(--e-3);
+  font-size: var(--txt-sm);
+  color: var(--texto-suave);
+}
+
+.opcoes-unidade {
+  display: grid;
+  gap: var(--e-4);
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 640px) {
+  .opcoes-unidade {
+    grid-template-columns: 1fr;
+  }
+}
+
+.opcoes-turno {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-3);
+}
+
+.opcao-turno {
+  position: relative;
+  cursor: pointer;
+}
+
+.opcao-turno input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.opcao-turno span {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--e-3) var(--e-6);
+  border: 1.5px solid var(--borda);
+  border-radius: var(--raio);
+  background: var(--branco);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-base);
+  font-weight: var(--peso-medio);
+  color: var(--navy-800);
+  transition:
+    border-color var(--transicao),
+    background-color var(--transicao),
+    color var(--transicao);
+}
+
+.opcao-turno:hover span {
+  border-color: var(--borda-forte);
+}
+
+.opcao-turno input:checked + span {
+  border-color: var(--cor-acao);
+  background: var(--agua-100);
+  color: var(--cor-acao-sobre-claro);
+}
+
+.opcao-turno input:focus-visible + span {
+  outline: 3px solid var(--agua-500);
+  outline-offset: 2px;
+}
+
+.form-envio {
+  margin-top: var(--e-8);
+  padding-top: var(--e-6);
+  border-top: 1px solid var(--borda);
+}
+
+/* ── Resumo lateral ─────────────────────────────────────────────────────── */
+
+.resumo {
+  position: sticky;
+  top: calc(var(--altura-header) + var(--e-4));
+  padding: var(--e-6);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+}
+
+.resumo__titulo {
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-lg);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.resumo__item {
+  margin-top: var(--e-5);
+}
+
+.resumo__rotulo {
+  font-size: var(--txt-xs);
+  font-weight: var(--peso-semi);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+}
+
+.resumo__valor {
+  margin-top: var(--e-1);
+  font-size: var(--txt-base);
+  color: var(--texto);
+}
+
+.resumo__caixa {
+  margin-top: var(--e-6);
+  padding: var(--e-4);
+  border-radius: var(--raio);
+  background: var(--neutro-100);
+  font-size: var(--txt-sm);
+  color: var(--texto-suave);
+}
+
+.resumo__caixa strong {
+  display: block;
+  margin-bottom: var(--e-2);
+  font-family: var(--fonte-titulo);
+  color: var(--navy-800);
+}
+
+/* ── Confirmação ────────────────────────────────────────────────────────── */
+
+.confirmacao {
+  max-width: 720px;
+  margin-inline: auto;
+  padding: clamp(var(--e-6), 4vw, var(--e-10));
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+  background: var(--branco);
+  box-shadow: var(--sombra-md);
+  text-align: center;
+}
+
+.confirmacao__icone {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin-inline: auto;
+  border-radius: 50%;
+  background: #dcfce7;
+  font-size: var(--txt-2xl);
+  color: #14532d;
+}
+
+.confirmacao__titulo {
+  margin-top: var(--e-6);
+}
+
+.confirmacao__texto {
+  max-width: 52ch;
+  margin-inline: auto;
+  margin-top: var(--e-4);
+  color: var(--texto-suave);
+}
+
+.protocolo {
+  margin-top: var(--e-8);
+  padding: var(--e-6);
+  border: 1px dashed var(--agua-600);
+  border-radius: var(--raio-md);
+  background: var(--agua-100);
+}
+
+.protocolo__rotulo {
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-xs);
+  font-weight: var(--peso-semi);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cor-acao-sobre-claro);
+}
+
+.protocolo__numero {
+  margin-top: var(--e-2);
+  font-family: var(--fonte-titulo);
+  font-size: clamp(1.75rem, 1.2rem + 2vw, 2.25rem);
+  font-weight: var(--peso-extra);
+  letter-spacing: 0.02em;
+  color: var(--navy-800);
+}
+
+.protocolo__nota {
+  max-width: 46ch;
+  margin-inline: auto;
+  margin-top: var(--e-3);
+  font-size: var(--txt-sm);
+  color: #094a52;
+}
+
+.previa {
+  margin-top: var(--e-8);
+  text-align: left;
+}
+
+.previa__rotulo {
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-sm);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+/* Balão no estilo da mensagem do WhatsApp, para o paciente reconhecer. */
+.balao {
+  margin-top: var(--e-3);
+  padding: var(--e-5);
+  border-radius: var(--raio-md);
+  border-top-left-radius: var(--raio-sm);
+  background: #e7ffdb;
+  font-family: var(--fonte-texto);
+  font-size: var(--txt-sm);
+  line-height: 1.7;
+  color: #0b2e13;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.confirmacao__acoes {
+  display: grid;
+  gap: var(--e-3);
+  margin-top: var(--e-8);
+}

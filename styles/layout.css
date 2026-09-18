@@ -1,0 +1,490 @@
+/* =============================================================================
+   Raio Som — casca do site: topbar, cabeçalho, navegação e rodapé
+   ========================================================================== */
+
+/* ── Topbar ─────────────────────────────────────────────────────────────── */
+
+.topbar {
+  background: var(--navy-900);
+  color: var(--texto-suave-sobre-escuro);
+  font-size: var(--txt-xs);
+}
+
+.topbar__conteudo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-4);
+  min-height: 36px;
+  padding-block: var(--e-2);
+}
+
+.topbar__grupo {
+  display: flex;
+  align-items: center;
+  gap: var(--e-5);
+  flex-wrap: wrap;
+}
+
+.topbar a {
+  color: var(--texto-suave-sobre-escuro);
+  text-decoration: none;
+}
+
+.topbar a:hover {
+  color: var(--branco);
+}
+
+.topbar__telefone {
+  font-weight: var(--peso-forte);
+  color: var(--branco);
+}
+
+.topbar__destaque {
+  color: var(--cor-acao-sobre-escuro) !important;
+  font-weight: var(--peso-forte);
+}
+
+.topbar__destaque:hover {
+  color: var(--branco) !important;
+}
+
+/* ── Redes sociais (ícones) ─────────────────────────────────────────────── */
+
+.redes-sociais {
+  display: flex;
+  align-items: center;
+  gap: var(--e-3);
+}
+
+.redes-sociais__link {
+  display: inline-flex;
+}
+
+.redes-sociais__link svg {
+  display: block;
+}
+
+@media (max-width: 860px) {
+  .topbar__conteudo {
+    justify-content: center;
+  }
+
+  .topbar__grupo--links {
+    display: none;
+  }
+}
+
+/* ── Cabeçalho ──────────────────────────────────────────────────────────── */
+
+.cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  background: var(--branco);
+  border-bottom: 1px solid transparent;
+  transition:
+    box-shadow var(--transicao),
+    border-color var(--transicao);
+}
+
+/* Ganha sombra só depois que a página rola (data-rolado em Header.tsx). */
+.cabecalho[data-rolado="true"] {
+  border-bottom-color: var(--borda);
+  box-shadow: var(--sombra);
+}
+
+.cabecalho__conteudo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-6);
+  min-height: var(--altura-header);
+  padding-block: var(--e-4);
+}
+
+.marca {
+  display: block;
+  flex: none;
+  text-decoration: none;
+}
+
+.marca__sub {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--fonte-titulo);
+  font-size: 10px;
+  font-weight: var(--peso-medio);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+}
+
+/* ── Navegação ──────────────────────────────────────────────────────────── */
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--e-8);
+}
+
+.nav__link {
+  position: relative;
+  white-space: nowrap;
+  padding-block: var(--e-2);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-base);
+  font-weight: var(--peso-medio);
+  color: var(--navy-800);
+  text-decoration: none;
+}
+
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--cor-acao);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transicao);
+}
+
+.nav__link:hover::after,
+.nav__link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.nav__link[aria-current="page"] {
+  font-weight: var(--peso-semi);
+}
+
+.cabecalho__acoes {
+  display: flex;
+  align-items: center;
+  gap: var(--e-3);
+  flex: none;
+}
+
+/* ── Menu no celular ────────────────────────────────────────────────────── */
+
+.menu-botao {
+  display: none;
+  flex: none;
+  padding: var(--e-2);
+  border: 1.5px solid var(--borda);
+  border-radius: var(--raio-sm);
+  background: var(--branco);
+  line-height: 0;
+}
+
+.menu-botao__barra {
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 4px 0;
+  border-radius: 2px;
+  background: var(--navy-800);
+  transition: transform var(--transicao), opacity var(--transicao);
+}
+
+.menu-botao[aria-expanded="true"] .menu-botao__barra:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu-botao[aria-expanded="true"] .menu-botao__barra:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-botao[aria-expanded="true"] .menu-botao__barra:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.menu-mobile {
+  display: none;
+  border-top: 1px solid var(--borda);
+  background: var(--branco);
+}
+
+.menu-mobile__lista {
+  display: grid;
+  gap: var(--e-1);
+  padding: var(--e-4) 0;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.menu-mobile__link {
+  display: block;
+  padding: var(--e-3) var(--e-2);
+  border-radius: var(--raio-sm);
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-medio);
+  color: var(--navy-800);
+  text-decoration: none;
+}
+
+.menu-mobile__link:hover {
+  background: var(--neutro-100);
+}
+
+.menu-mobile__acoes {
+  display: grid;
+  gap: var(--e-3);
+  padding-bottom: var(--e-5);
+}
+
+/* Dois degraus antes do menu hambúrguer:
+   · até 1200px o botão secundário "Meus resultados" sai (o link do portal
+     continua na topbar) e a navegação aperta o espaçamento;
+   · até 940px o menu inteiro vira hambúrguer. */
+@media (max-width: 1200px) {
+  .nav {
+    gap: var(--e-5);
+  }
+
+  .cabecalho__acoes .btn--contorno {
+    display: none;
+  }
+}
+
+@media (max-width: 940px) {
+  .nav,
+  .cabecalho__acoes {
+    display: none;
+  }
+
+  .menu-botao {
+    display: block;
+  }
+
+  .menu-mobile[data-aberto="true"] {
+    display: block;
+  }
+}
+
+/* ── Rodapé ─────────────────────────────────────────────────────────────── */
+
+.rodape {
+  padding-top: var(--e-16);
+  background: var(--navy-900);
+  color: var(--texto-suave-sobre-escuro);
+  font-size: var(--txt-sm);
+}
+
+.rodape__colunas {
+  display: grid;
+  gap: var(--e-10);
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+}
+
+@media (max-width: 960px) {
+  .rodape__colunas {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .rodape__colunas {
+    grid-template-columns: 1fr;
+  }
+}
+
+.rodape__titulo {
+  margin-bottom: var(--e-4);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-base);
+  font-weight: var(--peso-semi);
+  color: var(--branco);
+}
+
+.rodape__lista {
+  display: grid;
+  gap: var(--e-3);
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* :not(.btn) para não sobrescrever a cor de texto dos botões do design
+   system (ex.: o whatsapp, que precisa de texto escuro sobre fundo claro). */
+.rodape a:not(.btn) {
+  color: var(--texto-suave-sobre-escuro);
+  text-decoration: none;
+}
+
+.rodape a:not(.btn):hover {
+  color: var(--branco);
+  text-decoration: underline;
+}
+
+.rodape__resumo {
+  margin-top: var(--e-4);
+  max-width: 34ch;
+}
+
+.rodape__selos {
+  display: flex;
+  gap: var(--e-3);
+  margin-top: var(--e-5);
+  flex-wrap: wrap;
+}
+
+.rodape__selo {
+  display: flex;
+  align-items: center;
+  gap: var(--e-2);
+  padding: var(--e-2) var(--e-3);
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: var(--raio-sm);
+  background: rgb(255 255 255 / 6%);
+  font-size: var(--txt-xs);
+  font-weight: var(--peso-semi);
+  color: var(--branco);
+}
+
+.rodape__redes {
+  margin-top: var(--e-5);
+}
+
+.rodape__contato-forte {
+  font-size: var(--txt-base);
+  font-weight: var(--peso-forte);
+  color: var(--branco);
+}
+
+.rodape__base {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-3);
+  margin-top: var(--e-12);
+  padding-block: var(--e-5);
+  border-top: 1px solid rgb(255 255 255 / 12%);
+  font-size: var(--txt-xs);
+}
+
+/* ── Casca das páginas internas ─────────────────────────────────────────── */
+
+.trilha {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-2);
+  padding-left: 0;
+  margin-bottom: var(--e-4);
+  list-style: none;
+  font-size: var(--txt-sm);
+  color: var(--texto-suave);
+}
+
+.trilha a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.trilha a:hover {
+  color: var(--cor-acao);
+}
+
+.trilha li + li::before {
+  content: "›";
+  margin-right: var(--e-2);
+  color: var(--texto-tenue);
+}
+
+.pagina-topo {
+  padding-block: var(--e-12) var(--e-10);
+  background: var(--fundo-alt);
+  border-bottom: 1px solid var(--borda);
+}
+
+.pagina-topo__texto {
+  max-width: var(--largura-texto);
+  margin-top: var(--e-4);
+  font-size: var(--txt-lg);
+  color: var(--texto-suave);
+}
+
+/* ── Logo oficial ───────────────────────────────────────────────────────── */
+
+/*
+ * O arquivo da marca (755×142) é um composto: monograma RS + "Raio Som" +
+ * "Diagnóstico por Imagem" + selo PADI à direita, separados por um filete.
+ * No cabeçalho só cabe a marca, então a imagem é recortada por CSS em vez de
+ * gerarmos um segundo arquivo — assim continua existindo um único asset
+ * oficial, e o dia em que a clínica mandar o logo em SVG é só trocar o src.
+ *
+ * As proporções saem direto do arquivo:
+ *   3.59 = 510/142 (largura da marca, sem o selo)
+ *   5.32 = 755/142 (largura total da imagem)
+ */
+.marca__logo {
+  --logo-altura: 68px;
+
+  display: block;
+  width: calc(var(--logo-altura) * 3.59);
+  height: var(--logo-altura);
+  overflow: hidden;
+}
+
+.marca__logo img {
+  width: calc(var(--logo-altura) * 5.32);
+  max-width: none;
+  height: var(--logo-altura);
+}
+
+@media (max-width: 700px) {
+  .marca__logo {
+    --logo-altura: 52px;
+  }
+}
+
+/* Marca no rodapé: fundo claro porque o logo é azul-marinho sobre branco. */
+.rodape__marca {
+  display: inline-block;
+  padding: var(--e-4) var(--e-5);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+}
+
+.rodape__marca img {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+}
+
+.rodape__selo {
+  display: grid;
+  place-items: center;
+  padding: var(--e-3);
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: var(--raio-sm);
+  background: var(--branco);
+}
+
+.rodape__selo img {
+  height: auto;
+}
+
+/* Selo PADI sobre o hero escuro: círculo branco para o selo (preto e branco)
+   não sumir no fundo navy. */
+.selo-padi {
+  display: grid;
+  place-items: center;
+  flex: none;
+  /* Abaixo de ~64px o selo vira uma bolinha cinza ilegível. */
+  width: 68px;
+  height: 68px;
+  padding: 3px;
+  border-radius: 50%;
+  background: var(--branco);
+}
+
+.selo-padi img {
+  width: 100%;
+  height: auto;
+}

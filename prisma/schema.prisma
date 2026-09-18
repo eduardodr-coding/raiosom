@@ -1,0 +1,137 @@
+// Raio Som Diagnóstico por Imagem — schema do banco (MySQL).
+//
+// O site NÃO marca horário: ele registra uma SOLICITAÇÃO de agendamento,
+// guarda o pedido médico e devolve um protocolo. Quem fecha o horário é o
+// atendente da central, pelo WhatsApp, usando o painel interno.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum StatusSolicitacao {
+  pendente
+  em_atendimento
+  confirmado
+  cancelado
+}
+
+enum UnidadeAtendimento {
+  gravatai
+  cachoeirinha
+  solaris
+  iog
+  millenarium
+}
+
+enum TurnoPreferencia {
+  manha
+  tarde
+  noite
+  sabado
+  tanto_faz
+}
+
+enum TipoCobertura {
+  convenio
+  particular
+}
+
+/// Uma solicitação de agendamento enviada pelo site.
+/// LGPD: `cpf`, `dataNascimento` e o arquivo do pedido médico são dados
+/// pessoais sensíveis (saúde). Nunca logar em texto puro; o arquivo fica
+/// fora do webroot e só é servido por rota autenticada do painel.
+model Solicitacao {
+  id        Int    @id @default(autoincrement())
+  protocolo String @unique @db.VarChar(16) // RS-AAAA-NNNNN
+
+  // Exame escolhido (desnormalizado de propósito: o conteúdo vive em
+  // content/exames.ts e pode mudar; a solicitação precisa preservar o
+  // nome exibido ao paciente no momento do pedido).
+  exameSlug String @db.VarChar(80)
+  exameNome String @db.VarChar(160)
+
+  // Paciente
+  pacienteNome   String   @db.VarChar(160)
+  cpf            String   @db.Char(11) // somente dígitos
+  dataNascimento DateTime @db.Date
+  whatsapp       String   @db.VarChar(11) // DDD + número, somente dígitos
+
+  // Atendimento
+  tipoCobertura TipoCobertura
+  convenioNome  String?            @db.VarChar(120)
+  carteirinha   String?            @db.VarChar(60)
+  unidade       UnidadeAtendimento
+  turno         TurnoPreferencia
+
+  // Pedido médico (arquivo). `arquivoChave` é a chave opaca no storage
+  // (lib/storage.ts), nunca um caminho de disco montado pelo usuário.
+  arquivoChave      String    @db.VarChar(160)
+  arquivoMime       String    @db.VarChar(60)
+  arquivoTamanho    Int // bytes
+  arquivoNomeOrigem String    @db.VarChar(255) // nome original, só para exibição
+  arquivoExpurgoEm  DateTime? // preenchido quando o arquivo é removido pela retenção
+
+  // Consentimento LGPD: obrigatório para enviar o formulário.
+  consentimentoEm     DateTime
+  consentimentoTexto  String   @db.VarChar(500) // versão do texto aceito
+  consentimentoIpHash String?  @db.Char(64) // SHA-256 do IP (prova sem guardar IP cru)
+
+  status      StatusSolicitacao @default(pendente)
+  observacoes String?           @db.Text // anotações internas da central
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  acessosArquivo LogAcessoArquivo[]
+
+  @@index([status, criadoEm])
+  @@index([criadoEm])
+  @@index([cpf])
+  @@index([pacienteNome])
+  @@map("solicitacoes")
+}
+
+/// Sequencial do protocolo por ano (RS-AAAA-NNNNN), incrementado em
+/// transação para garantir unicidade sem depender do id da solicitação.
+model ContadorProtocolo {
+  ano    Int @id
+  ultimo Int @default(0)
+
+  @@map("contadores_protocolo")
+}
+
+/// Usuário do painel interno (equipe da central).
+model UsuarioPainel {
+  id            Int       @id @default(autoincrement())
+  usuario       String    @unique @db.VarChar(60)
+  nome          String    @db.VarChar(120)
+  senhaHash     String    @db.VarChar(100) // bcrypt
+  ativo         Boolean   @default(true)
+  criadoEm      DateTime  @default(now())
+  ultimoLoginEm DateTime?
+
+  acessosArquivo LogAcessoArquivo[]
+
+  @@map("usuarios_painel")
+}
+
+/// Trilha de acesso ao pedido médico. Exigência prática de LGPD: saber
+/// quem abriu o documento de saúde de qual paciente e quando.
+model LogAcessoArquivo {
+  id            Int      @id @default(autoincrement())
+  solicitacaoId Int
+  usuarioId     Int
+  em            DateTime @default(now())
+
+  solicitacao Solicitacao   @relation(fields: [solicitacaoId], references: [id], onDelete: Cascade)
+  usuario     UsuarioPainel @relation(fields: [usuarioId], references: [id])
+
+  @@index([solicitacaoId])
+  @@index([usuarioId, em])
+  @@map("logs_acesso_arquivo")
+}

@@ -1,0 +1,336 @@
+/* =============================================================================
+   Raio Som — lista de exames e página do exame
+   ========================================================================== */
+
+/* ── Busca da listagem ──────────────────────────────────────────────────── */
+
+.busca-pagina {
+  display: flex;
+  gap: var(--e-2);
+  max-width: 640px;
+  margin-top: var(--e-6);
+  padding: var(--e-2);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+  box-shadow: var(--sombra-sm);
+}
+
+.busca-pagina:focus-within {
+  outline: 3px solid var(--agua-500);
+  outline-offset: 2px;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--e-3);
+  margin-top: var(--e-5);
+  font-size: var(--txt-sm);
+  color: var(--texto-suave);
+}
+
+/* ── Lista de exames ────────────────────────────────────────────────────── */
+
+.lista-exames {
+  display: grid;
+  gap: var(--e-6);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 1000px) {
+  .lista-exames {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .lista-exames {
+    grid-template-columns: 1fr;
+  }
+}
+
+.exame-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+  text-decoration: none;
+}
+
+.exame-card__figura {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--navy-100);
+}
+
+.exame-card__figura img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Modalidade sem foto ainda: a sigla vira o elemento gráfico. */
+.exame-card__figura--sigla {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--navy-800), var(--navy-600));
+  color: var(--branco);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-4xl);
+  font-weight: var(--peso-extra);
+  letter-spacing: 0.06em;
+}
+
+.exame-card__corpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--e-5) var(--e-6) var(--e-6);
+}
+
+.exame-card__etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-2);
+  margin-top: var(--e-4);
+}
+
+/* ── Página do exame ────────────────────────────────────────────────────── */
+
+.exame-topo {
+  background: var(--fundo-alt);
+  border-bottom: 1px solid var(--borda);
+  padding-block: var(--e-8) var(--e-10);
+}
+
+.exame-topo__titulo {
+  max-width: 20ch;
+  margin-top: var(--e-2);
+}
+
+.exame-topo__descricao {
+  max-width: var(--largura-texto);
+  margin-top: var(--e-4);
+  font-size: var(--txt-lg);
+  color: var(--texto-suave);
+}
+
+.exame-topo__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-3);
+  margin-top: var(--e-6);
+}
+
+.exame-corpo {
+  display: grid;
+  gap: var(--e-10);
+  grid-template-columns: minmax(0, 1fr) 360px;
+  align-items: start;
+  padding-block: var(--e-12);
+}
+
+@media (max-width: 1000px) {
+  .exame-corpo {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bloco + .bloco {
+  margin-top: var(--e-10);
+}
+
+.bloco__titulo {
+  font-size: var(--txt-xl);
+}
+
+.bloco__texto {
+  max-width: var(--largura-texto);
+  margin-top: var(--e-4);
+  color: var(--texto-suave);
+}
+
+.preparo-destaque {
+  padding: var(--e-8);
+  border: 1px solid var(--agua-100);
+  border-radius: var(--raio-md);
+  background: var(--agua-100);
+}
+
+.preparo-destaque__nota {
+  margin-top: var(--e-2);
+  color: #094a52;
+}
+
+.preparo-destaque .lista-preparo {
+  margin-top: var(--e-6);
+}
+
+/* Card lateral de agendamento: acompanha o scroll no desktop. */
+.card-agendar {
+  position: sticky;
+  top: calc(var(--altura-header) + var(--e-4));
+  padding: var(--e-6);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+  box-shadow: var(--sombra-md);
+}
+
+.card-agendar__texto {
+  margin-top: var(--e-3);
+  font-size: var(--txt-sm);
+  color: var(--texto-suave);
+}
+
+.card-agendar__acoes {
+  display: grid;
+  gap: var(--e-3);
+  margin-top: var(--e-6);
+}
+
+.card-agendar__divisor {
+  height: 1px;
+  margin-block: var(--e-6);
+  background: var(--borda);
+}
+
+.card-agendar__rotulo {
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-base);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+/* ── Página de convênios ────────────────────────────────────────────────── */
+
+.grade-logos {
+  display: grid;
+  gap: var(--e-3);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+  .grade-logos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .grade-logos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Cartela tipo "grade de parceiros": cartões quadrados, borda fina, sem
+   cantos arredondados — a logo colorida é o único elemento visual. */
+.logo-convenio {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1 / 1;
+  padding: var(--e-3);
+  border: 1px solid var(--borda);
+  background: var(--branco);
+}
+
+.logo-convenio img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ── Conteúdo em texto (política de privacidade, sobre) ─────────────────── */
+
+.texto-longo {
+  max-width: 72ch;
+}
+
+.texto-longo h2 {
+  margin-top: var(--e-10);
+  font-size: var(--txt-xl);
+}
+
+.texto-longo h3 {
+  margin-top: var(--e-6);
+  font-size: var(--txt-lg);
+}
+
+.texto-longo p,
+.texto-longo ul {
+  margin-top: var(--e-4);
+  color: var(--texto-suave);
+}
+
+.texto-longo li + li {
+  margin-top: var(--e-2);
+}
+
+/* ── Página "A Clínica" ─────────────────────────────────────────────────── */
+
+.sobre-grid {
+  display: grid;
+  gap: var(--e-10);
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .sobre-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.numero-destaque {
+  min-width: 150px;
+  text-align: center;
+}
+
+.numero-destaque__valor {
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-3xl);
+  font-weight: var(--peso-extra);
+  color: var(--navy-800);
+}
+
+.numero-destaque__rotulo {
+  font-size: var(--txt-sm);
+  color: var(--texto-suave);
+}
+
+/* Foto do equipamento ao lado do título do exame. */
+.exame-topo__grid {
+  display: grid;
+  gap: var(--e-8);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 440px);
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .exame-topo__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.exame-topo__foto {
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--raio-md);
+  box-shadow: var(--sombra-md);
+}
+
+.exame-topo__foto img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+/* ── Preparo específico (busca por procedimento do pedido médico) ──────── */
+
+.lista-preparos-especificos {
+  display: grid;
+  gap: var(--e-4);
+  max-width: 760px;
+}
