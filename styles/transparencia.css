@@ -2,6 +2,34 @@
    Raio Som — Transparência (relatório de igualdade salarial)
    ========================================================================== */
 
+/* ── Visualizador do PDF oficial ─────────────────────────────────────────── */
+
+/* Sem link de download por pedido da clínica: a página mostra o documento
+   original só para leitura. A barra de ferramentas nativa do navegador
+   (#toolbar=0) esconde os botões de baixar/imprimir onde o visor suporta o
+   parâmetro — não há como remover isso em todo navegador, mas o site em si
+   não oferece nenhum atalho de download. */
+.pdf-visualizador {
+  overflow: hidden;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--neutro-100);
+}
+
+.pdf-visualizador iframe {
+  display: block;
+  width: 100%;
+  height: 82vh;
+  max-height: 900px;
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .pdf-visualizador iframe {
+    height: 70vh;
+  }
+}
+
 /* ── Os dois indicadores em destaque ────────────────────────────────────── */
 
 .razoes {

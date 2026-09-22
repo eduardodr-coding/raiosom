@@ -35,7 +35,18 @@ const cabecalhosSeguranca = [
 
 const nextConfig: NextConfig = {
   async headers() {
-    return [{ source: "/:path*", headers: cabecalhosSeguranca }];
+    return [
+      { source: "/:path*", headers: cabecalhosSeguranca },
+      {
+        // O relatório de transparência é exibido num <iframe> na própria
+        // página (/transparencia/igualdade-salarial) — precisa poder ser
+        // enquadrado pelo nosso próprio site. SAMEORIGIN mantém a defesa
+        // contra clickjacking (nenhum outro domínio pode enquadrar), só afrouxa
+        // a regra DENY global para o nosso próprio domínio.
+        source: "/transparencia/:file*.pdf",
+        headers: [{ key: "X-Frame-Options", value: "SAMEORIGIN" }],
+      },
+    ];
   },
 };
 

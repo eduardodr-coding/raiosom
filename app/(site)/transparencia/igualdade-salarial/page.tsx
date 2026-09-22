@@ -39,13 +39,20 @@ export default function PaginaIgualdadeSalarial() {
             {R.dataBase}. Publicação exigida pela Lei 14.611/2023, com dados apurados pelo
             Ministério do Trabalho e Emprego.
           </p>
-          <div style={{ marginTop: "var(--e-6)" }}>
-            <Button href={R.pdf} external variant="contorno">
-              Baixar o relatório oficial (PDF)
-            </Button>
-          </div>
         </div>
       </div>
+
+      {/* ── Documento oficial (visualização, sem CTA de download) ─────────── */}
+      <section className="secao" style={{ paddingBottom: 0 }}>
+        <div className="container">
+          <div className="pdf-visualizador">
+            <iframe
+              src={`${R.pdf}#toolbar=0`}
+              title={`${R.titulo} — ${R.periodo} (documento original)`}
+            />
+          </div>
+        </div>
+      </section>
 
       {/* ── Os dois indicadores principais ───────────────────────────────── */}
       <section className="secao">
@@ -215,10 +222,7 @@ export default function PaginaIgualdadeSalarial() {
             <p className="bloco__texto" style={{ marginTop: "var(--e-3)" }}>
               {R.nota}
             </p>
-            <div style={{ display: "flex", gap: "var(--e-3)", marginTop: "var(--e-6)", flexWrap: "wrap" }}>
-              <Button href={R.pdf} external>
-                Baixar o relatório oficial (PDF)
-              </Button>
+            <div style={{ marginTop: "var(--e-6)" }}>
               <Button href="/transparencia" variant="contorno">
                 Ver todas as publicações
               </Button>
