@@ -21,7 +21,7 @@ export default function FluxoLayout({ children }: { children: React.ReactNode })
 
       <header className="cabecalho" data-rolado="false">
         <div className="container fluxo-topo">
-          <Link className="marca" href="/" aria-label={`${CLINICA.nome} — página inicial`}>
+          <Link className="marca" href="/" aria-label={`${CLINICA.nome}, página inicial`}>
             <span className="marca__logo">
               <Image
                 src="/marca/logo.png"

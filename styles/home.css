@@ -43,7 +43,7 @@
   display: grid;
   gap: var(--e-12);
   align-items: center;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.9fr);
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   padding-block: clamp(var(--e-12), 5vw, var(--e-20));
 }
 
@@ -135,7 +135,7 @@
 /* ── Card de resultados do hero ─────────────────────────────────────────── */
 
 .hero-card {
-  padding: var(--e-8);
+  padding: var(--e-10);
   border-radius: var(--raio-lg);
   background: var(--branco);
   box-shadow: var(--sombra-lg);
@@ -143,13 +143,13 @@
 
 .hero-card__titulo {
   margin-top: var(--e-5);
-  font-size: var(--txt-xl);
+  font-size: var(--txt-2xl);
 }
 
 .hero-card__texto {
-  margin-top: var(--e-3);
+  margin-top: var(--e-4);
   color: var(--texto-suave);
-  font-size: var(--txt-base);
+  font-size: var(--txt-lg);
 }
 
 .hero-card__acoes {
@@ -276,13 +276,21 @@
 
 /* ── Unidades ───────────────────────────────────────────────────────────── */
 
+/* Três colunas para as unidades ficarem agrupadas: com duas, a quinta sobrava
+   sozinha numa linha só dela. */
 .grade-unidades {
   display: grid;
-  gap: var(--e-6);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--e-5);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
+  .grade-unidades {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
   .grade-unidades {
     grid-template-columns: 1fr;
   }

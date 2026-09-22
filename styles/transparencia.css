@@ -13,19 +13,24 @@
   overflow: hidden;
   border: 1px solid var(--borda);
   border-radius: var(--raio-md);
-  background: var(--neutro-100);
+  background: var(--branco);
 }
 
+/* O relatório é uma página deitada. Dar ao quadro a mesma proporção do
+   documento (e pedir `view=FitH` na URL) evita as tarjas escuras que o
+   visualizador de PDF do navegador desenha em volta quando sobra espaço. */
 .pdf-visualizador iframe {
   display: block;
   width: 100%;
-  height: 82vh;
-  max-height: 900px;
+  aspect-ratio: 297 / 210;
   border: 0;
 }
 
-@media (max-width: 640px) {
+/* Em tela estreita a proporção deitada deixaria o texto miúdo demais;
+   aí vale mais altura, mesmo reaparecendo um pouco de fundo do visualizador. */
+@media (max-width: 760px) {
   .pdf-visualizador iframe {
+    aspect-ratio: auto;
     height: 70vh;
   }
 }

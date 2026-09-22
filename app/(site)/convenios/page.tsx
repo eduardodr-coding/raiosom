@@ -31,7 +31,7 @@ export default function PaginaConvenios() {
           </ol>
           <h1>Convênios atendidos</h1>
           <p className="pagina-topo__texto">
-            Atendemos mais de 30 planos de saúde, além do atendimento particular. A cobertura varia
+            Atendemos {CONVENIOS_TOTAL_LOGOS} planos de saúde, além do atendimento particular. A cobertura varia
             por exame e por contrato, então a confirmação final é sempre feita pela central antes
             do atendimento.
           </p>
@@ -42,7 +42,7 @@ export default function PaginaConvenios() {
         <div className="container">
           <Revelar>
             <span className="kicker">Lista de parceiros</span>
-            <h2>Os {CONVENIOS_TOTAL_LOGOS} convênios credenciados</h2>
+            <h2>Convênios Parceiros</h2>
             <p className="subtitulo">
               Logos dos planos com os quais a Raio Som mantém credenciamento.
             </p>
@@ -67,7 +67,7 @@ export default function PaginaConvenios() {
 
           <Revelar style={{ marginTop: "var(--e-10)", maxWidth: 760 }}>
             <Aviso tipo="info" titulo="Não achou o seu plano na lista?">
-              Mande o nome do seu convênio e o exame do pedido médico para a central — a resposta
+              Mande o nome do seu convênio e o exame do pedido médico para a central, a resposta
               vem na hora, com a confirmação de cobertura e do que o plano exige (autorização
               prévia, por exemplo).
             </Aviso>

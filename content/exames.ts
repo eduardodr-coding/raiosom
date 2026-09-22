@@ -55,9 +55,10 @@ export const REGRAS_GERAIS = [
   "Traga exames anteriores da mesma região, se houver.",
 ];
 
-// Unidades: a matriz de Gravataí realiza todas as modalidades; a filial de
-// Cachoeirinha é a unidade de tomografia. O paciente pode pedir qualquer uma
-// no formulário — quem confirma a agenda do equipamento é a central.
+// Unidades: a matriz de Gravataí realiza todas as modalidades. Cachoeirinha
+// faz ressonância, tomografia, ultrassom, mamografia e densitometria (não faz
+// raios X, odontológico nem cardiológico). O paciente pode pedir qualquer uma
+// no formulário, quem confirma a agenda do equipamento é a central.
 const TODAS_GRAVATAI: UnidadeSlug[] = ["gravatai"];
 
 export const EXAMES: Exame[] = [
@@ -81,7 +82,7 @@ export const EXAMES: Exame[] = [
       "Alguns exames de ressonância mais complexos exigem injeção de contraste. Quando for o seu caso, a central avisa no agendamento e passa as orientações de preparo com antialérgico.",
     chegarAntesMin: 30,
     imagem: "/exames/resso.jpg",
-    unidades: TODAS_GRAVATAI,
+    unidades: [...TODAS_GRAVATAI, "cachoeirinha"],
     agendamento: "solicitacao",
     termosBusca: ["rm", "resso", "ressonancia", "magnetica", "joelho", "coluna", "cranio", "ombro"],
   },
@@ -99,7 +100,7 @@ export const EXAMES: Exame[] = [
       "Trazer exames anteriores da mesma região, se tiver.",
     ],
     contraste:
-      "O contraste é utilizado para evidenciar tecidos, órgãos e vasos. Não há contraindicação geral — as restrições são avaliadas caso a caso pela equipe.",
+      "O contraste é utilizado para evidenciar tecidos, órgãos e vasos. Não há contraindicação geral, as restrições são avaliadas caso a caso pela equipe.",
     chegarAntesMin: 30,
     imagem: "/exames/tomo.jpg",
     unidades: ["gravatai", "cachoeirinha"],
@@ -134,7 +135,7 @@ export const EXAMES: Exame[] = [
     // Além da matriz, a Millenarium também realiza ultrassonografia — é a
     // única das 3 unidades novas (Solaris, IOG, Millenarium) que faz exame
     // no local; as outras duas são só ponto de marcação.
-    unidades: [...TODAS_GRAVATAI, "millenarium"],
+    unidades: [...TODAS_GRAVATAI, "cachoeirinha", "millenarium"],
     agendamento: "solicitacao",
     termosBusca: [
       "us",
@@ -160,7 +161,7 @@ export const EXAMES: Exame[] = [
       "Chegar 15 minutos antes do horário agendado.",
       "Trazer a solicitação médica. Não realizamos o exame sem ela.",
       "Trazer documento com foto (RG, CNH ou CTPS).",
-      "Trazer exames anteriores — é essencial trazer a mamografia anterior para comparação.",
+      "Trazer exames anteriores, é essencial trazer a mamografia anterior para comparação.",
     ],
     recomendacoes: [
       "No dia do exame, não use creme corporal nem talco nas mamas.",
@@ -170,7 +171,7 @@ export const EXAMES: Exame[] = [
     chegarAntesMin: 15,
     laudo: "Laudo disponível na Matriz em 3 dias úteis.",
     imagem: "/exames/mamo.jpg",
-    unidades: TODAS_GRAVATAI,
+    unidades: [...TODAS_GRAVATAI, "cachoeirinha"],
     agendamento: "solicitacao",
     termosBusca: ["mg", "mamo", "mamografia", "mama", "rastreamento"],
   },
@@ -223,7 +224,7 @@ export const EXAMES: Exame[] = [
     // este arquivo à radiografia odontológica, mas a foto é do equipamento
     // de densitometria; radio.jpg é que é o panorâmico odontológico.
     imagem: "/exames/do.jpg",
-    unidades: TODAS_GRAVATAI,
+    unidades: [...TODAS_GRAVATAI, "cachoeirinha"],
     agendamento: "solicitacao",
     termosBusca: ["do", "densitometria", "ossea", "osteoporose", "massa ossea"],
   },

@@ -85,7 +85,7 @@ export default function PaginaSobre() {
             <Revelar style={{ display: "grid", placeItems: "center", gap: "var(--e-6)" }}>
               <Image
                 src="/marca/padi.png"
-                alt="Selo de Qualidade PADI acreditada — CBR"
+                alt="Selo de Qualidade PADI acreditada, CBR"
                 width={1250}
                 height={1250}
                 sizes="(max-width: 900px) 60vw, 280px"

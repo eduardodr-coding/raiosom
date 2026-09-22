@@ -122,7 +122,7 @@ export function Confirmacao({ exameNome, porOrdemDeChegada }: ConfirmacaoProps) 
           style={{ marginTop: "var(--e-6)", fontSize: "var(--txt-sm)" }}
         >
           Esta página foi aberta em outro aparelho ou navegador, então não mostramos a prévia da
-          mensagem com seus dados. Seu protocolo continua válido — é só enviá-lo para a central.
+          mensagem com seus dados. Seu protocolo continua válido, é só enviá-lo para a central.
         </p>
       )}
 

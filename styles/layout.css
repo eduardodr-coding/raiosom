@@ -36,8 +36,29 @@
 }
 
 .topbar__telefone {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e-2);
   font-weight: var(--peso-forte);
   color: var(--branco);
+}
+
+.topbar__horario {
+  color: var(--texto-suave-sobre-escuro);
+}
+
+/* Divisória entre blocos da topbar. */
+.topbar__separador {
+  width: 1px;
+  height: 14px;
+  background: rgb(255 255 255 / 22%);
+}
+
+@media (max-width: 1080px) {
+  .topbar__horario,
+  .topbar__separador {
+    display: none;
+  }
 }
 
 .topbar__destaque {

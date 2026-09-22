@@ -90,7 +90,7 @@ export default async function PaginaExame({ params }: Props) {
           {porOrdemDeChegada && (
             <Aviso tipo="info" titulo="Este exame não tem horário marcado">
               O atendimento é por ordem de chegada. {exame.horarioAtendimento} Você não precisa
-              escolher um turno — é só vir dentro desse horário com o pedido médico e um documento
+              escolher um turno, é só vir dentro desse horário com o pedido médico e um documento
               com foto.
             </Aviso>
           )}

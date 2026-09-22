@@ -32,7 +32,7 @@ export function validarArquivo(arquivo: File): string | null {
   const tipo = arquivo.type.toLowerCase();
   if (tipo && !MIMES_ACEITOS.includes(tipo as (typeof MIMES_ACEITOS)[number])) {
     if (tipo.includes("heic") || tipo.includes("heif")) {
-      return "Este formato de foto do iPhone (HEIC) não é aceito. Envie como JPG — nas Configurações do iPhone, em Câmera › Formatos, escolha “Mais Compatível”.";
+      return "Este formato de foto do iPhone (HEIC) não é aceito. Envie como JPG, nas Configurações do iPhone, em Câmera › Formatos, escolha “Mais Compatível”.";
     }
     return "Aceitamos apenas foto em JPG ou PNG, ou o pedido em PDF.";
   }

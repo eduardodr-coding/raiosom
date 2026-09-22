@@ -38,7 +38,7 @@ export function Footer() {
               <span className="rodape__selo">
                 <Image
                   src="/marca/padicbr.png"
-                  alt="Programa de Acreditação em Diagnóstico por Imagem — PADI"
+                  alt="Programa de Acreditação em Diagnóstico por Imagem, PADI"
                   width={758}
                   height={283}
                   sizes="150px"
@@ -48,7 +48,7 @@ export function Footer() {
               <span className="rodape__selo">
                 <Image
                   src="/marca/notivisa.png"
-                  alt="Notivisa — Sistema Nacional de Notificações para a Vigilância Sanitária"
+                  alt="Notivisa, Sistema Nacional de Notificações para a Vigilância Sanitária"
                   width={214}
                   height={68}
                   sizes="90px"

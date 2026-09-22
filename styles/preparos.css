@@ -1,0 +1,193 @@
+/* =============================================================================
+   Raio Som — Busca de preparo por exame
+   ========================================================================== */
+
+.busca-preparo {
+  max-width: 760px;
+}
+
+.busca-preparo__rotulo {
+  display: block;
+  margin-bottom: var(--e-2);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-sm);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.busca-preparo__campo {
+  width: 100%;
+  padding: var(--e-4) var(--e-5);
+  border: 1.5px solid var(--borda-forte);
+  border-radius: var(--raio);
+  background: var(--branco);
+  font-family: var(--fonte-texto);
+  font-size: var(--txt-base);
+  color: var(--texto);
+}
+
+.busca-preparo__campo:focus-visible {
+  outline: 3px solid var(--agua-500);
+  outline-offset: 2px;
+}
+
+.busca-preparo__campo:disabled {
+  background: var(--neutro-100);
+  cursor: progress;
+}
+
+.busca-preparo__estado {
+  min-height: 1.25rem;
+  margin-top: var(--e-3);
+  font-size: var(--txt-sm);
+  color: var(--texto-suave);
+}
+
+/* ── Lista de exames que batem com a busca ──────────────────────────────── */
+
+.busca-preparo__lista {
+  display: grid;
+  max-height: 420px;
+  padding-left: 0;
+  margin: var(--e-2) 0 0;
+  overflow-y: auto;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+  list-style: none;
+}
+
+.busca-preparo__lista li + li {
+  border-top: 1px solid var(--borda);
+}
+
+.busca-preparo__item {
+  display: block;
+  width: 100%;
+  padding: var(--e-4) var(--e-5);
+  border: 0;
+  background: transparent;
+  font-family: var(--fonte-texto);
+  font-size: var(--txt-sm);
+  color: var(--texto);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--transicao);
+}
+
+.busca-preparo__item:hover,
+.busca-preparo__item:focus-visible {
+  background: var(--navy-100);
+}
+
+.busca-preparo__nota {
+  margin-top: var(--e-3);
+  font-size: var(--txt-sm);
+  color: var(--texto-suave);
+}
+
+.busca-preparo__vazio {
+  padding: var(--e-6);
+  margin-top: var(--e-4);
+  border: 1px dashed var(--borda-forte);
+  border-radius: var(--raio-md);
+  background: var(--neutro-100);
+}
+
+.busca-preparo__vazio-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-3);
+  margin-top: var(--e-4);
+}
+
+/* ── Preparo do exame selecionado ───────────────────────────────────────── */
+
+.preparo-resultado {
+  padding: var(--e-6);
+  margin-top: var(--e-5);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+  box-shadow: var(--sombra-sm);
+}
+
+.preparo-resultado__topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--e-3);
+  padding-bottom: var(--e-4);
+  border-bottom: 1px solid var(--borda);
+}
+
+.preparo-resultado__nome {
+  font-size: var(--txt-xl);
+  color: var(--navy-800);
+}
+
+.preparo-resultado__trocar {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-sm);
+  font-weight: var(--peso-semi);
+  color: var(--cor-acao);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.preparo-resultado__corpo {
+  margin-block: var(--e-5);
+}
+
+.preparo-resultado__subtitulo {
+  margin-top: var(--e-5);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-base);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.preparo-resultado__subtitulo:first-child {
+  margin-top: 0;
+}
+
+.preparo-resultado__texto {
+  margin-top: var(--e-3);
+  color: var(--texto-suave);
+}
+
+.preparo-resultado__itens {
+  display: grid;
+  gap: var(--e-3);
+  padding-left: 0;
+  margin-top: var(--e-3);
+  list-style: none;
+}
+
+.preparo-resultado__itens li {
+  position: relative;
+  padding-left: var(--e-6);
+}
+
+.preparo-resultado__itens li::before {
+  content: "";
+  position: absolute;
+  top: 0.55em;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cor-acao);
+}
+
+.preparo-resultado__sem-preparo {
+  padding: var(--e-5);
+  margin-block: var(--e-5);
+  border-radius: var(--raio-sm);
+  background: var(--neutro-100);
+  color: var(--texto);
+}

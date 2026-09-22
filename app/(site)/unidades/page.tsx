@@ -28,9 +28,9 @@ export default function PaginaUnidades() {
           </ol>
           <h1>Onde estamos</h1>
           <p className="pagina-topo__texto">
-            {UNIDADES.length} unidades na região metropolitana. A matriz, em Gravataí, realiza
-            todas as modalidades; a filial de Cachoeirinha é a unidade de tomografia
-            computadorizada.
+            {UNIDADES.length} unidades na região metropolitana, mais o prédio administrativo,
+            onde os exames impressos são retirados. A matriz, em Gravataí, realiza todas as
+            modalidades.
           </p>
         </div>
       </div>
@@ -110,7 +110,7 @@ export default function PaginaUnidades() {
                           </>
                         ) : (
                           <>
-                            Ponto de atendimento e marcação — não realiza exames neste
+                            Ponto de atendimento e marcação, não realiza exames neste
                             endereço. Fale pelo WhatsApp para marcar em uma unidade com
                             equipamento.
                           </>
@@ -136,46 +136,58 @@ export default function PaginaUnidades() {
                 </Revelar>
               );
             })}
+
+            {/* O prédio administrativo entra na mesma grade das unidades: é
+                mais um endereço que o paciente pode precisar visitar, ainda
+                que só para retirar exame. Separado numa seção à parte ele
+                passava despercebido. */}
+            <Revelar className="unidade-card" delay={UNIDADES.length * 80}>
+              <div className="unidade-card__mapa">
+                <Image
+                  className="unidade-card__foto"
+                  src={ENTREGA_EXAMES.foto}
+                  alt=""
+                  width={626}
+                  height={150}
+                  sizes="(max-width: 700px) 100vw, 33vw"
+                />
+              </div>
+              <div className="unidade-card__corpo">
+                <span className="badge">RETIRADA DE EXAMES</span>
+                <h2 className="unidade-card__nome">{ENTREGA_EXAMES.nome}</h2>
+                <p className="unidade-card__endereco">
+                  {ENTREGA_EXAMES.endereco}
+                  <br />
+                  {ENTREGA_EXAMES.cidade}
+                </p>
+                <ul className="unidade-card__horarios">
+                  {ENTREGA_EXAMES.horarios.map((horario) => (
+                    <li key={horario}>{horario}</li>
+                  ))}
+                </ul>
+                <a className="unidade-card__telefone" href={CLINICA.telefoneLink}>
+                  {CLINICA.telefonePrincipal}
+                </a>
+                <p
+                  style={{
+                    marginTop: "var(--e-4)",
+                    fontSize: "var(--txt-sm)",
+                    color: "var(--texto-suave)",
+                  }}
+                >
+                  {ENTREGA_EXAMES.descricao}.
+                </p>
+                <div className="unidade-card__acoes">
+                  <Button href={CLINICA.links.portalResultados} external>
+                    Ver exame
+                  </Button>
+                  <Button href={ENTREGA_EXAMES.mapa} external variant="contorno">
+                    Como chegar
+                  </Button>
+                </div>
+              </div>
+            </Revelar>
           </div>
-        </div>
-      </section>
-
-      <section className="secao secao--alt">
-        <div className="container">
-          <Revelar>
-            <span className="kicker">Retirada</span>
-            <h2>Entrega de exames</h2>
-            <p className="subtitulo">
-              Os laudos também ficam disponíveis no{" "}
-              <a href={CLINICA.links.portalResultados} target="_blank" rel="noopener noreferrer">
-                portal de resultados
-              </a>{" "}
-              e no aplicativo — a retirada impressa é para quem prefere o papel.
-            </p>
-          </Revelar>
-
-          <Revelar className="unidade-card" style={{ marginTop: "var(--e-8)", maxWidth: 480 }}>
-            <div className="unidade-card__mapa">
-              <Image
-                className="unidade-card__foto"
-                src={ENTREGA_EXAMES.foto}
-                alt=""
-                width={626}
-                height={150}
-                sizes="480px"
-              />
-            </div>
-            <div className="unidade-card__corpo">
-              <ul className="unidade-card__horarios">
-                {ENTREGA_EXAMES.horarios.map((horario) => (
-                  <li key={horario}>{horario}</li>
-                ))}
-              </ul>
-              <p style={{ marginTop: "var(--e-4)", color: "var(--texto-suave)" }}>
-                {ENTREGA_EXAMES.endereco}
-              </p>
-            </div>
-          </Revelar>
         </div>
       </section>
     </>

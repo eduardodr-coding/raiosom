@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Revelar } from "@/components/Revelar";
 import { Button } from "@/components/ui/Button";
-import { CLINICA, UNIDADES } from "@/content/clinica";
+import { CLINICA, ENTREGA_EXAMES, UNIDADES } from "@/content/clinica";
 import { CONVENIOS_LOGOS, CONVENIOS_NOMES, CONVENIOS_OUTROS } from "@/content/convenios";
 import { EXAMES } from "@/content/exames";
 
@@ -55,13 +55,15 @@ export default function Home() {
             </span>
             <h1 className="hero__titulo">O exame de imagem certo, sem complicação.</h1>
             <p className="hero__sub">
-              Descubra se fazemos o seu exame, veja o preparo e agende em poucos passos. Anexe
+              Descubra se realizamos o seu exame, veja o preparo e agende em poucos passos. Anexe
               seu pedido médico e pronto.
             </p>
 
             {/* Form GET puro: funciona sem JavaScript e deixa o resultado da
-                busca em uma URL que dá para compartilhar. */}
-            <form className="busca" action="/exames" method="get" role="search">
+                busca em uma URL que dá para compartilhar. Vai para /preparos
+                porque lá a busca é pelo nome do exame como está no pedido
+                médico (os 1447 do sistema), e não pela modalidade. */}
+            <form className="busca" action="/preparos" method="get" role="search">
               <label className="sr-only" htmlFor="busca-hero">
                 Buscar exame
               </label>
@@ -290,6 +292,58 @@ export default function Home() {
                 </article>
               </Revelar>
             ))}
+
+            {/* O prédio administrativo fecha a grade: não realiza exame, mas é
+                endereço que o paciente precisa conhecer para retirar o laudo. */}
+            <Revelar delay={UNIDADES.length * 80}>
+              <article className="unidade-card">
+                <div className="unidade-card__mapa">
+                  <Image
+                    className="unidade-card__foto"
+                    src={ENTREGA_EXAMES.foto}
+                    alt=""
+                    width={626}
+                    height={150}
+                    sizes="(max-width: 700px) 100vw, 33vw"
+                  />
+                </div>
+
+                <div className="unidade-card__corpo">
+                  <span className="badge">RETIRADA DE EXAMES</span>
+                  <h3 className="unidade-card__nome">{ENTREGA_EXAMES.nome}</h3>
+                  <p className="unidade-card__endereco">
+                    {ENTREGA_EXAMES.endereco}
+                    <br />
+                    {ENTREGA_EXAMES.cidade}
+                  </p>
+                  <ul className="unidade-card__horarios">
+                    {ENTREGA_EXAMES.horarios.map((horario) => (
+                      <li key={horario}>{horario}</li>
+                    ))}
+                  </ul>
+                  <a className="unidade-card__telefone" href={CLINICA.telefoneLink}>
+                    {CLINICA.telefonePrincipal}
+                  </a>
+                  <p
+                    style={{
+                      marginTop: "var(--e-4)",
+                      fontSize: "var(--txt-sm)",
+                      color: "var(--texto-suave)",
+                    }}
+                  >
+                    {ENTREGA_EXAMES.descricao}.
+                  </p>
+                  <div className="unidade-card__acoes">
+                    <Button href={CLINICA.links.portalResultados} external>
+                      Ver exame
+                    </Button>
+                    <Button href={ENTREGA_EXAMES.mapa} external variant="contorno">
+                      Como chegar
+                    </Button>
+                  </div>
+                </div>
+              </article>
+            </Revelar>
           </div>
         </div>
       </section>

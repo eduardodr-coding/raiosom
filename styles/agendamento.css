@@ -310,3 +310,50 @@ fieldset.form-secao {
   gap: var(--e-3);
   margin-top: var(--e-8);
 }
+
+/* ── Passo 1: escolha do exame ──────────────────────────────────────────── */
+
+.escolha-exame {
+  display: grid;
+  gap: var(--e-3);
+  max-width: 620px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 620px) {
+  .escolha-exame {
+    grid-template-columns: 1fr;
+  }
+}
+
+.escolha-exame__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-3);
+  padding: var(--e-5);
+  border: 1.5px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+  text-decoration: none;
+  transition:
+    border-color var(--transicao),
+    box-shadow var(--transicao);
+}
+
+.escolha-exame__item:hover,
+.escolha-exame__item:focus-visible {
+  border-color: var(--cor-acao);
+  box-shadow: var(--sombra-sm);
+}
+
+.escolha-exame__nome {
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-base);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.escolha-exame__seta {
+  color: var(--cor-acao);
+}

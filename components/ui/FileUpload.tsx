@@ -11,7 +11,7 @@ import {
 export type FileUploadProps = {
   arquivo: File | null;
   onChange: (arquivo: File | null) => void;
-  /** Chamado quando o arquivo é recusado (tamanho/formato) — vira toast. */
+  /** Chamado quando o arquivo é recusado (tamanho/formato), vira toast. */
   onRejeitado?: (motivo: string) => void;
   error?: string;
   id?: string;
@@ -152,7 +152,10 @@ export function FileUpload({ arquivo, onChange, onRejeitado, error, id }: FileUp
         style={{ marginTop: "var(--e-3)" }}
         onClick={() => cameraRef.current?.click()}
       >
-        <span aria-hidden="true">📷</span> Tirar foto agora
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true">
+          <path d="M9.4 4a1 1 0 0 0-.8.4L7.5 6H4.5A2.5 2.5 0 0 0 2 8.5v9A2.5 2.5 0 0 0 4.5 20h15a2.5 2.5 0 0 0 2.5-2.5v-9A2.5 2.5 0 0 0 19.5 6h-3l-1.1-1.6a1 1 0 0 0-.8-.4H9.4Zm2.6 4.75a4.25 4.25 0 1 1 0 8.5 4.25 4.25 0 0 1 0-8.5Zm0 2a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
+        </svg>
+        Tirar foto agora
       </button>
 
       {error && (

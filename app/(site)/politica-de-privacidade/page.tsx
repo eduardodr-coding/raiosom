@@ -363,7 +363,7 @@ export default function PaginaPrivacidade() {
           <h2>10. Conteúdo do site e sua utilização</h2>
           <p>
             Todo o conteúdo existente em nossa Plataforma é de propriedade da RAIO SOM e sua
-            reprodução — total ou parcial — para uso comercial ou editorial, ou republicação na
+            reprodução, total ou parcial, para uso comercial ou editorial, ou republicação na
             internet, deverá ser realizada de forma autorizada e obrigatoriamente citando a fonte e
             incluindo o link do site para o original.
           </p>
@@ -410,7 +410,7 @@ export default function PaginaPrivacidade() {
             Pessoais:
           </p>
           <p>
-            {CLINICA.encarregadaDados.nome} —{" "}
+            {CLINICA.encarregadaDados.nome},{" "}
             <a href={`mailto:${CLINICA.encarregadaDados.email}`}>
               {CLINICA.encarregadaDados.email}
             </a>

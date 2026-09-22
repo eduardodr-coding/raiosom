@@ -28,8 +28,8 @@ export default function PaginaTrabalheConosco() {
           <h1>Trabalhe conosco</h1>
           <p className="pagina-topo__texto">
             Somos um centro clínico de diagnóstico por imagem com {CLINICA.anos} anos de história e
-            acreditação PADI. Se você quer fazer parte da equipe, mande seu currículo — guardamos
-            no nosso banco de talentos e chamamos quando surge uma vaga do seu perfil.
+            acreditação PADI. Se você quer fazer parte da equipe, mande seu currículo, chamamos
+            quando surge uma vaga do seu perfil.
           </p>
         </div>
       </div>
@@ -54,16 +54,15 @@ export default function PaginaTrabalheConosco() {
 
             <h2>O que acontece depois</h2>
             <p>
-              Seu currículo entra no nosso banco de talentos. Quando abrir uma vaga compatível, o
-              RH entra em contato pelo telefone ou e-mail que você informou. Não temos prazo fixo
-              de retorno — depende da abertura de vagas.
+              Seu currículo fica guardado com o RH. Quando abrir uma vaga compatível, o RH entra
+              em contato pelo telefone ou e-mail que você informou. Não temos prazo fixo de
+              retorno, depende da abertura de vagas.
             </p>
 
             <h2>Seus dados</h2>
             <p>
               O currículo enviado é usado exclusivamente para processos seletivos da Raio Som.
-              Você pode pedir a exclusão dos seus dados do nosso banco de talentos a qualquer
-              momento, escrevendo para{" "}
+              Você pode pedir a exclusão dos seus dados a qualquer momento, escrevendo para{" "}
               <a href={`mailto:${CLINICA.emails.privacidade}`}>{CLINICA.emails.privacidade}</a>.
               Veja a <Link href="/politica-de-privacidade">Política de Privacidade</Link>.
             </p>

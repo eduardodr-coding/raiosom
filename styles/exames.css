@@ -334,10 +334,3 @@
   object-fit: cover;
 }
 
-/* ── Preparo específico (busca por procedimento do pedido médico) ──────── */
-
-.lista-preparos-especificos {
-  display: grid;
-  gap: var(--e-4);
-  max-width: 760px;
-}

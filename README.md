@@ -215,3 +215,9 @@ reverso reescreva esse cabeçalho; sem proxy na frente, ele é forjável.
   agendamento pelo site" foi escrita agora para declarar o novo tratamento
   (upload do pedido, protocolo, retenção de 90 dias) e precisa passar pela
   Encarregada de Proteção de Dados antes de publicar.
+
+
+Para rodar local:
+cd "C:\Users\eduardo.dorneles\Desktop\site(novo)\raiosom-site"
+npm install
+npm run dev

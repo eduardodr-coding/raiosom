@@ -5,7 +5,7 @@ export type DadosMensagem = {
   protocolo: string;
   exameNome: string;
   pacienteNome: string;
-  /** CPF só com dígitos — a mascaragem acontece aqui dentro. */
+  /** CPF só com dígitos, a mascaragem acontece aqui dentro. */
   cpf: string;
   dataNascimento: string;
   unidade: string;

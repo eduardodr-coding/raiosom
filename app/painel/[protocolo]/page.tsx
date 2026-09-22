@@ -170,7 +170,7 @@ export default async function PaginaSolicitacao({ params }: Props) {
                 >
                   {solicitacao.acessosArquivo.map((acesso) => (
                     <li key={acesso.id}>
-                      {formatarDataHora(acesso.em)} — {acesso.usuario.nome}
+                      {formatarDataHora(acesso.em)}, {acesso.usuario.nome}
                     </li>
                   ))}
                 </ul>

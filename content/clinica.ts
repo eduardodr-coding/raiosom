@@ -41,7 +41,7 @@ export const CLINICA = {
   },
 
   links: {
-    /** Portal de laudos e imagens. Sistema externo — sempre em nova aba. */
+    /** Portal de laudos e imagens. Sistema externo, sempre em nova aba. */
     portalResultados: "https://pacs.raiosom.com.br",
     appPlayStore:
       "https://play.google.com/store/apps/details?id=br.com.app.gpu3037035.gpu2bc3a8a9bda9a0fc025744a209f52e90",
@@ -105,7 +105,7 @@ export const UNIDADES: Unidade[] = [
     etiqueta: "Filial · Cachoeirinha",
     nome: "Raio Som Cachoeirinha",
     cidade: "Cachoeirinha / RS",
-    descricao: "Unidade de tomografia computadorizada",
+    descricao: "Ressonância, tomografia, ultrassom, mamografia e densitometria",
     // TODO: pedir à clínica o endereço completo da filial — o site antigo só
     // publica o da matriz. Até lá o mapa cai numa busca pelo nome da unidade.
     endereco: null,
@@ -123,7 +123,7 @@ export const UNIDADES: Unidade[] = [
     cidade: "Gravataí / RS",
     // Ponto de marcação apenas — não realiza exames no local. Por isso não
     // aparece em `exame.unidades` de nenhum exame em content/exames.ts.
-    descricao: "Ponto de atendimento e marcação — os exames são realizados nas unidades com equipamento",
+    descricao: "Ponto de atendimento e marcação, os exames são realizados nas unidades com equipamento",
     endereco: "Rua Benjamin Constant, 169 - Sala 202",
     complemento: "Bairro Passo das Pedras",
     horarios: ["Seg a Sex: 08h00 às 18h00"],
@@ -138,7 +138,7 @@ export const UNIDADES: Unidade[] = [
     nome: "Raio Som IOG",
     cidade: "Gravataí / RS",
     // Ponto de marcação apenas — não realiza exames no local.
-    descricao: "Ponto de atendimento e marcação — os exames são realizados nas unidades com equipamento",
+    descricao: "Ponto de atendimento e marcação, os exames são realizados nas unidades com equipamento",
     endereco: "Av. Dorival Cândido Luz de Oliveira, 459",
     complemento: "Centro",
     horarios: ["Seg a Sex: 08h00 às 18h00"],
@@ -167,14 +167,20 @@ export function unidadePorSlug(slug: string): Unidade | undefined {
 }
 
 /**
- * Retirada de exames impressos — feita no prédio administrativo da clínica
- * (não é o mesmo prédio da matriz, embora fique próximo).
- * TODO: confirmar com a clínica o endereço exato do prédio administrativo —
- * por enquanto está usando o endereço da matriz.
+ * Prédio administrativo — é onde o paciente retira o exame impresso.
+ *
+ * Fica na mesma rua da matriz, no 1617 (a matriz é no 1586). Não realiza
+ * exame nenhum e por isso não entra em `UNIDADES`: aquele array alimenta o
+ * seletor de unidade do agendamento, e oferecer este endereço ali faria o
+ * paciente marcar exame num prédio que só entrega laudo.
  */
 export const ENTREGA_EXAMES = {
-  horarios: ["Segunda a sexta: 07h30 às 19h00", "Sábado: 08h00 às 12h00"],
-  endereco: "Rua Doutor Luiz Bastos do Prado, 1586 (ao lado do Estacionamento GTI Park)",
+  nome: "Prédio administrativo",
+  descricao: "Somente retirada de exames, não realizamos exames neste endereço",
+  horarios: ["Segunda a sexta: 07h30 às 19h00"],
+  endereco: "Rua Doutor Luiz Bastos do Prado, 1617",
+  cidade: "Gravataí / RS",
+  mapa: "https://www.google.com/maps/search/?api=1&query=Rua+Doutor+Luiz+Bastos+do+Prado%2C+1617%2C+Gravata%C3%AD+-+RS",
   foto: "/unidades/administrativo.jpg",
 };
 
