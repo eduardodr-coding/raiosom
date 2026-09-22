@@ -5,7 +5,17 @@ const BASE = "https://www.raiosom.com.br";
 
 /** Páginas públicas. O fluxo de agendamento e o painel ficam de fora. */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const fixas = ["", "/exames", "/convenios", "/unidades", "/sobre", "/trabalhe-conosco", "/politica-de-privacidade"];
+  const fixas = [
+    "",
+    "/exames",
+    "/convenios",
+    "/unidades",
+    "/sobre",
+    "/trabalhe-conosco",
+    "/transparencia",
+    "/transparencia/igualdade-salarial",
+    "/politica-de-privacidade",
+  ];
 
   return [
     ...fixas.map((caminho) => ({

@@ -260,11 +260,10 @@ export const EXAMES: Exame[] = [
     slug: "exames-cardiologicos",
     nome: "Exames Cardiológicos",
     sigla: "EC",
-    // TODO: a frase-resumo veio do Figma aprovado. Confirmar com a clínica se
-    // ECG e ergometria são realizados aqui — o material de conteúdo do site
-    // antigo só cita o ecocardiograma.
-    resumo: "Ecocardiograma, ECG e ergometria.",
-    descricao: "Exames do coração, não invasivos e indolores, com agendamento prévio.",
+    // A clínica confirmou que só realiza ecocardiograma — ECG e ergometria
+    // apareciam no material antigo, mas não são feitos aqui.
+    resumo: "Ecocardiograma.",
+    descricao: "Exame do coração, não invasivo e indolor, com agendamento prévio.",
     preparo: [
       "Chegar 15 minutos antes do horário agendado.",
       "Trazer a solicitação médica. Não realizamos o exame sem ela.",

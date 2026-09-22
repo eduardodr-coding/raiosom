@@ -161,6 +161,92 @@
   font-weight: var(--peso-semi);
 }
 
+/* ── Submenu da navegação (Transparência) ───────────────────────────────── */
+
+.nav__grupo {
+  position: relative;
+}
+
+.nav__link--menu {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e-2);
+}
+
+.nav__seta {
+  font-size: var(--txt-xs);
+  transition: transform var(--transicao);
+}
+
+.nav__grupo:hover .nav__seta,
+.nav__grupo:focus-within .nav__seta {
+  transform: rotate(180deg);
+}
+
+/* `top: 100%` encosta o painel no link de propósito: qualquer folga aqui
+   faria o menu fechar quando o mouse atravessasse o vão. */
+.nav__submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 40;
+  display: grid;
+  min-width: 17rem;
+  padding: var(--e-2);
+  margin-top: var(--e-2);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+  box-shadow: var(--sombra-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition:
+    opacity var(--transicao),
+    transform var(--transicao),
+    visibility var(--transicao);
+}
+
+/* Ponte invisível sobre o `margin-top`, para o mouse não perder o hover. */
+.nav__submenu::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  height: var(--e-2);
+}
+
+.nav__grupo:hover .nav__submenu,
+.nav__grupo:focus-within .nav__submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav__submenu-link {
+  padding: var(--e-3);
+  border-radius: var(--raio-sm);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-sm);
+  font-weight: var(--peso-medio);
+  color: var(--navy-800);
+  text-decoration: none;
+  transition: background-color var(--transicao);
+}
+
+.nav__submenu-link:hover,
+.nav__submenu-link:focus-visible {
+  background: var(--navy-100);
+}
+
+.menu-mobile__link--sub {
+  padding-left: var(--e-5);
+  font-size: var(--txt-base);
+  font-weight: var(--peso-medio);
+  color: var(--texto-suave);
+}
+
 .cabecalho__acoes {
   display: flex;
   align-items: center;

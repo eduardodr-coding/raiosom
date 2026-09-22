@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { RedesSociais } from "@/components/site/RedesSociais";
 import { CLINICA } from "@/content/clinica";
+import { ITENS_TRANSPARENCIA } from "@/content/transparencia";
 
 const MENU = [
   { href: "/", rotulo: "Início" },
@@ -81,6 +82,30 @@ export function Header() {
                 {item.rotulo}
               </Link>
             ))}
+
+            {/* Submenu só com CSS (:hover + :focus-within): abre no mouse e
+                também quando o teclado entra no grupo, sem depender de JS. O
+                próprio "Transparência" é link, então quem navega por teclado
+                ou toque chega ao índice sem precisar abrir o menu. */}
+            <div className="nav__grupo">
+              <Link
+                href="/transparencia"
+                className="nav__link nav__link--menu"
+                aria-current={ehAtual("/transparencia") ? "page" : undefined}
+              >
+                Transparência
+                <span className="nav__seta" aria-hidden="true">
+                  ▾
+                </span>
+              </Link>
+              <div className="nav__submenu">
+                {ITENS_TRANSPARENCIA.map((item) => (
+                  <Link key={item.slug} href={item.href} className="nav__submenu-link">
+                    {item.titulo}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </nav>
 
           <div className="cabecalho__acoes">
@@ -121,6 +146,23 @@ export function Header() {
                     aria-current={ehAtual(item.href) ? "page" : undefined}
                   >
                     {item.rotulo}
+                  </Link>
+                </li>
+              ))}
+              {/* No celular não existe hover: o submenu vira uma lista aberta. */}
+              <li>
+                <Link
+                  href="/transparencia"
+                  className="menu-mobile__link"
+                  aria-current={ehAtual("/transparencia") ? "page" : undefined}
+                >
+                  Transparência
+                </Link>
+              </li>
+              {ITENS_TRANSPARENCIA.map((item) => (
+                <li key={item.slug}>
+                  <Link href={item.href} className="menu-mobile__link menu-mobile__link--sub">
+                    {item.titulo}
                   </Link>
                 </li>
               ))}

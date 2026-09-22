@@ -95,7 +95,24 @@ export default async function PaginaExame({ params }: Props) {
             </Aviso>
           )}
 
-          <Revelar className="bloco preparo-destaque" style={{ marginTop: "var(--e-6)" }}>
+          {/* Ordem pensada para quem ainda não conhece o exame: primeiro
+              entende o que vai acontecer, depois se tem contraste, e só então
+              o preparo — que é a parte acionável de véspera. */}
+          {exame.comoEFeito && (
+            <Revelar className="bloco">
+              <h2 className="bloco__titulo">Como é feito</h2>
+              <p className="bloco__texto">{exame.comoEFeito}</p>
+            </Revelar>
+          )}
+
+          {exame.contraste && (
+            <Revelar className="bloco">
+              <h2 className="bloco__titulo">Meu exame é com contraste?</h2>
+              <p className="bloco__texto">{exame.contraste}</p>
+            </Revelar>
+          )}
+
+          <Revelar className="bloco preparo-destaque">
             <h2 className="bloco__titulo">Antes de vir, confira o preparo</h2>
             <p className="preparo-destaque__nota">
               Estes são os itens que mais causam remarcação de exame.
@@ -130,13 +147,6 @@ export default async function PaginaExame({ params }: Props) {
             </Revelar>
           )}
 
-          {exame.contraste && (
-            <Revelar className="bloco">
-              <h2 className="bloco__titulo">Meu exame é com contraste?</h2>
-              <p className="bloco__texto">{exame.contraste}</p>
-            </Revelar>
-          )}
-
           {exame.modalidades && (
             <Revelar className="bloco">
               <h2 className="bloco__titulo">Modalidades realizadas</h2>
@@ -145,13 +155,6 @@ export default async function PaginaExame({ params }: Props) {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-            </Revelar>
-          )}
-
-          {exame.comoEFeito && (
-            <Revelar className="bloco">
-              <h2 className="bloco__titulo">Como é feito</h2>
-              <p className="bloco__texto">{exame.comoEFeito}</p>
             </Revelar>
           )}
 

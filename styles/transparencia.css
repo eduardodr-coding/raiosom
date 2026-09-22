@@ -1,0 +1,137 @@
+/* =============================================================================
+   Raio Som — Transparência (relatório de igualdade salarial)
+   ========================================================================== */
+
+/* ── Os dois indicadores em destaque ────────────────────────────────────── */
+
+.razoes {
+  display: grid;
+  gap: var(--e-6);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 760px) {
+  .razoes {
+    grid-template-columns: 1fr;
+  }
+}
+
+.razao-card {
+  padding: var(--e-8);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+}
+
+.razao-card__valor {
+  display: block;
+  font-family: var(--fonte-titulo);
+  font-size: clamp(2.5rem, 1.8rem + 3vw, 3.5rem);
+  font-weight: var(--peso-extra);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--cor-acao);
+}
+
+.razao-card__titulo {
+  margin-top: var(--e-4);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-lg);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.razao-card__texto {
+  margin-top: var(--e-3);
+  font-size: var(--txt-sm);
+  color: var(--texto-suave);
+}
+
+/* ── Composição do quadro de pessoal ────────────────────────────────────── */
+
+.composicoes {
+  display: grid;
+  gap: var(--e-10);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 760px) {
+  .composicoes {
+    grid-template-columns: 1fr;
+  }
+}
+
+.composicao__titulo {
+  margin-bottom: var(--e-5);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-lg);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.barras {
+  display: grid;
+  gap: var(--e-4);
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* Rótulo e valor em colunas fixas para as barras ficarem alinhadas entre si. */
+.barra {
+  display: grid;
+  align-items: center;
+  gap: var(--e-3);
+  grid-template-columns: minmax(0, 12rem) 1fr auto;
+  font-size: var(--txt-sm);
+}
+
+@media (max-width: 520px) {
+  .barra {
+    grid-template-columns: 1fr auto;
+  }
+
+  .barra__trilho {
+    grid-column: 1 / -1;
+    order: 3;
+  }
+}
+
+.barra__rotulo {
+  color: var(--texto);
+}
+
+.barra__trilho {
+  height: 10px;
+  border-radius: var(--raio-pilula);
+  background: var(--neutro-200);
+}
+
+.barra__preenchimento {
+  display: block;
+  height: 100%;
+  border-radius: var(--raio-pilula);
+  background: var(--cor-acao);
+}
+
+.barra__valor {
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-forte);
+  color: var(--navy-800);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Tabela por grupo ocupacional ───────────────────────────────────────── */
+
+.tabela__vazio {
+  color: var(--texto-tenue);
+  font-size: var(--txt-sm);
+}
+
+/* ── Índice das publicações ─────────────────────────────────────────────── */
+
+.lista-transparencia {
+  display: grid;
+  gap: var(--e-5);
+  max-width: 760px;
+}

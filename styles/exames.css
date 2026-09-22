@@ -138,6 +138,13 @@
   }
 }
 
+/* Os blocos da página do exame são condicionais (contraste, modalidades…), então
+   o primeiro a aparecer varia. A margem vive aqui, e não inline no primeiro
+   bloco, para o espaçamento não sumir quando aquele bloco não renderiza. */
+.exame-corpo .bloco {
+  margin-top: var(--e-6);
+}
+
 .bloco + .bloco {
   margin-top: var(--e-10);
 }
