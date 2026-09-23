@@ -48,7 +48,7 @@ export default async function PaginaGrupo({ params }: Props) {
           <h1>{grupo.nome}</h1>
           <p className="pagina-topo__texto">
             {escolher
-              ? "Confira no seu pedido médico qual destas opções o médico solicitou. Na dúvida, a central confirma com você."
+              ? "Confira no seu pedido médico qual destas opções o médico solicitou e clique nela. Na dúvida, a central confirma com você."
               : "Realizamos este exame."}
           </p>
         </div>
@@ -65,8 +65,8 @@ export default async function PaginaGrupo({ params }: Props) {
           <ul className="lista-variacoes">
             {grupo.variacoes.map((variacao) => {
               const descricao = descreverVariacao(variacao);
-              return (
-                <li className="variacao" key={variacao.id}>
+              const etiqueta = (
+                <>
                   <span className="variacao__nome">{grupo.nome}</span>
                   {descricao && <span className="variacao__detalhe">{descricao}</span>}
                   {variacao.convenio && (
@@ -74,6 +74,28 @@ export default async function PaginaGrupo({ params }: Props) {
                       Específico {variacao.convenio}
                     </span>
                   )}
+                </>
+              );
+
+              // Cada variação leva a própria escolha para o formulário pelo id
+              // do catálogo. É o id que viaja, e não o nome interno, porque a
+              // URL fica à vista do paciente. Quem resolve o id de volta é o
+              // servidor, no agendamento e de novo na API.
+              return modalidade ? (
+                <li key={variacao.id}>
+                  <Link
+                    className="variacao variacao--acao"
+                    href={`/agendar/${modalidade.slug}?exame=${variacao.id}`}
+                  >
+                    {etiqueta}
+                    <span className="variacao__seta" aria-hidden="true">
+                      →
+                    </span>
+                  </Link>
+                </li>
+              ) : (
+                <li className="variacao" key={variacao.id}>
+                  {etiqueta}
                 </li>
               );
             })}
@@ -83,13 +105,10 @@ export default async function PaginaGrupo({ params }: Props) {
             {modalidade ? (
               <>
                 <p className="grupo-acoes__texto">
-                  Este exame é feito na {modalidade.nome}. Veja as regras de
-                  comparecimento e envie a foto do pedido médico para agendar.
+                  Escolha acima a opção que está no seu pedido médico. Este exame
+                  é feito na {modalidade.nome}.
                 </p>
                 <div className="grupo-acoes__botoes">
-                  <Button href={`/agendar/${modalidade.slug}`}>
-                    Solicitar agendamento
-                  </Button>
                   <Button href={`/exames/${modalidade.slug}`} variant="contorno">
                     Regras e detalhes
                   </Button>

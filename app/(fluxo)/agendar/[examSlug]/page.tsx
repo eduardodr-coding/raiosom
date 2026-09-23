@@ -4,13 +4,28 @@ import { FormularioAgendamento } from "@/components/agendamento/FormularioAgenda
 import { Stepper } from "@/components/ui/Stepper";
 import { CLINICA } from "@/content/clinica";
 import { EXAMES, examePorSlug } from "@/content/exames";
+import { exameDoCatalogo, paginaDoExame, rotuloVariacao } from "@/lib/catalogo";
 
 export const PASSOS = ["Escolha o exame", "Seus dados e o pedido", "Falar com a central"];
 
 type Props = {
   params: Promise<{ examSlug: string }>;
-  searchParams: Promise<{ unidade?: string }>;
+  searchParams: Promise<{ unidade?: string; exame?: string }>;
 };
+
+/**
+ * A variação que o paciente escolheu em /exames/grupo/[grupo], resolvida aqui
+ * pelo id do catálogo.
+ *
+ * Confere se a variação pertence mesmo a este exame: um id de outra
+ * modalidade colado na URL é ignorado, em vez de mostrar "Mamografia
+ * Bilateral" no resumo de uma solicitação de ressonância.
+ */
+function variacaoEscolhida(id: string | undefined, examSlug: string) {
+  if (!id || !/^[0-9]{1,9}$/.test(id)) return null;
+  const variacao = exameDoCatalogo(Number(id));
+  return variacao && paginaDoExame(variacao) === examSlug ? variacao : null;
+}
 
 export function generateStaticParams() {
   return EXAMES.map((exame) => ({ examSlug: exame.slug }));
@@ -28,10 +43,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PaginaAgendar({ params, searchParams }: Props) {
   const { examSlug } = await params;
-  const { unidade } = await searchParams;
+  const { unidade, exame: idCatalogo } = await searchParams;
   const exame = examePorSlug(examSlug);
   if (!exame) notFound();
 
+  const variacao = variacaoEscolhida(idCatalogo, exame.slug);
   const porOrdemDeChegada = exame.agendamento === "ordem-de-chegada";
 
   return (
@@ -39,7 +55,11 @@ export default async function PaginaAgendar({ params, searchParams }: Props) {
       <Stepper steps={PASSOS} current={2} />
 
       <div className="container agendar-corpo">
-        <FormularioAgendamento exame={exame} unidadeInicial={unidade} />
+        <FormularioAgendamento
+          exame={exame}
+          unidadeInicial={unidade}
+          catalogoId={variacao?.id}
+        />
 
         <aside className="resumo">
           <h2 className="resumo__titulo">Sua solicitação</h2>
@@ -47,6 +67,14 @@ export default async function PaginaAgendar({ params, searchParams }: Props) {
           <div className="resumo__item">
             <p className="resumo__rotulo">Exame</p>
             <p className="resumo__valor">{exame.nome}</p>
+            {variacao && (
+              <p
+                className="resumo__valor"
+                style={{ fontSize: "var(--txt-sm)", color: "var(--texto-suave)" }}
+              >
+                {rotuloVariacao(variacao)}
+              </p>
+            )}
           </div>
 
           <div className="resumo__item">

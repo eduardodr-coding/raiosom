@@ -111,6 +111,18 @@ paciente não deve conseguir pedir. Também traduz os códigos para texto
 `NAO_INFORMADO`. Rode o script e faça commit dos JSON sempre que os CSV
 mudarem: o build não regenera nada sozinho.
 
+O `nome_interno` é o nome do exame no sistema da clínica. Ele entra no índice
+da busca, porque é o que muitos pedidos médicos trazem escrito, mas **nunca
+aparece para o paciente** nem chega ao bundle do navegador. Quando o paciente
+escolhe uma variação em `/exames/grupo/[grupo]`, o que viaja na URL é o id da
+linha (`/agendar/<exame>?exame=676`), e quem resolve o id de volta é o
+servidor — na página do agendamento e outra vez na API, que também confere se
+a variação pertence mesmo àquela modalidade. O nome interno só reaparece no
+painel, para a central achar o exame no sistema.
+
+Como o id é a linha do CSV, regerar o catálogo pode reatribuir ids. Por isso a
+solicitação grava o nome interno e o rótulo da variação junto, e não só o id.
+
 ## Rotas
 
 | Rota | O que é |
@@ -142,7 +154,10 @@ mudarem: o build não regenera nada sozinho.
 
 O nome do exame é gravado junto da solicitação de propósito: o conteúdo vive
 em `content/exames.ts` e pode mudar, mas o pedido tem que preservar o que o
-paciente viu na hora.
+paciente viu na hora. Pelo mesmo motivo, quando o paciente escolhe uma
+variação na busca, `solicitacoes` guarda `catalogoId`, `catalogoNomeInterno`
+e `catalogoVariacao` — os três nulos no fluxo em que ele entra direto pela
+página da modalidade.
 
 ## LGPD e segurança
 

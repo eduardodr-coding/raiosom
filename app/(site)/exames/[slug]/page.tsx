@@ -126,17 +126,6 @@ export default async function PaginaExame({ params }: Props) {
             </Revelar>
           )}
 
-          {exame.recomendacoes && (
-            <Revelar className="bloco">
-              <h2 className="bloco__titulo">Recomendações para o dia do exame</h2>
-              <ul className="lista-itens" style={{ marginTop: "var(--e-4)" }}>
-                {exame.recomendacoes.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </Revelar>
-          )}
-
           {exame.modalidades && (
             <Revelar className="bloco">
               <h2 className="bloco__titulo">Modalidades realizadas</h2>

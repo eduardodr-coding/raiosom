@@ -55,6 +55,17 @@ model Solicitacao {
   exameSlug String @db.VarChar(80)
   exameNome String @db.VarChar(160)
 
+  // Variação escolhida na busca do catálogo (content/catalogo), quando o
+  // paciente veio de lá; nula quando ele entrou direto pela página da
+  // modalidade. Desnormalizada pelo mesmo motivo acima, e com uma razão a
+  // mais: o catálogo é regerado a partir do CSV que a clínica edita, então
+  // `catalogoId` pode apontar para outra linha depois. `catalogoNomeInterno`
+  // é o nome no sistema da clínica, que a central usa para achar o exame —
+  // nunca é exibido ao paciente nem entra na mensagem do WhatsApp.
+  catalogoId          Int?
+  catalogoNomeInterno String? @db.VarChar(200)
+  catalogoVariacao    String? @db.VarChar(200)
+
   // Paciente
   pacienteNome   String   @db.VarChar(160)
   cpf            String   @db.Char(11) // somente dígitos

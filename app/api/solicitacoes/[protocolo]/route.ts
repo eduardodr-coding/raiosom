@@ -40,7 +40,12 @@ export async function GET(
       protocolo: solicitacao.protocolo,
       status: solicitacao.status,
       criadoEm: solicitacao.criadoEm,
-      exame: { slug: solicitacao.exameSlug, nome: solicitacao.exameNome },
+      exame: {
+        slug: solicitacao.exameSlug,
+        nome: solicitacao.exameNome,
+        variacao: solicitacao.catalogoVariacao,
+        nomeInterno: solicitacao.catalogoNomeInterno,
+      },
       paciente: {
         nome: solicitacao.pacienteNome,
         cpf: cpfFormatado(solicitacao.cpf),

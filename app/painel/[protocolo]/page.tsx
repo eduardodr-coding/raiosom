@@ -87,6 +87,12 @@ export default async function PaginaSolicitacao({ params }: Props) {
               />
               <Campo rotulo="WhatsApp" valor={telefoneFormatado(solicitacao.whatsapp)} />
               <Campo rotulo="Exame" valor={solicitacao.exameNome} destaque />
+              {solicitacao.catalogoVariacao && (
+                <Campo rotulo="Exame solicitado" valor={solicitacao.catalogoVariacao} destaque />
+              )}
+              {solicitacao.catalogoNomeInterno && (
+                <Campo rotulo="Nome no sistema" valor={solicitacao.catalogoNomeInterno} />
+              )}
               <Campo rotulo="Unidade" valor={rotuloUnidade(solicitacao.unidade)} />
               <Campo rotulo="Turno de preferência" valor={rotuloTurno(solicitacao.turno)} />
               <Campo

@@ -10,8 +10,9 @@ import { linkWhatsApp } from "@/lib/whatsapp";
  * do mapa abaixo, não de cópias do bloco página por página, senão a primeira
  * correção de regra passa a valer em umas páginas e não em outras.
  *
- * O preparo em si não mora mais no site. Quem precisa dele é mandado para o
- * WhatsApp da central, que é onde a clínica passa a orientação atualizada.
+ * O que fazer antes do exame não mora mais no site: variava por convênio e por
+ * aparelho, e o texto publicado acabava divergindo do que a central falava.
+ * Quem precisa dessa orientação é mandado para o WhatsApp.
  */
 
 /** Antecedência de todo mundo. Só a ressonância foge dela. */
@@ -21,7 +22,8 @@ const ANTECEDENCIA_PADRAO = 15;
  * Itens que valem para uma modalidade só.
  *
  * O aviso de metal da RM é triagem de segurança do campo magnético, não
- * preparo: sem ele o exame é cancelado na recepção (ou, pior, não é).
+ * orientação de véspera: sem ele o exame é cancelado na recepção (ou, pior,
+ * não é).
  */
 const EXTRAS_POR_EXAME: Record<string, string[]> = {
   "ressonancia-magnetica": [
@@ -44,7 +46,7 @@ export function RegrasExame({ exame }: { exame: Exame }) {
   ];
 
   const link = linkWhatsApp(
-    `Olá! Tenho uma dúvida sobre o preparo do exame de ${exame.nome}.`,
+    `Olá! Tenho uma dúvida sobre as orientações do exame de ${exame.nome}.`,
   );
 
   return (
@@ -58,7 +60,7 @@ export function RegrasExame({ exame }: { exame: Exame }) {
       </ul>
 
       <p className="regras-exame__duvida">
-        Dúvidas sobre o preparo do seu exame? Fale com a gente pelo WhatsApp.
+        Dúvidas sobre as orientações do seu exame? Fale com a gente pelo WhatsApp.
       </p>
 
       <div className="regras-exame__acao">

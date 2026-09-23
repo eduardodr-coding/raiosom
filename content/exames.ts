@@ -26,8 +26,13 @@ export type Exame = {
   descricao: string;
   comoEFeito?: string;
   modalidades?: string[];
+  /**
+   * O que impede ou inviabiliza o exame — limite do equipamento, conflito com
+   * outro exame recente. Não é orientação de véspera: jejum, dieta e o que
+   * vestir saíram do site em favor do WhatsApp da central, que é onde a
+   * clínica consegue manter a orientação atual e específica do convênio.
+   */
   restricoes?: string[];
-  recomendacoes?: string[];
   /** Texto sobre contraste, ou `null` quando o exame não usa. */
   contraste: string | null;
   /** Minutos de antecedência na recepção. */
@@ -123,10 +128,6 @@ export const EXAMES: Exame[] = [
     resumo: "Digital, com foco na detecção precoce.",
     descricao:
       "Exame de rastreamento e diagnóstico da mama. Laudo disponível na Matriz em 3 dias úteis.",
-    recomendacoes: [
-      "No dia do exame, não use creme corporal nem talco nas mamas.",
-      "No dia do exame, não use desodorante nas axilas.",
-    ],
     contraste: null,
     chegarAntesMin: 15,
     laudo: "Laudo disponível na Matriz em 3 dias úteis.",
@@ -159,11 +160,6 @@ export const EXAMES: Exame[] = [
     restricoes: [
       "Não pode ter realizado exame com contraste (oral ou endovenoso) na semana anterior.",
       "Capacidade máxima do equipamento: 140 kg.",
-    ],
-    recomendacoes: [
-      "Suspender medicamento com cálcio um dia antes do exame e retomar depois.",
-      "Jejum de 4 horas.",
-      "Não ingerir grandes quantidades de líquido.",
     ],
     contraste: null,
     chegarAntesMin: 15,
@@ -207,14 +203,6 @@ export const EXAMES: Exame[] = [
     // apareciam no material antigo, mas não são feitos aqui.
     resumo: "Ecocardiograma.",
     descricao: "Exame do coração, não invasivo e indolor, com agendamento prévio.",
-    restricoes: [
-      "Nas 24 horas anteriores, não ingerir frutas cítricas, café, chá, chimarrão, refrigerante nem medicamentos com cafeína.",
-      "Jejum de 4 horas.",
-    ],
-    recomendacoes: [
-      "Vir com os cabelos secos, sem creme ou gel.",
-      "Não usar acessórios de metal no dia do exame (relógio, correntes, brincos, anéis).",
-    ],
     contraste: null,
     chegarAntesMin: 15,
     imagem: "/exames/ecocardio.jpg",
@@ -227,9 +215,7 @@ export const EXAMES: Exame[] = [
     nome: "Biópsia / Punção",
     sigla: "BX",
     // As regiões e técnicas abaixo saem do catálogo do sistema (modalidade
-    // BIOPSIA), não de redação livre. TODO: confirmar com a clínica se a
-    // biópsia pode ser solicitada pelo site como os demais exames ou se deve
-    // passar obrigatoriamente pela central.
+    // BIOPSIA), não de redação livre.
     resumo: "Punção e coleta guiadas por imagem.",
     descricao:
       "Coleta de material para análise laboratorial, guiada por imagem, com agendamento prévio.",

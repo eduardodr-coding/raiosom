@@ -38,6 +38,7 @@ export default async function PaginaPainel({ searchParams }: Props) {
       protocolo: true,
       pacienteNome: true,
       exameNome: true,
+      catalogoVariacao: true,
       unidade: true,
       turno: true,
       whatsapp: true,
@@ -104,7 +105,20 @@ export default async function PaginaPainel({ searchParams }: Props) {
                     </td>
                     <td style={{ whiteSpace: "nowrap" }}>{formatarDataHora(item.criadoEm)}</td>
                     <td>{item.pacienteNome}</td>
-                    <td>{item.exameNome}</td>
+                    <td>
+                      {item.exameNome}
+                      {item.catalogoVariacao && (
+                        <span
+                          style={{
+                            display: "block",
+                            fontSize: "var(--txt-sm)",
+                            color: "var(--texto-suave)",
+                          }}
+                        >
+                          {item.catalogoVariacao}
+                        </span>
+                      )}
+                    </td>
                     <td>{rotuloUnidade(item.unidade)}</td>
                     <td>{rotuloTurno(item.turno)}</td>
                     <td style={{ whiteSpace: "nowrap" }}>

@@ -2,6 +2,7 @@ import { createHmac } from "node:crypto";
 import { NextResponse } from "next/server";
 import { CLINICA } from "@/content/clinica";
 import { examePorSlug } from "@/content/exames";
+import { exameDoCatalogo, paginaDoExame, rotuloVariacao } from "@/lib/catalogo";
 import { sessionSecret } from "@/lib/env";
 import { formatarProtocolo } from "@/lib/protocolo";
 import { prisma } from "@/lib/prisma";
@@ -74,6 +75,7 @@ export async function POST(request: Request) {
   // ── Campos de texto ──────────────────────────────────────────────────────
   const bruto = {
     exameSlug: String(form.get("exameSlug") ?? ""),
+    catalogoId: String(form.get("catalogoId") ?? ""),
     pacienteNome: String(form.get("pacienteNome") ?? ""),
     cpf: String(form.get("cpf") ?? ""),
     dataNascimento: String(form.get("dataNascimento") ?? ""),
@@ -104,6 +106,15 @@ export async function POST(request: Request) {
 
   const exame = examePorSlug(dados.exameSlug);
   if (!exame) {
+    return erro("Exame não encontrado.", 422, { exameSlug: "Escolha um exame da lista." });
+  }
+
+  // A variação sai do catálogo pelo id, nunca de um nome vindo do cliente, e
+  // precisa ser deste mesmo exame: quem posta direto na API manda o id que
+  // quiser, e um id de outra modalidade gravaria o exame errado na ficha que
+  // a central vai atender.
+  const variacao = dados.catalogoId ? exameDoCatalogo(Number(dados.catalogoId)) : null;
+  if (dados.catalogoId && (!variacao || paginaDoExame(variacao) !== exame.slug)) {
     return erro("Exame não encontrado.", 422, { exameSlug: "Escolha um exame da lista." });
   }
 
@@ -159,6 +170,9 @@ export async function POST(request: Request) {
           protocolo: numero,
           exameSlug: exame.slug,
           exameNome: exame.nome,
+          catalogoId: variacao?.id ?? null,
+          catalogoNomeInterno: variacao?.nomeInterno ?? null,
+          catalogoVariacao: variacao ? rotuloVariacao(variacao) : null,
           pacienteNome: dados.pacienteNome,
           cpf: dados.cpf,
           dataNascimento: nascimento,
@@ -185,7 +199,10 @@ export async function POST(request: Request) {
 
     const mensagem = montarMensagem({
       protocolo,
-      exameNome: exame.nome,
+      // A variação, quando existe, é mais específica que a modalidade e é o
+      // que a central precisa ler. O nome interno fica de fora de propósito:
+      // esta string vira `wa.me/?text=` e passa pela tela do paciente.
+      exameNome: variacao ? rotuloVariacao(variacao) : exame.nome,
       pacienteNome: dados.pacienteNome,
       cpf: dados.cpf,
       dataNascimento: formatarDataBR(nascimento),

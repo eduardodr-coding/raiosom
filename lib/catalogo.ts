@@ -185,6 +185,19 @@ export function grupoPorSlug(slug: string): GrupoExame | undefined {
   return GRUPOS.get(slug);
 }
 
+const POR_ID = new Map<number, ExameCatalogo>(CATALOGO.map((exame) => [exame.id, exame]));
+
+/**
+ * A variação escolhida, pelo id que veio na URL do agendamento.
+ *
+ * É o id que viaja, não o nome interno: o paciente vê a própria URL, e o nome
+ * interno não pode aparecer para ele. `null` quando o id não existe mais,
+ * o que acontece se a clínica regerar o catálogo com o link já aberto.
+ */
+export function exameDoCatalogo(id: number): ExameCatalogo | null {
+  return POR_ID.get(id) ?? null;
+}
+
 /**
  * Ordena como o paciente espera: o que começa com o que ele digitou primeiro.
  *
@@ -238,6 +251,12 @@ export function descreverVariacao(exame: ExameCatalogo): string {
   return partes.join(" · ");
 }
 
+/** Nome completo da variação para o paciente: "RM Joelho · Com contraste". */
+export function rotuloVariacao(exame: ExameCatalogo): string {
+  const detalhe = descreverVariacao(exame);
+  return detalhe ? `${exame.nomePaciente} · ${detalhe}` : exame.nomePaciente;
+}
+
 // ── Ponte com as páginas de modalidade ────────────────────────────────────
 
 /**
@@ -262,9 +281,16 @@ const PAGINA_POR_MODALIDADE: Record<string, string> = {
  * `null` quando não existe página para a modalidade: aí o grupo manda o
  * paciente para o WhatsApp, em vez de chutar uma página parecida.
  */
-export function paginaDoGrupo(grupo: GrupoExame): string | null {
+export function paginaDoExame(exame: {
+  nomePaciente: string;
+  modalidade: string;
+}): string | null {
   // O ecocardiograma sai do sistema como ECO, mas é exame cardiológico: quem
   // procura por ele tem que cair na página do coração, não na de ultrassom.
-  if (grupo.nome.startsWith("Ecocardiograma")) return "exames-cardiologicos";
-  return PAGINA_POR_MODALIDADE[grupo.modalidade] ?? null;
+  if (exame.nomePaciente.startsWith("Ecocardiograma")) return "exames-cardiologicos";
+  return PAGINA_POR_MODALIDADE[exame.modalidade] ?? null;
+}
+
+export function paginaDoGrupo(grupo: GrupoExame): string | null {
+  return paginaDoExame({ nomePaciente: grupo.nome, modalidade: grupo.modalidade });
 }

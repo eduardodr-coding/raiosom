@@ -451,6 +451,32 @@
   color: var(--texto-suave);
 }
 
+/* Variação clicável: cada opção é o botão de agendar daquela variação. */
+.variacao--acao {
+  text-decoration: none;
+  transition:
+    border-color var(--transicao),
+    background-color var(--transicao);
+}
+
+.variacao--acao:hover,
+.variacao--acao:focus-visible {
+  border-color: var(--cor-acao);
+  background: var(--neutro-100);
+}
+
+.variacao__seta {
+  margin-left: auto;
+  color: var(--cor-acao);
+}
+
+/* No celular a seta cabe mal no fim da linha quando o detalhe quebra. */
+@media (max-width: 520px) {
+  .variacao__seta {
+    margin-left: 0;
+  }
+}
+
 .grupo-acoes {
   margin-top: var(--e-8);
   padding: var(--e-6);

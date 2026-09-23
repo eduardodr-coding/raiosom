@@ -95,6 +95,13 @@ export const esquemaSolicitacao = z.object({
     .max(80)
     .regex(/^[a-z0-9-]+$/, "Exame inválido."),
 
+  /**
+   * Id da variação escolhida no catálogo. Vazio quando o paciente entrou pela
+   * página da modalidade, sem passar pela busca. Aqui só se confere o
+   * formato; quem resolve o id e confere se ele é deste exame é o servidor.
+   */
+  catalogoId: z.string().trim().regex(/^[0-9]{0,9}$/, "Exame inválido."),
+
   pacienteNome: z
     .string()
     .trim()

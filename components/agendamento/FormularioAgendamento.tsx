@@ -18,6 +18,12 @@ export type FormularioAgendamentoProps = {
   exame: Exame;
   /** Unidade pré-selecionada quando o paciente veio do card de uma unidade. */
   unidadeInicial?: string;
+  /**
+   * Id da variação escolhida na busca do catálogo. Vai junto no envio para a
+   * central receber exatamente o exame que o paciente apontou, e não só a
+   * modalidade. Indefinido quando ele entrou direto pela página do exame.
+   */
+  catalogoId?: number;
 };
 
 type Erros = Record<string, string>;
@@ -25,7 +31,11 @@ type Erros = Record<string, string>;
 /** Guarda a prévia da mensagem para a tela de confirmação ler. */
 export const CHAVE_SESSAO = "raiosom:solicitacao";
 
-export function FormularioAgendamento({ exame, unidadeInicial }: FormularioAgendamentoProps) {
+export function FormularioAgendamento({
+  exame,
+  unidadeInicial,
+  catalogoId,
+}: FormularioAgendamentoProps) {
   const router = useRouter();
   const toast = useToast();
 
@@ -94,6 +104,7 @@ export function FormularioAgendamento({ exame, unidadeInicial }: FormularioAgend
 
     const dados = new FormData();
     dados.set("exameSlug", exame.slug);
+    if (catalogoId) dados.set("catalogoId", String(catalogoId));
     dados.set("pacienteNome", nome.trim());
     dados.set("cpf", cpf);
     dados.set("dataNascimento", nascimento);
