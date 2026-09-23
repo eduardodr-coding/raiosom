@@ -60,7 +60,7 @@ function Conteudo({ variant, children }: { variant?: ButtonVariant; children: Re
 
   return (
     <>
-      <IconeRede rede="whatsapp" tamanho={20} />
+      <IconeRede rede="whatsapp" tamanho={24} />
       {children}
     </>
   );

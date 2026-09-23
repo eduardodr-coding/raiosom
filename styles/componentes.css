@@ -79,6 +79,12 @@
   --btn-texto: var(--branco);
 }
 
+/* O símbolo não encolhe quando o texto do botão quebra em duas linhas: sem
+   isso ele vira um ponto verde ao lado de um bloco de texto. */
+.btn--whatsapp svg {
+  flex: none;
+}
+
 .btn--fantasma {
   --btn-fundo: transparent;
   --btn-fundo-hover: var(--navy-100);
