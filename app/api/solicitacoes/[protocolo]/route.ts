@@ -53,7 +53,9 @@ export async function GET(
         nome: solicitacao.pacienteNome,
         cpf: cpfFormatado(solicitacao.cpf),
         dataNascimento: formatarDataBR(solicitacao.dataNascimento),
-        whatsapp: telefoneFormatado(solicitacao.whatsapp),
+        // Nulos quando o paciente marcou "Não possuo" no formulário.
+        whatsapp: solicitacao.whatsapp ? telefoneFormatado(solicitacao.whatsapp) : null,
+        email: solicitacao.email,
       },
       atendimento: {
         unidade: rotuloUnidade(solicitacao.unidade),
@@ -63,11 +65,14 @@ export async function GET(
         carteirinha: solicitacao.carteirinha,
       },
       pedidoMedico: {
-        disponivel: !solicitacao.arquivoExpurgoEm,
+        // Nunca anexado e já expurgado dão no mesmo aqui: não há o que abrir.
+        anexado: solicitacao.arquivoChave !== null,
+        disponivel: solicitacao.arquivoChave !== null && !solicitacao.arquivoExpurgoEm,
         // Nunca a chave do storage: só a rota autenticada que serve o arquivo.
-        url: solicitacao.arquivoExpurgoEm
-          ? null
-          : `/painel/${solicitacao.protocolo}/arquivo`,
+        url:
+          solicitacao.arquivoChave && !solicitacao.arquivoExpurgoEm
+            ? `/painel/${solicitacao.protocolo}/arquivo`
+            : null,
         tamanho: solicitacao.arquivoTamanho,
         tipo: solicitacao.arquivoMime,
       },

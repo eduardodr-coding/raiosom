@@ -42,6 +42,7 @@ export default async function PaginaPainel({ searchParams }: Props) {
       unidade: true,
       turno: true,
       whatsapp: true,
+      email: true,
       status: true,
       criadoEm: true,
     },
@@ -122,13 +123,19 @@ export default async function PaginaPainel({ searchParams }: Props) {
                     <td>{rotuloUnidade(item.unidade)}</td>
                     <td>{rotuloTurno(item.turno)}</td>
                     <td style={{ whiteSpace: "nowrap" }}>
-                      <a
-                        href={`https://wa.me/55${item.whatsapp}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {telefoneFormatado(item.whatsapp)}
-                      </a>
+                      {item.whatsapp ? (
+                        <a
+                          href={`https://wa.me/55${item.whatsapp}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {telefoneFormatado(item.whatsapp)}
+                        </a>
+                      ) : item.email ? (
+                        <a href={`mailto:${item.email}`}>{item.email}</a>
+                      ) : (
+                        <span style={{ color: "var(--texto-tenue)" }}>sem contato</span>
+                      )}
                     </td>
                     <td>
                       <SelectStatus protocolo={item.protocolo} status={item.status} />

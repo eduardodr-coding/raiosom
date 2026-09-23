@@ -73,7 +73,12 @@ model Solicitacao {
   pacienteNome   String   @db.VarChar(160)
   cpf            String   @db.Char(11) // somente dígitos
   dataNascimento DateTime @db.Date
-  whatsapp       String   @db.VarChar(11) // DDD + número, somente dígitos
+
+  // Contato. Os dois são opcionais porque o paciente pode marcar "Não possuo"
+  // em cada um. Sem nenhum dos dois a solicitação ainda é aceita — aí é ele
+  // que procura a central, com o protocolo em mãos.
+  whatsapp String? @db.VarChar(11) // DDD + número, somente dígitos
+  email    String? @db.VarChar(160)
 
   // Atendimento
   tipoCobertura TipoCobertura
@@ -84,10 +89,12 @@ model Solicitacao {
 
   // Pedido médico (arquivo). `arquivoChave` é a chave opaca no storage
   // (lib/storage.ts), nunca um caminho de disco montado pelo usuário.
-  arquivoChave      String    @db.VarChar(160)
-  arquivoMime       String    @db.VarChar(60)
-  arquivoTamanho    Int // bytes
-  arquivoNomeOrigem String    @db.VarChar(255) // nome original, só para exibição
+  // Nulos quando o paciente não anexou nada: o upload é opcional, ele leva o
+  // papel no dia.
+  arquivoChave      String?   @db.VarChar(160)
+  arquivoMime       String?   @db.VarChar(60)
+  arquivoTamanho    Int? // bytes
+  arquivoNomeOrigem String?   @db.VarChar(255) // nome original, só para exibição
   arquivoExpurgoEm  DateTime? // preenchido quando o arquivo é removido pela retenção
 
   // Consentimento LGPD: obrigatório para enviar o formulário.

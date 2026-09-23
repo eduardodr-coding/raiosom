@@ -101,6 +101,36 @@ fieldset.form-secao {
   }
 }
 
+/* Campo de contato com a saída "Não possuo" ao lado. Centrado no bloco todo
+   (rótulo + campo + ajuda) para não depender da altura do rótulo. */
+.campo-contato {
+  display: flex;
+  align-items: center;
+  gap: var(--e-5);
+}
+
+.campo-contato > .campo {
+  flex: 1;
+  min-width: 0;
+}
+
+.campo-contato__opcao {
+  flex: none;
+}
+
+/* No celular não cabem lado a lado sem espremer o campo. */
+@media (max-width: 560px) {
+  .campo-contato {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--e-3);
+  }
+
+  .campo-contato > .campo {
+    width: 100%;
+  }
+}
+
 .opcoes-turno {
   display: flex;
   flex-wrap: wrap;

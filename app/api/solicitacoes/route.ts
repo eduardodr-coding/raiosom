@@ -24,7 +24,10 @@ import {
   esquemaSolicitacao,
   formatarDataBR,
   lerDataNascimento,
+  naoPossui,
+  somenteDigitos,
   validarCarteirinha,
+  validarContato,
 } from "@/lib/validacao";
 import { linkWhatsApp, montarMensagem } from "@/lib/whatsapp";
 
@@ -85,6 +88,9 @@ export async function POST(request: Request) {
     cpf: String(form.get("cpf") ?? ""),
     dataNascimento: String(form.get("dataNascimento") ?? ""),
     whatsapp: String(form.get("whatsapp") ?? ""),
+    semWhatsapp: String(form.get("semWhatsapp") ?? ""),
+    email: String(form.get("email") ?? ""),
+    semEmail: String(form.get("semEmail") ?? ""),
     convenio: String(form.get("convenio") ?? ""),
     carteirinha: String(form.get("carteirinha") ?? ""),
     unidade: String(form.get("unidade") ?? ""),
@@ -104,9 +110,9 @@ export async function POST(request: Request) {
 
   const dados = analise.data;
 
-  const errosCarteirinha = validarCarteirinha(dados);
-  if (Object.keys(errosCarteirinha).length > 0) {
-    return erro("Confira os campos destacados.", 422, errosCarteirinha);
+  const errosCampos = { ...validarCarteirinha(dados), ...validarContato(dados) };
+  if (Object.keys(errosCampos).length > 0) {
+    return erro("Confira os campos destacados.", 422, errosCampos);
   }
 
   const exame = examePorSlug(dados.exameSlug);
@@ -123,6 +129,15 @@ export async function POST(request: Request) {
     return erro("Exame não encontrado.", 422, { exameSlug: "Escolha um exame da lista." });
   }
 
+  // A unidade precisa realizar este exame. O formulário já só oferece as
+  // certas, mas quem posta direto na API manda o que quiser — e uma
+  // solicitação de raios X para uma unidade sem aparelho vira viagem perdida.
+  if (!exame.unidades.includes(dados.unidade)) {
+    return erro("Confira os campos destacados.", 422, {
+      unidade: "Esta unidade não realiza este exame.",
+    });
+  }
+
   const nascimento = lerDataNascimento(dados.dataNascimento);
   if (!nascimento) {
     return erro("Confira os campos destacados.", 422, {
@@ -131,31 +146,33 @@ export async function POST(request: Request) {
   }
 
   // ── Arquivo do pedido médico ─────────────────────────────────────────────
-  const enviado = form.get("pedidoMedico");
-  if (!(enviado instanceof File) || enviado.size === 0) {
-    return erro("Anexe a foto ou o PDF do pedido médico.", 422, {
-      pedidoMedico: "O pedido médico é obrigatório.",
-    });
-  }
+  // É o único campo opcional do formulário: a clínica prefere receber a
+  // solicitação sem a foto a perder o paciente que não tem o pedido
+  // digitalizado na hora. Quem não anexa leva o papel no dia — sem ele a
+  // recepção não libera o exame de qualquer jeito.
+  const bruto_ = form.get("pedidoMedico");
+  const enviado = bruto_ instanceof File && bruto_.size > 0 ? bruto_ : null;
+  let bytes: Uint8Array | null = null;
 
-  if (enviado.size > TAMANHO_MAX_BYTES) {
-    return erro(`O arquivo precisa ter até ${TAMANHO_MAX_ROTULO}.`, 413, {
-      pedidoMedico: `O arquivo precisa ter até ${TAMANHO_MAX_ROTULO}.`,
-    });
-  }
+  if (enviado) {
+    if (enviado.size > TAMANHO_MAX_BYTES) {
+      return erro(`O arquivo precisa ter até ${TAMANHO_MAX_ROTULO}.`, 413, {
+        pedidoMedico: `O arquivo precisa ter até ${TAMANHO_MAX_ROTULO}.`,
+      });
+    }
 
-  const bytes = new Uint8Array(await enviado.arrayBuffer());
-  const tipo = detectarTipo(bytes);
+    bytes = new Uint8Array(await enviado.arrayBuffer());
 
-  if (!tipo) {
-    const mensagem = pareceHeic(bytes)
-      ? "Este formato de foto do iPhone (HEIC) não é aceito. Envie como JPG."
-      : "Aceitamos foto em JPG ou PNG, ou o pedido em PDF.";
-    return erro(mensagem, 415, { pedidoMedico: mensagem });
+    if (!detectarTipo(bytes)) {
+      const mensagem = pareceHeic(bytes)
+        ? "Este formato de foto do iPhone (HEIC) não é aceito. Envie como JPG."
+        : "Aceitamos foto em JPG ou PNG, ou o pedido em PDF.";
+      return erro(mensagem, 415, { pedidoMedico: mensagem });
+    }
   }
 
   // ── Persistência ─────────────────────────────────────────────────────────
-  const arquivo = await salvarPedidoMedico(bytes);
+  const arquivo = bytes ? await salvarPedidoMedico(bytes) : null;
 
   try {
     const ano = new Date().getFullYear();
@@ -187,16 +204,17 @@ export async function POST(request: Request) {
           pacienteNome: dados.pacienteNome,
           cpf: dados.cpf,
           dataNascimento: nascimento,
-          whatsapp: dados.whatsapp,
+          whatsapp: naoPossui(dados.semWhatsapp) ? null : somenteDigitos(dados.whatsapp),
+          email: naoPossui(dados.semEmail) ? null : dados.email,
           tipoCobertura: ehParticular ? "particular" : "convenio",
           convenioNome: ehParticular ? null : dados.convenio,
           carteirinha: ehParticular ? null : dados.carteirinha || null,
           unidade: dados.unidade,
           turno: dados.turno,
-          arquivoChave: arquivo.chave,
-          arquivoMime: arquivo.mime,
-          arquivoTamanho: arquivo.tamanho,
-          arquivoNomeOrigem: enviado.name.slice(0, 255),
+          arquivoChave: arquivo?.chave ?? null,
+          arquivoMime: arquivo?.mime ?? null,
+          arquivoTamanho: arquivo?.tamanho ?? null,
+          arquivoNomeOrigem: enviado?.name.slice(0, 255) ?? null,
           consentimentoEm: new Date(),
           consentimentoTexto: TEXTO_CONSENTIMENTO,
           // Hash com chave: prova que o consentimento veio daquele IP sem
@@ -227,11 +245,16 @@ export async function POST(request: Request) {
       protocolo,
       mensagem,
       whatsapp: linkWhatsApp(mensagem),
+      // A tela de confirmação muda com os dois: sem WhatsApp o CTA de abrir o
+      // WhatsApp não leva a lugar nenhum, e sem anexo não dá para prometer
+      // que o pedido médico já está guardado.
+      semWhatsapp: naoPossui(dados.semWhatsapp),
+      comPedido: arquivo !== null,
     });
   } catch (causa) {
     // O arquivo já estava no disco quando o banco falhou: sem isso, ele
     // ficaria órfão, sem nenhuma linha apontando para ele.
-    await removerPedidoMedico(arquivo.chave).catch(() => {});
+    if (arquivo) await removerPedidoMedico(arquivo.chave).catch(() => {});
     console.error("[solicitacoes] falha ao gravar a solicitação", {
       etapa: "persistencia",
       // Só a mensagem do erro — nada do paciente.

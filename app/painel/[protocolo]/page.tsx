@@ -43,7 +43,10 @@ export default async function PaginaSolicitacao({ params }: Props) {
 
   if (!solicitacao) notFound();
 
-  const arquivoDisponivel = !solicitacao.arquivoExpurgoEm;
+  // Sem chave = o paciente não anexou nada, que é diferente de ter anexado e o
+  // expurgo ter levado o arquivo. A ficha precisa distinguir os dois.
+  const semAnexo = !solicitacao.arquivoChave;
+  const arquivoDisponivel = !semAnexo && !solicitacao.arquivoExpurgoEm;
 
   return (
     <>
@@ -85,7 +88,18 @@ export default async function PaginaSolicitacao({ params }: Props) {
                 rotulo="Data de nascimento"
                 valor={formatarDataBR(solicitacao.dataNascimento)}
               />
-              <Campo rotulo="WhatsApp" valor={telefoneFormatado(solicitacao.whatsapp)} />
+              {/* Os dois contatos são opcionais no formulário: aparece "não
+                  informado" em vez de sumir, para o atendente saber que o
+                  paciente não deixou por onde ser chamado. */}
+              <Campo
+                rotulo="WhatsApp"
+                valor={
+                  solicitacao.whatsapp
+                    ? telefoneFormatado(solicitacao.whatsapp)
+                    : "Não possui"
+                }
+              />
+              <Campo rotulo="E-mail" valor={solicitacao.email ?? "Não possui"} />
               <Campo rotulo="Exame" valor={solicitacao.exameNome} destaque />
               {solicitacao.catalogoVariacao && (
                 <Campo rotulo="Exame solicitado" valor={solicitacao.catalogoVariacao} destaque />
@@ -117,13 +131,24 @@ export default async function PaginaSolicitacao({ params }: Props) {
             </div>
 
             <div style={{ marginTop: "var(--e-6)" }}>
-              <Button
-                href={`https://wa.me/55${solicitacao.whatsapp}`}
-                external
-                variant="whatsapp"
-              >
-                Falar com o paciente no WhatsApp
-              </Button>
+              {solicitacao.whatsapp ? (
+                <Button
+                  href={`https://wa.me/55${solicitacao.whatsapp}`}
+                  external
+                  variant="whatsapp"
+                >
+                  Falar com o paciente no WhatsApp
+                </Button>
+              ) : solicitacao.email ? (
+                <Button href={`mailto:${solicitacao.email}`} variant="contorno">
+                  Escrever para o paciente
+                </Button>
+              ) : (
+                <p style={{ fontSize: "var(--txt-sm)", color: "var(--texto-suave)" }}>
+                  Este paciente não deixou WhatsApp nem e-mail. Ele foi orientado a
+                  ligar para a central com o protocolo.
+                </p>
+              )}
             </div>
           </div>
 
@@ -133,7 +158,8 @@ export default async function PaginaSolicitacao({ params }: Props) {
             {arquivoDisponivel ? (
               <>
                 <p style={{ marginTop: "var(--e-3)", fontSize: "var(--txt-sm)", color: "var(--texto-suave)" }}>
-                  {solicitacao.arquivoNomeOrigem} · {formatarTamanho(solicitacao.arquivoTamanho)}
+                  {solicitacao.arquivoNomeOrigem} ·{" "}
+                  {formatarTamanho(solicitacao.arquivoTamanho ?? 0)}
                 </p>
                 <div style={{ display: "grid", gap: "var(--e-3)", marginTop: "var(--e-4)" }}>
                   <Button href={`/painel/${solicitacao.protocolo}/arquivo`} block>
@@ -151,6 +177,11 @@ export default async function PaginaSolicitacao({ params }: Props) {
                   Cada abertura fica registrada com seu usuário e horário.
                 </p>
               </>
+            ) : semAnexo ? (
+              <p style={{ marginTop: "var(--e-3)", fontSize: "var(--txt-sm)", color: "var(--texto-suave)" }}>
+                O paciente não anexou o pedido médico. Ele foi orientado a levar o
+                papel no dia do exame.
+              </p>
             ) : (
               <p style={{ marginTop: "var(--e-3)", fontSize: "var(--txt-sm)", color: "var(--texto-suave)" }}>
                 Arquivo removido em {formatarDataHora(solicitacao.arquivoExpurgoEm!)} pela política

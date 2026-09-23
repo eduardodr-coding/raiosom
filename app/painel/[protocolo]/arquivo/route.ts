@@ -37,7 +37,9 @@ export async function GET(
     },
   });
 
-  if (!solicitacao || solicitacao.arquivoExpurgoEm) {
+  // `arquivoChave` nulo é o caso normal de quem não anexou nada: o upload é
+  // opcional e o paciente leva o pedido no dia.
+  if (!solicitacao || solicitacao.arquivoExpurgoEm || !solicitacao.arquivoChave) {
     return NextResponse.json({ erro: "Arquivo não disponível." }, { status: 404 });
   }
 
@@ -62,7 +64,7 @@ export async function GET(
 
   return new NextResponse(new Uint8Array(conteudo), {
     headers: {
-      "Content-Type": solicitacao.arquivoMime,
+      "Content-Type": solicitacao.arquivoMime ?? "application/octet-stream",
       "Content-Length": String(conteudo.byteLength),
       "Content-Disposition": `${baixar ? "attachment" : "inline"}; filename="pedido-${solicitacao.protocolo}.${extensao}"`,
       // Documento de saúde não fica em cache de proxy nem do navegador.

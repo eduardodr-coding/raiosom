@@ -158,8 +158,24 @@ por causa disso.
 `prisma/schema.prisma` define quatro tabelas:
 
 - **`solicitacoes`** — a solicitação de agendamento: paciente, exame, unidade,
-  turno, convênio, chave do arquivo do pedido médico, protocolo, status e
-  registro do consentimento LGPD.
+  turno, convênio, contato, chave do arquivo do pedido médico, protocolo,
+  status e registro do consentimento LGPD.
+
+  No formulário **todo campo é obrigatório menos a foto do pedido médico**: a
+  clínica prefere receber a solicitação sem o anexo a perder quem não tem o
+  pedido digitalizado na hora — esse paciente leva o papel no dia. Por isso
+  `arquivoChave`, `arquivoMime`, `arquivoTamanho` e `arquivoNomeOrigem` são
+  nulos quando não houve anexo, que é diferente de terem sido apagados pela
+  retenção (`arquivoExpurgoEm`).
+
+  WhatsApp e e-mail têm uma caixa “Não possuo” cada um e podem ficar os dois
+  em branco, por decisão da clínica. Quando isso acontece a tela final troca o
+  botão do WhatsApp por “Ligar para a central”, e a ficha do painel avisa o
+  atendente de que não há por onde procurar o paciente.
+
+  O formulário só oferece as unidades que realizam aquele exame — Solaris e
+  IOG são pontos de marcação e não aparecem. A API confere de novo, porque o
+  formulário é só a primeira barreira.
 - **`contadores_protocolo`** — sequencial por ano, usado para gerar
   `RS-AAAA-NNNNN` sem colisão (incrementado dentro da transação que cria a
   solicitação).

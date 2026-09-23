@@ -11,6 +11,10 @@ type Guardado = {
   protocolo: string;
   mensagem: string;
   whatsapp: string;
+  /** O paciente marcou "Não possuo" no WhatsApp: mandá-lo para lá não resolve. */
+  semWhatsapp?: boolean;
+  /** Anexou o pedido médico. Opcional no formulário. */
+  comPedido?: boolean;
   exameSlug: string;
 };
 
@@ -87,6 +91,10 @@ export function Confirmacao({ exameNome, porOrdemDeChegada }: ConfirmacaoProps) 
   const mensagemGenerica = `Olá! Quero falar sobre a solicitação ${protocoloUrl} de ${exameNome} na Raio Som.`;
   const linkGenerico = `${CLINICA.whatsapp.link}?text=${encodeURIComponent(mensagemGenerica)}`;
 
+  // Quem marcou "Não possuo" no WhatsApp não tem para onde ir nesse botão: o
+  // telefone assume o lugar de ação principal.
+  const semWhatsapp = dados?.semWhatsapp === true;
+
   return (
     <div className="confirmacao">
       <span className="confirmacao__icone" aria-hidden="true">
@@ -95,7 +103,9 @@ export function Confirmacao({ exameNome, porOrdemDeChegada }: ConfirmacaoProps) 
 
       <h1 className="confirmacao__titulo">Solicitação registrada</h1>
       <p className="confirmacao__texto">
-        Falta só um passo: enviar a mensagem para a central. Um atendente vai conferir seu pedido
+        {semWhatsapp
+          ? "Falta só um passo: ligar para a central com o protocolo em mãos. Um atendente vai conferir seu pedido"
+          : "Falta só um passo: enviar a mensagem para a central. Um atendente vai conferir seu pedido"}
         {porOrdemDeChegada
           ? " e orientar o melhor horário para você vir."
           : " e fechar o horário com você."}
@@ -105,11 +115,13 @@ export function Confirmacao({ exameNome, porOrdemDeChegada }: ConfirmacaoProps) 
         <p className="protocolo__rotulo">Seu protocolo</p>
         <p className="protocolo__numero">{protocoloUrl}</p>
         <p className="protocolo__nota">
-          Seu pedido médico já está salvo com segurança neste protocolo. Guarde este número.
+          {dados?.comPedido === false
+            ? "Guarde este número e leve o pedido médico impresso no dia do exame."
+            : "Seu pedido médico já está salvo com segurança neste protocolo. Guarde este número."}
         </p>
       </div>
 
-      {dados && (
+      {dados && !semWhatsapp && (
         <div className="previa">
           <p className="previa__rotulo">A mensagem que vai ser enviada</p>
           <div className="balao">{dados.mensagem}</div>
@@ -127,18 +139,26 @@ export function Confirmacao({ exameNome, porOrdemDeChegada }: ConfirmacaoProps) 
       )}
 
       <div className="confirmacao__acoes">
-        <Button
-          href={dados?.whatsapp ?? linkGenerico}
-          external
-          variant="whatsapp"
-          size="grande"
-          block
-        >
-          Abrir o WhatsApp da Raio Som
-        </Button>
-        <Button href={CLINICA.telefoneLink} variant="contorno" block>
-          Prefiro ligar: {CLINICA.telefonePrincipal}
-        </Button>
+        {semWhatsapp ? (
+          <Button href={CLINICA.telefoneLink} size="grande" block>
+            Ligar para a central: {CLINICA.telefonePrincipal}
+          </Button>
+        ) : (
+          <>
+            <Button
+              href={dados?.whatsapp ?? linkGenerico}
+              external
+              variant="whatsapp"
+              size="grande"
+              block
+            >
+              Abrir o WhatsApp da Raio Som
+            </Button>
+            <Button href={CLINICA.telefoneLink} variant="contorno" block>
+              Prefiro ligar: {CLINICA.telefonePrincipal}
+            </Button>
+          </>
+        )}
       </div>
 
       <div className="aviso" style={{ marginTop: "var(--e-8)", textAlign: "left" }}>

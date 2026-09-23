@@ -12,7 +12,7 @@ import { TURNOS, UNIDADES } from "@/content/clinica";
 import { OPCOES_COBERTURA } from "@/content/convenios";
 import type { Exame } from "@/content/exames";
 import { mascaraCPF, mascaraData, mascaraTelefone } from "@/lib/mascaras";
-import { TEXTO_CONSENTIMENTO } from "@/lib/validacao";
+import { TEXTO_CONSENTIMENTO, emailValido } from "@/lib/validacao";
 
 export type FormularioAgendamentoProps = {
   exame: Exame;
@@ -45,6 +45,9 @@ export function FormularioAgendamento({
   const [cpf, setCpf] = useState("");
   const [nascimento, setNascimento] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
+  const [semWhatsapp, setSemWhatsapp] = useState(false);
+  const [email, setEmail] = useState("");
+  const [semEmail, setSemEmail] = useState(false);
   const [convenio, setConvenio] = useState("");
   const [carteirinha, setCarteirinha] = useState("");
   const [unidade, setUnidade] = useState(
@@ -62,6 +65,12 @@ export function FormularioAgendamento({
   const ehParticular = convenio === "particular";
   const pedeCarteirinha = convenio !== "" && !ehParticular;
 
+  // Só as unidades que realizam este exame. Os pontos de atendimento (Solaris,
+  // IOG) não entram em nenhum `exame.unidades`: lá o paciente só marca, o
+  // exame acontece em outro lugar. Oferecê-los aqui era prometer um
+  // atendimento que não existe no endereço.
+  const unidadesDoExame = UNIDADES.filter((item) => exame.unidades.includes(item.slug));
+
   function limparErro(campo: string) {
     setErros((atuais) => {
       if (!atuais[campo]) return atuais;
@@ -77,12 +86,16 @@ export function FormularioAgendamento({
     if (nome.trim().split(/\s+/).length < 2) novos.pacienteNome = "Informe nome e sobrenome.";
     if (cpf.replace(/\D/g, "").length !== 11) novos.cpf = "O CPF precisa ter 11 dígitos.";
     if (nascimento.length < 10) novos.dataNascimento = "Informe a data no formato dd/mm/aaaa.";
-    if (whatsapp.replace(/\D/g, "").length < 10) novos.whatsapp = "Informe o WhatsApp com DDD.";
+    if (!semWhatsapp && whatsapp.replace(/\D/g, "").length < 10)
+      novos.whatsapp = "Informe o WhatsApp com DDD.";
+    if (!semEmail && !emailValido(email))
+      novos.email = "Informe um e-mail válido, ex.: nome@email.com.";
     if (!convenio) novos.convenio = "Escolha o convênio ou particular.";
     if (pedeCarteirinha && !carteirinha.trim())
       novos.carteirinha = "Informe o número da carteirinha.";
     if (!turno) novos.turno = "Escolha o turno de preferência.";
-    if (!arquivo) novos.pedidoMedico = "Anexe a foto ou o PDF do pedido médico.";
+    // O pedido médico é o único campo opcional: quem não tem a foto na hora
+    // leva o papel no dia.
     if (!consentimento) novos.consentimento = "É preciso autorizar o tratamento dos dados.";
     return novos;
   }
@@ -108,7 +121,10 @@ export function FormularioAgendamento({
     dados.set("pacienteNome", nome.trim());
     dados.set("cpf", cpf);
     dados.set("dataNascimento", nascimento);
-    dados.set("whatsapp", whatsapp);
+    dados.set("whatsapp", semWhatsapp ? "" : whatsapp);
+    dados.set("semWhatsapp", String(semWhatsapp));
+    dados.set("email", semEmail ? "" : email.trim());
+    dados.set("semEmail", String(semEmail));
     dados.set("convenio", convenio);
     dados.set("carteirinha", ehParticular ? "" : carteirinha.trim());
     dados.set("unidade", unidade);
@@ -136,6 +152,8 @@ export function FormularioAgendamento({
             protocolo: corpo.protocolo,
             mensagem: corpo.mensagem,
             whatsapp: corpo.whatsapp,
+            semWhatsapp: corpo.semWhatsapp,
+            comPedido: corpo.comPedido,
             exameSlug: exame.slug,
           }),
         );
@@ -208,7 +226,10 @@ export function FormularioAgendamento({
         />
       </div>
 
-      <div className="form-linha form-linha--duas form-secao">
+      {/* Contato. Cada um tem a saída "Não possuo" ao lado, e os dois podem
+          ficar em branco: a clínica prefere receber a solicitação assim a
+          perder o pedido. Sem nenhum contato, a tela final manda ligar. */}
+      <div className="form-secao campo-contato">
         <Input
           label="WhatsApp para contato"
           name="whatsapp"
@@ -223,8 +244,55 @@ export function FormularioAgendamento({
           autoComplete="tel"
           hint="É por aqui que a central confirma o horário."
           error={erros.whatsapp}
-          required
+          disabled={semWhatsapp}
+          required={!semWhatsapp}
         />
+        <Checkbox
+          className="campo-contato__opcao"
+          name="semWhatsapp"
+          checked={semWhatsapp}
+          onChange={(e) => {
+            setSemWhatsapp(e.target.checked);
+            if (e.target.checked) setWhatsapp("");
+            limparErro("whatsapp");
+          }}
+        >
+          Não possuo
+        </Checkbox>
+      </div>
+
+      <div className="form-secao campo-contato">
+        <Input
+          label="E-mail"
+          name="email"
+          type="email"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            limparErro("email");
+          }}
+          placeholder="nome@email.com"
+          inputMode="email"
+          autoComplete="email"
+          error={erros.email}
+          disabled={semEmail}
+          required={!semEmail}
+        />
+        <Checkbox
+          className="campo-contato__opcao"
+          name="semEmail"
+          checked={semEmail}
+          onChange={(e) => {
+            setSemEmail(e.target.checked);
+            if (e.target.checked) setEmail("");
+            limparErro("email");
+          }}
+        >
+          Não possuo
+        </Checkbox>
+      </div>
+
+      <div className="form-secao">
         <Select
           label="Convênio ou particular"
           name="convenio"
@@ -265,7 +333,7 @@ export function FormularioAgendamento({
       <fieldset className="form-secao">
         <legend className="form-secao__titulo">Em qual unidade você prefere?</legend>
         <div className="opcoes-unidade">
-          {UNIDADES.map((item) => (
+          {unidadesDoExame.map((item) => (
             <label className="opcao-cartao" key={item.slug}>
               <input
                 className="opcao-cartao__entrada"
@@ -284,14 +352,6 @@ export function FormularioAgendamento({
             </label>
           ))}
         </div>
-        {!exame.unidades.includes(unidade as never) && (
-          <p className="form-secao__ajuda">
-            {exame.nome} é realizado em {UNIDADES.filter((u) => exame.unidades.includes(u.slug))
-              .map((u) => u.etiqueta)
-              .join(" e ")}
-            . A central confirma a unidade com você.
-          </p>
-        )}
       </fieldset>
 
       {!porOrdemDeChegada && (
@@ -329,8 +389,12 @@ export function FormularioAgendamento({
 
       <div className="form-secao">
         <h2 className="form-secao__titulo" id="rotulo-upload">
-          Anexe a foto do pedido médico
+          Anexe a foto do pedido médico <span className="campo__opcional">(opcional)</span>
         </h2>
+        <p className="form-secao__ajuda" style={{ marginTop: 0, marginBottom: "var(--e-4)" }}>
+          Anexando aqui, a central já confere a cobertura antes de você vir. Se
+          preferir, é só levar o pedido no dia — sem ele o exame não é realizado.
+        </p>
         <FileUpload
           id="pedido-medico"
           arquivo={arquivo}

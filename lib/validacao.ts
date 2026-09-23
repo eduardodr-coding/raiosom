@@ -80,7 +80,14 @@ export function formatarDataBR(data: Date): string {
   return `${dia}/${mes}/${data.getUTCFullYear()}`;
 }
 
-const UNIDADES_VALIDAS = ["gravatai", "cachoeirinha"] as const;
+/**
+ * Unidades que realizam exame.
+ *
+ * Solaris e IOG ficam de fora de propósito: são pontos de marcação, não fazem
+ * exame no local e não aparecem em `exame.unidades` de nenhum exame. Se a
+ * unidade atende àquele exame específico, quem confere é o route handler.
+ */
+const UNIDADES_VALIDAS = ["gravatai", "cachoeirinha", "millenarium"] as const;
 const TURNOS_VALIDOS = ["manha", "tarde", "noite", "sabado", "tanto_faz"] as const;
 
 /**
@@ -120,13 +127,14 @@ export const esquemaSolicitacao = z.object({
     .trim()
     .refine((valor) => lerDataNascimento(valor) !== null, "Informe uma data no formato dd/mm/aaaa."),
 
-  whatsapp: z
-    .string()
-    .transform(somenteDigitos)
-    .refine(
-      (numero) => numero.length === 10 || numero.length === 11,
-      "Informe o WhatsApp com DDD, ex.: (51) 99999-9999.",
-    ),
+  /**
+   * Contato. O formato de cada um é conferido em `validarContato`, porque aqui
+   * não dá para saber se o paciente marcou "Não possuo" no campo ao lado.
+   */
+  whatsapp: z.string().trim().max(20),
+  semWhatsapp: z.string(),
+  email: z.string().trim().max(160),
+  semEmail: z.string(),
 
   /** `particular`, o nome do convênio, ou `outro`. */
   convenio: z.string().trim().min(1, "Escolha o convênio ou particular.").max(120),
@@ -143,6 +151,47 @@ export const esquemaSolicitacao = z.object({
 });
 
 export type DadosSolicitacao = z.infer<typeof esquemaSolicitacao>;
+
+/** Formato só. Se o endereço existe mesmo, só mandando mensagem para ele. */
+export function emailValido(entrada: string): boolean {
+  const email = entrada.trim();
+  return email.length <= 160 && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+}
+
+/** `true` quando a caixa "Não possuo" daquele campo veio marcada. */
+export function naoPossui(valor: string): boolean {
+  return valor === "true";
+}
+
+/**
+ * Contato do paciente.
+ *
+ * Cada campo é obrigatório a menos que ele marque "Não possuo" ao lado. Os
+ * dois podem ficar de fora: a clínica preferiu receber a solicitação assim a
+ * perder o pedido: nesse caso a tela final manda o paciente ligar, com o
+ * protocolo em mãos, porque a central não tem como procurá-lo.
+ */
+export function validarContato(dados: {
+  whatsapp: string;
+  semWhatsapp: string;
+  email: string;
+  semEmail: string;
+}): Record<string, string> {
+  const erros: Record<string, string> = {};
+
+  if (!naoPossui(dados.semWhatsapp)) {
+    const numero = somenteDigitos(dados.whatsapp);
+    if (numero.length !== 10 && numero.length !== 11) {
+      erros.whatsapp = "Informe o WhatsApp com DDD, ex.: (51) 99999-9999.";
+    }
+  }
+
+  if (!naoPossui(dados.semEmail) && !emailValido(dados.email)) {
+    erros.email = "Informe um e-mail válido, ex.: nome@email.com.";
+  }
+
+  return erros;
+}
 
 /**
  * Regra que o zod sozinho não cobre: convênio escolhido pede carteirinha.
