@@ -9,12 +9,15 @@ import { EXAMES } from "@/content/exames";
 import "@/styles/home.css";
 import "@/styles/exames.css";
 
+// Cada termo é um sinônimo de content/catalogo/sinonimos.json, então o
+// atalho cai na mesma busca que o paciente faria digitando.
 const BUSCAS_RAPIDAS = [
   { rotulo: "Ressonância", termo: "ressonancia" },
   { rotulo: "Tomografia", termo: "tomografia" },
   { rotulo: "Ultrassom", termo: "ultrassom" },
   { rotulo: "Mamografia", termo: "mamografia" },
   { rotulo: "Raio X", termo: "raio x" },
+  { rotulo: "Biópsia", termo: "biopsia" },
 ];
 
 const PASSOS = [
@@ -23,8 +26,8 @@ const PASSOS = [
     texto: "Digite o nome ou a modalidade e veja na hora se realizamos, em qual unidade.",
   },
   {
-    titulo: "Veja preparo e convênio",
-    texto: "Instruções de jejum e contraste e se o seu plano cobre, antes de sair de casa.",
+    titulo: "Veja os detalhes e o convênio",
+    texto: "O que trazer, se o exame usa contraste e se o seu plano cobre, antes de sair de casa.",
   },
   {
     titulo: "Agende com o pedido",
@@ -55,15 +58,13 @@ export default function Home() {
             </span>
             <h1 className="hero__titulo">O exame de imagem certo, sem complicação.</h1>
             <p className="hero__sub">
-              Descubra se realizamos o seu exame, veja o preparo e agende em poucos passos. Anexe
+              Descubra se realizamos o seu exame e agende em poucos passos. Anexe
               seu pedido médico e pronto.
             </p>
 
             {/* Form GET puro: funciona sem JavaScript e deixa o resultado da
-                busca em uma URL que dá para compartilhar. Vai para /preparos
-                porque lá a busca é pelo nome do exame como está no pedido
-                médico (os 1447 do sistema), e não pela modalidade. */}
-            <form className="busca" action="/preparos" method="get" role="search">
+                busca em uma URL que dá para compartilhar. */}
+            <form className="busca" action="/exames" method="get" role="search">
               <label className="sr-only" htmlFor="busca-hero">
                 Buscar exame
               </label>
@@ -158,7 +159,7 @@ export default function Home() {
                   style={{ height: "100%" }}
                 >
                   <h3 className="card-exame__titulo">{exame.nome}</h3>
-                  <span className="card-exame__acao">Ver preparo e agendar →</span>
+                  <span className="card-exame__acao">Ver detalhes e agendar →</span>
                 </Link>
               </Revelar>
             ))}

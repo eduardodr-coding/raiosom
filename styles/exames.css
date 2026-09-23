@@ -159,20 +159,33 @@
   color: var(--texto-suave);
 }
 
-.preparo-destaque {
+.regras-exame {
   padding: var(--e-8);
   border: 1px solid var(--agua-100);
   border-radius: var(--raio-md);
   background: var(--agua-100);
 }
 
-.preparo-destaque__nota {
-  margin-top: var(--e-2);
+.regras-exame .lista-itens {
+  margin-top: var(--e-6);
+}
+
+.regras-exame__duvida {
+  margin-top: var(--e-6);
   color: #094a52;
 }
 
-.preparo-destaque .lista-preparo {
-  margin-top: var(--e-6);
+/* O botão ocupa a linha inteira no celular: é onde a maioria dos pacientes
+   toca, e alvo estreito ao lado de texto erra o toque. */
+.regras-exame__acao {
+  margin-top: var(--e-4);
+}
+
+@media (max-width: 560px) {
+  .regras-exame__acao .btn {
+    display: flex;
+    width: 100%;
+  }
 }
 
 /* Card lateral de agendamento: acompanha o scroll no desktop. */
@@ -334,3 +347,126 @@
   object-fit: cover;
 }
 
+
+/* ── Resultados da busca no catálogo ────────────────────────────────────── */
+
+.busca-resumo {
+  margin-bottom: var(--e-6);
+  color: var(--texto-suave);
+}
+
+.busca-vazia__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-3);
+  justify-content: center;
+  margin-top: var(--e-6);
+}
+
+/* Lista e não grade: são até 346 grupos, e o paciente varre a coluna
+   procurando o nome que está no pedido médico. */
+.lista-grupos {
+  display: grid;
+  gap: var(--e-2);
+  padding-left: 0;
+  list-style: none;
+}
+
+.grupo-card {
+  display: flex;
+  align-items: center;
+  gap: var(--e-4);
+  padding: var(--e-4) var(--e-5);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+  text-decoration: none;
+  transition:
+    border-color var(--transicao),
+    background-color var(--transicao);
+}
+
+.grupo-card:hover,
+.grupo-card:focus-visible {
+  border-color: var(--cor-acao);
+  background: var(--neutro-100);
+}
+
+.grupo-card__nome {
+  flex: 1;
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.grupo-card__meta {
+  flex: none;
+  font-size: var(--txt-sm);
+  color: var(--texto-suave);
+}
+
+.grupo-card__seta {
+  flex: none;
+  color: var(--cor-acao);
+}
+
+@media (max-width: 520px) {
+  .grupo-card {
+    flex-wrap: wrap;
+    gap: var(--e-2);
+  }
+
+  .grupo-card__nome {
+    flex-basis: 100%;
+  }
+}
+
+/* ── Variações de um grupo ──────────────────────────────────────────────── */
+
+.lista-variacoes {
+  display: grid;
+  gap: var(--e-2);
+  padding-left: 0;
+  list-style: none;
+}
+
+.variacao {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--e-3);
+  padding: var(--e-4) var(--e-5);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+}
+
+.variacao__nome {
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.variacao__detalhe {
+  color: var(--texto-suave);
+}
+
+.grupo-acoes {
+  margin-top: var(--e-8);
+  padding: var(--e-6);
+  border: 1px solid var(--agua-100);
+  border-radius: var(--raio-md);
+  background: var(--agua-100);
+}
+
+.grupo-acoes__texto {
+  max-width: var(--largura-texto);
+  color: #094a52;
+}
+
+.grupo-acoes__botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-3);
+  margin-top: var(--e-5);
+}

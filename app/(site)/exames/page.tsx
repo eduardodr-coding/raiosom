@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Revelar } from "@/components/Revelar";
-import { Aviso } from "@/components/ui/Aviso";
 import { Button } from "@/components/ui/Button";
 import { CLINICA, UNIDADES, unidadePorSlug } from "@/content/clinica";
-import { EXAMES, buscarExames } from "@/content/exames";
+import { EXAMES } from "@/content/exames";
+import { TOTAL_EXAMES, TOTAL_GRUPOS, buscarGrupos } from "@/lib/catalogo";
 
 import "@/styles/exames.css";
 
 export const metadata: Metadata = {
   title: "Exames",
   description:
-    "Ressonância, tomografia, ultrassonografia, mamografia, raios X digital, densitometria óssea, radiografia odontológica e exames cardiológicos. Veja o preparo e agende.",
+    "Ressonância, tomografia, ultrassonografia, mamografia, raios X digital, densitometria óssea, radiografia odontológica e exames cardiológicos. Veja as regras de comparecimento e agende.",
 };
 
 type Props = {
@@ -21,12 +21,17 @@ type Props = {
 
 export default async function PaginaExames({ searchParams }: Props) {
   const { q = "", unidade = "" } = await searchParams;
+  const termo = q.trim();
+
+  // Duas telas na mesma rota. Sem busca, o paciente navega pelas modalidades
+  // (8 páginas com preço de atenção baixo). Com busca, ele procura o nome que
+  // está no pedido médico, e aí quem responde é o catálogo do sistema.
+  const grupos = termo ? buscarGrupos(termo) : [];
 
   const filtroUnidade = unidadePorSlug(unidade);
-  const porTermo = q.trim() ? buscarExames(q) : EXAMES;
-  const resultados = filtroUnidade
-    ? porTermo.filter((exame) => exame.unidades.includes(filtroUnidade.slug))
-    : porTermo;
+  const modalidades = filtroUnidade
+    ? EXAMES.filter((exame) => exame.unidades.includes(filtroUnidade.slug))
+    : EXAMES;
 
   return (
     <>
@@ -40,17 +45,11 @@ export default async function PaginaExames({ searchParams }: Props) {
           </ol>
           <h1>Nossos exames</h1>
           <p className="pagina-topo__texto">
-            Digite o que está escrito no seu pedido médico. Cada exame tem a
-            página com o preparo necessário, o que trazer e o botão para
-            agendar.
+            Digite o que está escrito no seu pedido médico. São {TOTAL_EXAMES}{" "}
+            exames cadastrados, reunidos em {TOTAL_GRUPOS} grupos.
           </p>
 
-          <form
-            className="busca-pagina"
-            action="/exames"
-            method="get"
-            role="search"
-          >
+          <form className="busca-pagina" action="/exames" method="get" role="search">
             <label className="sr-only" htmlFor="busca-exames">
               Buscar exame
             </label>
@@ -63,112 +62,87 @@ export default async function PaginaExames({ searchParams }: Props) {
               placeholder="Ex.: ressonância de joelho, ecografia abdominal…"
               autoComplete="off"
             />
-            {filtroUnidade && (
-              <input type="hidden" name="unidade" value={filtroUnidade.slug} />
-            )}
             <Button type="submit">Buscar</Button>
           </form>
 
-          <div className="filtros">
-            <span>Unidade:</span>
-            <Link
-              className={`chip${!filtroUnidade ? " chip--ativo" : ""}`}
-              href={q ? `/exames?q=${encodeURIComponent(q)}` : "/exames"}
-            >
-              Todas
-            </Link>
-            {UNIDADES.map((item) => {
-              const params = new URLSearchParams();
-              if (q) params.set("q", q);
-              params.set("unidade", item.slug);
-              return (
+          {/* O filtro de unidade vale para as modalidades, que é onde a
+              clínica sabe qual equipamento fica onde. O catálogo não traz
+              essa informação por linha, então ele some durante a busca em
+              vez de filtrar por um dado que não existe. */}
+          {!termo && (
+            <div className="filtros">
+              <span>Unidade:</span>
+              <Link
+                className={`chip${!filtroUnidade ? " chip--ativo" : ""}`}
+                href="/exames"
+              >
+                Todas
+              </Link>
+              {UNIDADES.map((item) => (
                 <Link
                   key={item.slug}
                   className={`chip${filtroUnidade?.slug === item.slug ? " chip--ativo" : ""}`}
-                  href={`/exames?${params.toString()}`}
+                  href={`/exames?unidade=${item.slug}`}
                 >
                   {item.etiqueta}
                 </Link>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* O preparo detalhado por procedimento vive em /preparos, com a lista
-          completa do sistema da clínica. Aqui só encaminhamos: manter dois
-          lugares mostrando preparo abriria espaço para respostas divergentes. */}
-      <section className="secao" style={{ paddingBottom: 0 }}>
-        <div className="container">
-          <Aviso tipo="info" titulo="Procurando o preparo do seu exame?">
-            Se o seu pedido médico traz um nome mais específico (como “TC abdome
-            total com contraste”), busque por ele na página de preparos, lá
-            está a lista completa de procedimentos, com jejum, bexiga cheia e o
-            que levar no dia.
-            <div style={{ marginTop: "var(--e-4)" }}>
-              <Button href="/preparos" size="pequeno">
-                Ver preparo por exame
-              </Button>
-            </div>
-          </Aviso>
-        </div>
-      </section>
-
       <section className="secao">
         <div className="container">
-          <p
-            style={{
-              marginBottom: "var(--e-6)",
-              color: "var(--texto-suave)",
-            }}
-            aria-live="polite"
-          >
-            {resultados.length === 0
-              ? "Nenhum exame encontrado."
-              : `${resultados.length} ${resultados.length === 1 ? "exame encontrado" : "exames encontrados"}`}
-            {q && ` para “${q}”`}
-            {filtroUnidade && ` em ${filtroUnidade.etiqueta}`}.
-          </p>
-
-          {resultados.length === 0 ? (
-            <div className="busca-vazia">
-              <h2 style={{ fontSize: "var(--txt-xl)" }}>
-                Não achamos esse exame pelo nome
-              </h2>
-              <p
-                style={{
-                  marginTop: "var(--e-3)",
-                  color: "var(--texto-suave)",
-                }}
-              >
-                O nome no pedido médico às vezes é diferente do nome da
-                modalidade. Fale com a central: alguém confere o seu pedido e
-                diz na hora se realizamos.
+          {termo ? (
+            <>
+              <p className="busca-resumo" aria-live="polite">
+                {grupos.length === 0
+                  ? "Nenhum exame encontrado"
+                  : `${grupos.length} ${grupos.length === 1 ? "exame encontrado" : "exames encontrados"}`}{" "}
+                para “{termo}”.
               </p>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "var(--e-3)",
-                  justifyContent: "center",
-                  marginTop: "var(--e-6)",
-                  flexWrap: "wrap",
-                }}
-              >
-                <Button
-                  href={CLINICA.whatsapp.link}
-                  external
-                  variant="whatsapp"
-                >
-                  Perguntar no WhatsApp
-                </Button>
-                <Button href="/exames" variant="contorno">
-                  Ver todos os exames
-                </Button>
-              </div>
-            </div>
+
+              {grupos.length === 0 ? (
+                <div className="busca-vazia">
+                  <h2 style={{ fontSize: "var(--txt-xl)" }}>
+                    Não encontramos esse exame
+                  </h2>
+                  <p style={{ marginTop: "var(--e-3)", color: "var(--texto-suave)" }}>
+                    Confira o nome no pedido médico ou fale com a gente pelo
+                    WhatsApp.
+                  </p>
+                  <div className="busca-vazia__acoes">
+                    <Button href={CLINICA.whatsapp.link} external variant="whatsapp">
+                      Falar no WhatsApp
+                    </Button>
+                    <Button href="/exames" variant="contorno">
+                      Ver todos os exames
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <ul className="lista-grupos">
+                  {grupos.map((grupo) => (
+                    <li key={grupo.slug}>
+                      <Link className="grupo-card" href={`/exames/grupo/${grupo.slug}`}>
+                        <span className="grupo-card__nome">{grupo.nome}</span>
+                        <span className="grupo-card__meta">
+                          {grupo.variacoes.length}{" "}
+                          {grupo.variacoes.length === 1 ? "opção" : "opções"}
+                        </span>
+                        <span className="grupo-card__seta" aria-hidden="true">
+                          →
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
           ) : (
             <div className="lista-exames">
-              {resultados.map((exame, indice) => (
+              {modalidades.map((exame, indice) => (
                 <Revelar key={exame.slug} delay={indice * 40}>
                   <Link
                     className="card card--interativo exame-card"
@@ -202,13 +176,9 @@ export default async function PaginaExames({ searchParams }: Props) {
 
                       <div className="exame-card__etiquetas">
                         {exame.agendamento === "ordem-de-chegada" ? (
-                          <span className="badge badge--alerta">
-                            Ordem de chegada
-                          </span>
+                          <span className="badge badge--alerta">Ordem de chegada</span>
                         ) : (
-                          <span className="badge badge--neutro">
-                            Com agendamento
-                          </span>
+                          <span className="badge badge--neutro">Com agendamento</span>
                         )}
                         {exame.chegarAntesMin && (
                           <span className="badge badge--neutro">
@@ -216,15 +186,11 @@ export default async function PaginaExames({ searchParams }: Props) {
                           </span>
                         )}
                         {exame.contraste && (
-                          <span className="badge badge--neutro">
-                            Pode ter contraste
-                          </span>
+                          <span className="badge badge--neutro">Pode ter contraste</span>
                         )}
                       </div>
 
-                      <span className="card-exame__acao">
-                        Ver preparo e agendar →
-                      </span>
+                      <span className="card-exame__acao">Ver detalhes e agendar →</span>
                     </div>
                   </Link>
                 </Revelar>

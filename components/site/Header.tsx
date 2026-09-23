@@ -12,7 +12,6 @@ import { ITENS_TRANSPARENCIA } from "@/content/transparencia";
 const MENU = [
   { href: "/", rotulo: "Início" },
   { href: "/exames", rotulo: "Exames" },
-  { href: "/preparos", rotulo: "Preparos" },
   { href: "/convenios", rotulo: "Convênios" },
   { href: "/unidades", rotulo: "Unidades" },
   { href: "/sobre", rotulo: "A Clínica" },

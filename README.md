@@ -60,6 +60,7 @@ node scripts/criar-usuario-painel.mjs recepcao "Recepção Matriz" umaSenhaBoa
 | `npm run db:studio` | Prisma Studio |
 | `node scripts/criar-usuario-painel.mjs <usuario> "<Nome>" <senha>` | Cria ou atualiza o acesso de um atendente |
 | `node scripts/expurgo-pedidos.mjs [--simular]` | Apaga os pedidos médicos fora do prazo de retenção |
+| `node scripts/gerar-catalogo.mjs` | Regera o catálogo de exames a partir dos CSV (ver abaixo) |
 
 ## Estrutura
 
@@ -74,16 +75,41 @@ components/
   site/           header e rodapé
   agendamento/    formulário e tela de confirmação
 content/          conteúdo tipado: exames, unidades, convênios, clínica
+content/catalogo/ catálogo gerado (JSON) — não editar à mão
+data/             CSV do catálogo de exames e dos sinônimos (fonte)
 lib/              prisma, env, storage, validação, sessão, máscaras
 styles/           tokens.css, base.css, layout.css, componentes.css + por página
 prisma/           schema e migrations
-scripts/          tarefas de operação (usuário do painel, expurgo)
+scripts/          tarefas de operação (painel, expurgo, catálogo)
 public/           imagens (exames, convênios, marca, unidades)
 ```
 
 Os dois grupos de rota existem por um motivo de produto: dentro do fluxo de
 agendamento o menu some. Cada link de navegação ali é uma chance a mais de o
 paciente abandonar a solicitação no meio — fica só o telefone da central.
+
+## Catálogo de exames
+
+A busca de `/exames` usa o catálogo do sistema da clínica: 1351 exames
+reunidos em 346 grupos. A clínica edita os CSV, o script gera os JSON, o site
+lê só os JSON.
+
+| Arquivo | Papel |
+| --- | --- |
+| `data/catalogo_exames.csv` | Fonte. Uma linha por exame do sistema |
+| `data/sinonimos.csv` | Fonte. Como o paciente chama cada modalidade e região |
+| `content/catalogo/*.json` | Gerado. Nunca editar à mão |
+
+```bash
+node scripts/gerar-catalogo.mjs
+```
+
+O script filtra `exibir = SIM`: as linhas com `NAO` são itens internos de
+faturamento (taxa de sala, incidência adicional, reconstrução 3D) que o
+paciente não deve conseguir pedir. Também traduz os códigos para texto
+(`COM` vira “Com contraste”, `DIREITO` vira “Direito”) e descarta
+`NAO_INFORMADO`. Rode o script e faça commit dos JSON sempre que os CSV
+mudarem: o build não regenera nada sozinho.
 
 ## Rotas
 

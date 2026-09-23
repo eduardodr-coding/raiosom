@@ -8,7 +8,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const fixas = [
     "",
     "/exames",
-    "/preparos",
     "/convenios",
     "/unidades",
     "/sobre",

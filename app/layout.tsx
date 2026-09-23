@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s · Raio Som Diagnóstico por Imagem",
   },
   description:
-    "Ressonância, tomografia, ultrassom, mamografia, raios X e mais. Veja o preparo do seu exame, confira o convênio e agende enviando a foto do pedido médico.",
+    "Ressonância, tomografia, ultrassom, mamografia, raios X e mais. Confira o convênio e agende enviando a foto do pedido médico.",
   applicationName: CLINICA.nomeCompleto,
   openGraph: {
     type: "website",

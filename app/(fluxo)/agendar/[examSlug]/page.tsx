@@ -50,7 +50,7 @@ export default async function PaginaAgendar({ params, searchParams }: Props) {
           </div>
 
           <div className="resumo__item">
-            <p className="resumo__rotulo">Preparo</p>
+            <p className="resumo__rotulo">No dia do exame</p>
             <p className="resumo__valor" style={{ fontSize: "var(--txt-sm)" }}>
               {exame.chegarAntesMin
                 ? `Chegar ${exame.chegarAntesMin} min antes · `

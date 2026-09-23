@@ -3,10 +3,10 @@ import type { UnidadeSlug } from "./clinica";
 /**
  * Catálogo de exames.
  *
- * Todo o conteúdo de preparo vem do site atual da clínica e do material
- * aprovado — nada aqui é redação livre. É tipado de propósito: no dia em que a
- * clínica quiser editar sem deploy, este arquivo vira uma tabela do banco e as
- * páginas continuam iguais, porque só consomem `Exame`.
+ * O conteúdo vem do site atual da clínica e do material aprovado, nada aqui
+ * é redação livre. É tipado de propósito: no dia em que a clínica quiser
+ * editar sem deploy, este arquivo vira uma tabela do banco e as páginas
+ * continuam iguais, porque só consomem `Exame`.
  */
 
 export type TipoAgendamento =
@@ -26,8 +26,6 @@ export type Exame = {
   descricao: string;
   comoEFeito?: string;
   modalidades?: string[];
-  /** Itens que o paciente precisa providenciar antes de vir. */
-  preparo: string[];
   restricoes?: string[];
   recomendacoes?: string[];
   /** Texto sobre contraste, ou `null` quando o exame não usa. */
@@ -42,18 +40,6 @@ export type Exame = {
   /** Sinônimos e termos do pedido médico, usados pela busca. */
   termosBusca: string[];
 };
-
-/**
- * Preparo comum a todos os exames. A página de cada exame já traz estes itens
- * na lista; ficam aqui para não repetir texto e não sair do ar quando um
- * exame novo for cadastrado.
- */
-export const REGRAS_GERAIS = [
-  "O exame é realizado sempre com agendamento e protocolo prévios.",
-  "Não realizamos exames sem a solicitação médica, conforme o protocolo de atendimento da clínica.",
-  "Documento com foto é obrigatório (RG, CNH ou CTPS). Para pacientes de 0 a 12 anos, certidão de nascimento.",
-  "Traga exames anteriores da mesma região, se houver.",
-];
 
 // Unidades: a matriz de Gravataí realiza todas as modalidades. Cachoeirinha
 // faz ressonância, tomografia, ultrassom, mamografia e densitometria (não faz
@@ -71,15 +57,8 @@ export const EXAMES: Exame[] = [
       "Exame de alta definição que usa campo magnético, sem radiação. Indolor e feito com agendamento prévio.",
     comoEFeito:
       "A ressonância magnética não utiliza raios X. As imagens são formadas por campo magnético e radiofrequência, o que permite ao radiologista examinar diferentes partes do corpo com alta definição. Por causa do campo magnético, antes do exame você responde um questionário de segurança.",
-    preparo: [
-      "Chegar 30 minutos antes do horário agendado.",
-      "Trazer a solicitação médica. Não realizamos o exame sem ela.",
-      "Trazer documento com foto (RG, CNH ou CTPS). Para 0 a 12 anos, certidão de nascimento.",
-      "Trazer exames anteriores da mesma região, se tiver.",
-      "Avisar a equipe se usa marca-passo, prótese, implante ou qualquer objeto metálico no corpo.",
-    ],
     contraste:
-      "Alguns exames de ressonância mais complexos exigem injeção de contraste. Quando for o seu caso, a central avisa no agendamento e passa as orientações de preparo com antialérgico.",
+      "Alguns exames de ressonância exigem injeção de contraste. Quando for o seu caso, nossa equipe passa todas as orientações pelo WhatsApp.",
     chegarAntesMin: 30,
     imagem: "/exames/resso.jpg",
     unidades: [...TODAS_GRAVATAI, "cachoeirinha"],
@@ -93,15 +72,9 @@ export const EXAMES: Exame[] = [
     resumo: "Imagens em cortes finos, com e sem contraste.",
     descricao:
       "Exame de imagem em cortes finos, realizado nas duas unidades, com agendamento prévio.",
-    preparo: [
-      "Chegar 30 minutos antes do horário agendado.",
-      "Trazer a solicitação médica. Não realizamos o exame sem ela.",
-      "Trazer documento com foto (RG, CNH ou CTPS). Para 0 a 12 anos, certidão de nascimento.",
-      "Trazer exames anteriores da mesma região, se tiver.",
-    ],
     contraste:
       "O contraste é utilizado para evidenciar tecidos, órgãos e vasos. Não há contraindicação geral, as restrições são avaliadas caso a caso pela equipe.",
-    chegarAntesMin: 30,
+    chegarAntesMin: 15,
     imagem: "/exames/tomo.jpg",
     unidades: ["gravatai", "cachoeirinha"],
     agendamento: "solicitacao",
@@ -120,13 +93,6 @@ export const EXAMES: Exame[] = [
       "Ultrassonografia com Doppler colorido",
       "Ultrassonografia de partes moles",
       "Ultrassonografia transvaginal com Doppler",
-    ],
-    preparo: [
-      "Chegar 15 minutos antes do horário agendado.",
-      "Trazer a solicitação médica. Não realizamos o exame sem ela.",
-      "Trazer documento com foto (RG, CNH ou CTPS). Para 0 a 12 anos, certidão de nascimento.",
-      "Trazer exames anteriores da mesma região, se tiver.",
-      "Ecografia mamária em pacientes acima de 40 anos: trazer a mamografia atual.",
     ],
     contraste: null,
     chegarAntesMin: 15,
@@ -157,12 +123,6 @@ export const EXAMES: Exame[] = [
     resumo: "Digital, com foco na detecção precoce.",
     descricao:
       "Exame de rastreamento e diagnóstico da mama. Laudo disponível na Matriz em 3 dias úteis.",
-    preparo: [
-      "Chegar 15 minutos antes do horário agendado.",
-      "Trazer a solicitação médica. Não realizamos o exame sem ela.",
-      "Trazer documento com foto (RG, CNH ou CTPS).",
-      "Trazer exames anteriores, é essencial trazer a mamografia anterior para comparação.",
-    ],
     recomendacoes: [
       "No dia do exame, não use creme corporal nem talco nas mamas.",
       "No dia do exame, não use desodorante nas axilas.",
@@ -182,13 +142,6 @@ export const EXAMES: Exame[] = [
     resumo: "Baixa dose de radiação e resultado rápido.",
     descricao:
       "Exame de imagem rápido, com baixa dose de radiação, realizado com agendamento prévio.",
-    preparo: [
-      "Chegar 15 minutos antes do horário agendado.",
-      "Trazer a solicitação médica. Não realizamos o exame sem ela.",
-      "Trazer documento com foto (RG, CNH ou CTPS). Para 0 a 12 anos, certidão de nascimento.",
-      "Evitar acessórios de metal na região a ser radiografada.",
-      "Evitar calça jeans.",
-    ],
     contraste: null,
     chegarAntesMin: 15,
     laudo: "Laudo disponível na Matriz em 2 dias úteis.",
@@ -203,12 +156,6 @@ export const EXAMES: Exame[] = [
     sigla: "DO",
     resumo: "Avaliação de massa óssea e osteoporose.",
     descricao: "Exame para avaliação de osteoporose, indolor e com agendamento prévio.",
-    preparo: [
-      "Chegar 15 minutos antes do horário agendado.",
-      "Trazer a solicitação médica. Não realizamos o exame sem ela.",
-      "Trazer documento com foto (RG, CNH ou CTPS).",
-      "Trazer exames anteriores, se tiver.",
-    ],
     restricoes: [
       "Não pode ter realizado exame com contraste (oral ou endovenoso) na semana anterior.",
       "Capacidade máxima do equipamento: 140 kg.",
@@ -235,11 +182,6 @@ export const EXAMES: Exame[] = [
     resumo: "Panorâmica, periapical e documentação.",
     descricao:
       "Inclui panorâmica e Tomografia Computadorizada Cone Beam das ATMs, além da documentação ortodôntica.",
-    preparo: [
-      "Trazer a solicitação do dentista ou do médico. Não realizamos o exame sem ela.",
-      "Trazer documento com foto (RG, CNH ou CTPS).",
-      "Retirar acessórios de metal da região do pescoço e da cabeça.",
-    ],
     contraste: null,
     chegarAntesMin: null,
     laudo:
@@ -265,13 +207,6 @@ export const EXAMES: Exame[] = [
     // apareciam no material antigo, mas não são feitos aqui.
     resumo: "Ecocardiograma.",
     descricao: "Exame do coração, não invasivo e indolor, com agendamento prévio.",
-    preparo: [
-      "Chegar 15 minutos antes do horário agendado.",
-      "Trazer a solicitação médica. Não realizamos o exame sem ela.",
-      "Trazer documento com foto (RG, CNH ou CTPS).",
-      "Trazer exames anteriores, se tiver.",
-      "Trazer exame de creatinina com no máximo 6 meses.",
-    ],
     restricoes: [
       "Nas 24 horas anteriores, não ingerir frutas cítricas, café, chá, chimarrão, refrigerante nem medicamentos com cafeína.",
       "Jejum de 4 horas.",
@@ -287,47 +222,44 @@ export const EXAMES: Exame[] = [
     agendamento: "solicitacao",
     termosBusca: ["ec", "eco", "ecocardiograma", "cardiologico", "coracao", "cardio"],
   },
+  {
+    slug: "biopsia-puncao",
+    nome: "Biópsia / Punção",
+    sigla: "BX",
+    // As regiões e técnicas abaixo saem do catálogo do sistema (modalidade
+    // BIOPSIA), não de redação livre. TODO: confirmar com a clínica se a
+    // biópsia pode ser solicitada pelo site como os demais exames ou se deve
+    // passar obrigatoriamente pela central.
+    resumo: "Punção e coleta guiadas por imagem.",
+    descricao:
+      "Coleta de material para análise laboratorial, guiada por imagem, com agendamento prévio.",
+    comoEFeito:
+      "A coleta é guiada por ultrassom ou por tomografia, conforme o pedido médico, para que a agulha alcance exatamente a região a ser investigada. O material coletado segue para análise laboratorial.",
+    modalidades: [
+      "Mamas",
+      "Próstata",
+      "Tireoide",
+      "Tórax",
+      "Períneo",
+      "Vasos e órgãos",
+    ],
+    contraste: null,
+    chegarAntesMin: 15,
+    imagem: null,
+    unidades: TODAS_GRAVATAI,
+    agendamento: "solicitacao",
+    termosBusca: [
+      "bx",
+      "biopsia",
+      "puncao",
+      "paaf",
+      "paf",
+      "agulha fina",
+      "core biopsy",
+    ],
+  },
 ];
 
 export function examePorSlug(slug: string): Exame | undefined {
   return EXAMES.find((exame) => exame.slug === slug);
-}
-
-/** Normaliza para busca: minúsculas, sem acento e sem pontuação. */
-export function normalizar(texto: string): string {
-  return texto
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-z0-9\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-/**
- * Busca por nome, resumo ou sinônimo. O paciente digita o que está escrito no
- * pedido médico ("resso de joelho"), então casar palavra a palavra funciona
- * melhor do que exigir o nome exato da modalidade.
- */
-export function buscarExames(termo: string): Exame[] {
-  const alvo = normalizar(termo);
-  if (!alvo) return EXAMES;
-
-  const palavras = alvo.split(" ");
-
-  return EXAMES.map((exame) => {
-    const textoExame = normalizar(
-      [exame.nome, exame.sigla, exame.resumo, ...exame.termosBusca, ...(exame.modalidades ?? [])].join(
-        " ",
-      ),
-    );
-    const pontos = palavras.reduce(
-      (total, palavra) => (palavra.length >= 2 && textoExame.includes(palavra) ? total + 1 : total),
-      0,
-    );
-    return { exame, pontos };
-  })
-    .filter((item) => item.pontos > 0)
-    .sort((a, b) => b.pontos - a.pontos)
-    .map((item) => item.exame);
 }

@@ -1,0 +1,362 @@
+[
+  {
+    "termo": "seios da face",
+    "canonico": "Face / Seios da Face",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "ressonancia magnetica",
+    "canonico": "RM",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "angio rm",
+    "canonico": "Angio-RM",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "tomografia computadorizada",
+    "canonico": "TC",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "angio tc",
+    "canonico": "Angio-TC",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "raio x",
+    "canonico": "RX",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "raios x",
+    "canonico": "RX",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "densitometria ossea",
+    "canonico": "Densitometria Óssea",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "agulha fina",
+    "canonico": "Biópsia / Punção",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "core biopsy",
+    "canonico": "Biópsia / Punção",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "vias urinarias",
+    "canonico": "Aparelho Urinário (Rins)",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "ressonancia",
+    "canonico": "RM",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "rm",
+    "canonico": "RM",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "rnm",
+    "canonico": "RM",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "angiorressonancia",
+    "canonico": "Angio-RM",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "tomografia",
+    "canonico": "TC",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "tomo",
+    "canonico": "TC",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "tc",
+    "canonico": "TC",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "tac",
+    "canonico": "TC",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "angiotomografia",
+    "canonico": "Angio-TC",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "angiotomo",
+    "canonico": "Angio-TC",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "ecografia",
+    "canonico": "ECO",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "ultrassom",
+    "canonico": "ECO",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "ultrassonografia",
+    "canonico": "ECO",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "ultrasom",
+    "canonico": "ECO",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "us",
+    "canonico": "ECO",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "usg",
+    "canonico": "ECO",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "eco",
+    "canonico": "ECO",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "doppler",
+    "canonico": "ECO Doppler",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "ecodoppler",
+    "canonico": "ECO Doppler",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "ecocardiograma",
+    "canonico": "Ecocardiograma",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "ecocardio",
+    "canonico": "Ecocardiograma",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "raio-x",
+    "canonico": "RX",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "radiografia",
+    "canonico": "RX",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "rx",
+    "canonico": "RX",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "mamografia",
+    "canonico": "Mamografia",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "mamo",
+    "canonico": "Mamografia",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "densitometria",
+    "canonico": "Densitometria Óssea",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "biopsia",
+    "canonico": "Biópsia / Punção",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "puncao",
+    "canonico": "Biópsia / Punção",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "paf",
+    "canonico": "Biópsia / Punção",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "paaf",
+    "canonico": "Biópsia / Punção",
+    "tipo": "MODALIDADE"
+  },
+  {
+    "termo": "encefalo",
+    "canonico": "Crânio",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "cerebro",
+    "canonico": "Crânio",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "cabeca",
+    "canonico": "Crânio",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "lombar",
+    "canonico": "Coluna Lombar",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "lombossacra",
+    "canonico": "Coluna Lombar",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "cervical",
+    "canonico": "Coluna Cervical",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "dorsal",
+    "canonico": "Coluna Torácica",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "coxofemoral",
+    "canonico": "Quadril",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "sinusite",
+    "canonico": "Face / Seios da Face",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "barriga",
+    "canonico": "Abdome",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "abdomen",
+    "canonico": "Abdome",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "abdome",
+    "canonico": "Abdome",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "rim",
+    "canonico": "Aparelho Urinário (Rins)",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "rins",
+    "canonico": "Aparelho Urinário (Rins)",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "seio",
+    "canonico": "Mamas",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "mama",
+    "canonico": "Mamas",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "tiroide",
+    "canonico": "Tireoide",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "gestacao",
+    "canonico": "Obstétrica (Gestação)",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "gravidez",
+    "canonico": "Obstétrica (Gestação)",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "obstetrico",
+    "canonico": "Obstétrica (Gestação)",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "bebe",
+    "canonico": "Obstétrica (Gestação)",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "testiculo",
+    "canonico": "Bolsa Escrotal (Testículos)",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "mandibula",
+    "canonico": "ATM (Mandíbula)",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "atm",
+    "canonico": "ATM (Mandíbula)",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "ouvido",
+    "canonico": "Ouvidos (Ossos Temporais)",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "mastoide",
+    "canonico": "Ouvidos (Ossos Temporais)",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "figado",
+    "canonico": "Fígado",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "panturrilha",
+    "canonico": "Perna",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "coracao",
+    "canonico": "Coração",
+    "tipo": "REGIAO"
+  },
+  {
+    "termo": "cardiaco",
+    "canonico": "Coração",
+    "tipo": "REGIAO"
+  }
+]

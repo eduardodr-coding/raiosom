@@ -652,70 +652,22 @@ select.campo__controle {
   font-weight: var(--peso-semi);
 }
 
-/* ── Acordeão ───────────────────────────────────────────────────────────── */
+/* ── Lista com marcadores ───────────────────────────────────────────────── */
 
-.acordeao {
-  overflow: hidden;
-  border: 1px solid var(--borda);
-  border-radius: var(--raio-md);
-  background: var(--branco);
-}
-
-.acordeao + .acordeao {
-  margin-top: var(--e-3);
-}
-
-.acordeao__gatilho {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--e-4);
-  width: 100%;
-  padding: var(--e-5);
-  border: 0;
-  background: transparent;
-  font-family: var(--fonte-titulo);
-  font-size: var(--txt-base);
-  font-weight: var(--peso-semi);
-  color: var(--navy-800);
-  text-align: left;
-  transition: background-color var(--transicao);
-}
-
-.acordeao__gatilho:hover {
-  background: var(--neutro-100);
-}
-
-.acordeao__seta {
-  flex: none;
-  transition: transform var(--transicao);
-}
-
-.acordeao__gatilho[aria-expanded="true"] .acordeao__seta {
-  transform: rotate(180deg);
-}
-
-.acordeao__corpo {
-  padding: 0 var(--e-5) var(--e-5);
-  color: var(--texto-suave);
-}
-
-/* ── Lista de preparo ───────────────────────────────────────────────────── */
-
-.lista-preparo {
+.lista-itens {
   display: grid;
   gap: var(--e-3);
   padding-left: 0;
   list-style: none;
 }
 
-.lista-preparo li {
+.lista-itens li {
   display: flex;
   align-items: start;
   gap: var(--e-3);
 }
 
-.lista-preparo li::before {
+.lista-itens li::before {
   content: "";
   flex: none;
   width: 8px;

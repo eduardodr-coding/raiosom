@@ -130,7 +130,7 @@ export default function PaginaSobre() {
                 </h3>
                 <p className="passo__texto">
                   Conferência de identificação, questionário de segurança na ressonância e
-                  orientação de preparo antes de cada exame.
+                  dupla checagem do pedido médico antes de cada exame.
                 </p>
               </div>
             </Revelar>

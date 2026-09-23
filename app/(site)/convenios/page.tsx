@@ -95,7 +95,7 @@ export default function PaginaConvenios() {
           <Revelar>
             <h2>Já sabe qual exame precisa?</h2>
             <p className="subtitulo" style={{ marginInline: "auto" }}>
-              Veja o preparo e envie a foto do pedido médico. A central confirma a cobertura do seu
+              Envie a foto do pedido médico. A central confirma a cobertura do seu
               plano antes de fechar o horário.
             </p>
             <div style={{ marginTop: "var(--e-6)" }}>

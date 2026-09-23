@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { RegrasExame } from "@/components/exames/RegrasExame";
 import { Revelar } from "@/components/Revelar";
-import { Accordion } from "@/components/ui/Accordion";
 import { Aviso } from "@/components/ui/Aviso";
 import { Button } from "@/components/ui/Button";
 import { CLINICA, UNIDADES } from "@/content/clinica";
 import { CONVENIOS_NOMES, CONVENIOS_OUTROS } from "@/content/convenios";
-import { EXAMES, REGRAS_GERAIS, examePorSlug } from "@/content/exames";
+import { EXAMES, examePorSlug } from "@/content/exames";
 
 import "@/styles/exames.css";
 
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: exame.nome,
-    description: `${exame.descricao} Veja o preparo, o que trazer e agende enviando a foto do pedido médico.`,
+    description: `${exame.descricao} Veja as regras de comparecimento, o que trazer e agende enviando a foto do pedido médico.`,
   };
 }
 
@@ -97,7 +97,7 @@ export default async function PaginaExame({ params }: Props) {
 
           {/* Ordem pensada para quem ainda não conhece o exame: primeiro
               entende o que vai acontecer, depois se tem contraste, e só então
-              o preparo — que é a parte acionável de véspera. */}
+              as regras de comparecimento, que é a parte acionável de véspera. */}
           {exame.comoEFeito && (
             <Revelar className="bloco">
               <h2 className="bloco__titulo">Como é feito</h2>
@@ -112,22 +112,12 @@ export default async function PaginaExame({ params }: Props) {
             </Revelar>
           )}
 
-          <Revelar className="bloco preparo-destaque">
-            <h2 className="bloco__titulo">Antes de vir, confira o preparo</h2>
-            <p className="preparo-destaque__nota">
-              Estes são os itens que mais causam remarcação de exame.
-            </p>
-            <ul className="lista-preparo">
-              {exame.preparo.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </Revelar>
+          <RegrasExame exame={exame} />
 
           {exame.restricoes && (
             <Revelar className="bloco">
               <Aviso titulo="Restrições importantes">
-                <ul className="lista-preparo" style={{ marginTop: "var(--e-3)" }}>
+                <ul className="lista-itens" style={{ marginTop: "var(--e-3)" }}>
                   {exame.restricoes.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
@@ -139,7 +129,7 @@ export default async function PaginaExame({ params }: Props) {
           {exame.recomendacoes && (
             <Revelar className="bloco">
               <h2 className="bloco__titulo">Recomendações para o dia do exame</h2>
-              <ul className="lista-preparo" style={{ marginTop: "var(--e-4)" }}>
+              <ul className="lista-itens" style={{ marginTop: "var(--e-4)" }}>
                 {exame.recomendacoes.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -150,7 +140,7 @@ export default async function PaginaExame({ params }: Props) {
           {exame.modalidades && (
             <Revelar className="bloco">
               <h2 className="bloco__titulo">Modalidades realizadas</h2>
-              <ul className="lista-preparo" style={{ marginTop: "var(--e-4)" }}>
+              <ul className="lista-itens" style={{ marginTop: "var(--e-4)" }}>
                 {exame.modalidades.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -171,16 +161,6 @@ export default async function PaginaExame({ params }: Props) {
               </p>
             </Revelar>
           )}
-
-          <div className="bloco">
-            <Accordion title="Regras que valem para todos os exames">
-              <ul className="lista-preparo">
-                {REGRAS_GERAIS.map((regra) => (
-                  <li key={regra}>{regra}</li>
-                ))}
-              </ul>
-            </Accordion>
-          </div>
         </div>
 
         <aside className="card-agendar">

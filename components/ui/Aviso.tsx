@@ -11,7 +11,7 @@ const ICONE: Record<AvisoTipo, string> = {
 };
 
 /**
- * Caixa de aviso (preparo obrigatório, confirmação, erro).
+ * Caixa de aviso (restrição, confirmação, erro).
  * `erro` sai como `role="alert"` para o leitor de tela anunciar na hora.
  */
 export function Aviso({
