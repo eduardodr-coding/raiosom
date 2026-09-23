@@ -79,40 +79,12 @@
   color: var(--texto-suave-sobre-escuro);
 }
 
-/* Barra de busca: input e botão dentro da mesma "pílula" branca. */
+/* A "pílula" branca do hero. O comportamento do campo mora em componentes.css,
+   porque a mesma busca aparece em /exames. */
 .busca {
-  display: flex;
-  gap: var(--e-2);
   max-width: 840px;
   margin-top: var(--e-8);
-  padding: var(--e-2);
-  border-radius: var(--raio-md);
-  background: var(--branco);
   box-shadow: var(--sombra-lg);
-}
-
-.busca__campo {
-  flex: 1;
-  min-width: 0;
-  padding: var(--e-4) var(--e-4);
-  border: 0;
-  background: transparent;
-  font-family: var(--fonte-texto);
-  font-size: var(--txt-base);
-  color: var(--texto);
-}
-
-.busca__campo:focus {
-  outline: none;
-}
-
-.busca:focus-within {
-  outline: 3px solid var(--agua-500);
-  outline-offset: 2px;
-}
-
-.busca__campo::placeholder {
-  color: var(--texto-tenue);
 }
 
 .hero__chips {

@@ -59,7 +59,7 @@ export default async function PaginaExames({ searchParams }: Props) {
               name="q"
               type="search"
               defaultValue={q}
-              placeholder="Ex.: ressonância de joelho, ecografia abdominal…"
+              placeholder="Ex.: ressonância de joelho"
               autoComplete="off"
             />
             <Button type="submit">Buscar</Button>

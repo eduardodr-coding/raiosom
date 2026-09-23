@@ -20,8 +20,13 @@ import sinonimosJson from "@/content/catalogo/sinonimos.json";
 
 export type ExameCatalogo = {
   id: number;
-  /** Nome no sistema da clínica. Nunca vai para a tela do paciente. */
-  nomeInterno: string;
+  /**
+   * Códigos do sistema da clínica. Nunca vão para a tela do paciente.
+   *
+   * São vários quando a clínica fundiu linhas que ficaram idênticas para quem
+   * olha de fora. O agendamento usa o primeiro; a central vê todos na ficha.
+   */
+  codigos: string[];
   /** Nome do grupo exibido na busca, por exemplo "RM Joelho". */
   nomePaciente: string;
   modalidade: string;
@@ -125,8 +130,8 @@ export function expandirSinonimos(entrada: string[]): string[] {
 /**
  * Palavras pesquisáveis de cada exame.
  *
- * O nome interno entra porque é o que está escrito em muitos pedidos médicos
- * ("ABDOMINAL TOTAL"), mesmo sem nunca aparecer na tela.
+ * Os códigos internos entram porque são o que está escrito em muitos pedidos
+ * médicos ("ABDOMINAL TOTAL"), mesmo sem nunca aparecerem na tela.
  */
 const INDICE = new Map<number, string[]>(
   CATALOGO.map((exame) => [
@@ -139,7 +144,7 @@ const INDICE = new Map<number, string[]>(
             exame.modalidade,
             exame.regiao,
             exame.detalhe,
-            exame.nomeInterno,
+            exame.codigos.join(" "),
           ]
             .filter(Boolean)
             .join(" "),
@@ -255,6 +260,177 @@ export function descreverVariacao(exame: ExameCatalogo): string {
 export function rotuloVariacao(exame: ExameCatalogo): string {
   const detalhe = descreverVariacao(exame);
   return detalhe ? `${exame.nomePaciente} · ${detalhe}` : exame.nomePaciente;
+}
+
+/**
+ * O código que vai para o agendamento.
+ *
+ * Quando a linha tem mais de um, vai o primeiro. Não é escolha definitiva: são
+ * 274 linhas em que a clínica ainda precisa dizer qual código cobrar, e é por
+ * isso que a ficha do painel mostra a lista inteira em vez de esconder a
+ * decisão atrás deste `[0]`.
+ */
+export function codigoDoAgendamento(exame: ExameCatalogo): string {
+  return exame.codigos[0] ?? "";
+}
+
+// ── Escolha da variação, em duas etapas ───────────────────────────────────
+
+/** O que diferencia uma variação da outra, na ordem em que se pergunta. */
+export type CampoVariacao = "regiao" | "lado" | "contraste" | "detalhe" | "convenio";
+
+export type OpcaoVariacao = { valor: string; rotulo: string };
+
+export type SeletorVariacao = {
+  campo: CampoVariacao;
+  titulo: string;
+  opcoes: OpcaoVariacao[];
+};
+
+/** Vai na URL onde o campo é vazio: "" não se distingue de "não escolhido". */
+export const SEM_VALOR = "nao-informado";
+
+const TITULOS: Record<CampoVariacao, string> = {
+  regiao: "Qual região?",
+  lado: "Qual lado?",
+  contraste: "Com ou sem contraste?",
+  detalhe: "Qual destas opções?",
+  convenio: "Convênio",
+};
+
+/**
+ * Como chamar a linha em que o campo está vazio.
+ *
+ * O "não sei" do contraste não é enfeite: boa parte dos pedidos médicos não
+ * diz se é com ou sem, e o paciente não pode travar o agendamento por isso.
+ */
+const ROTULOS_VAZIO: Record<CampoVariacao, string> = {
+  regiao: "Não informada no pedido",
+  lado: "Não informado no pedido",
+  contraste: "Não sei / não informado no pedido",
+  detalhe: "Exame padrão",
+  convenio: "Qualquer convênio",
+};
+
+/** Ordem natural de leitura; o que não estiver aqui sai em ordem alfabética. */
+const ORDEM_FIXA: Partial<Record<CampoVariacao, string[]>> = {
+  lado: ["Direito", "Esquerdo", "Bilateral", "Unilateral"],
+  contraste: ["Com contraste", "Sem contraste"],
+};
+
+function valorDoCampo(exame: ExameCatalogo, campo: CampoVariacao): string | null {
+  if (campo === "regiao") return exame.regiao;
+  if (campo === "lado") return exame.lado;
+  if (campo === "contraste") return exame.contraste;
+  if (campo === "detalhe") return exame.detalhe;
+  return exame.convenio;
+}
+
+function chaveNaUrl(bruto: string | null): string {
+  return bruto ? slugDoGrupo(bruto) : SEM_VALOR;
+}
+
+/**
+ * As opções de um campo entre as variações que sobraram.
+ *
+ * `null` quando o campo tem um valor só: aí ele não separa nada e não vira
+ * pergunta. O Map por chave também garante o critério de aceite de não existir
+ * duas entradas com o mesmo texto na tela.
+ */
+function montarSeletor(
+  variacoes: ExameCatalogo[],
+  campo: CampoVariacao,
+): SeletorVariacao | null {
+  const porChave = new Map<string, string>();
+  for (const exame of variacoes) {
+    const bruto = valorDoCampo(exame, campo);
+    porChave.set(chaveNaUrl(bruto), bruto ?? ROTULOS_VAZIO[campo]);
+  }
+
+  if (porChave.size < 2) return null;
+
+  const fixa = ORDEM_FIXA[campo] ?? [];
+  const posicao = (rotulo: string) => {
+    const indice = fixa.indexOf(rotulo);
+    return indice === -1 ? fixa.length : indice;
+  };
+
+  const opcoes = [...porChave.entries()]
+    .map(([valor, rotulo]) => ({ valor, rotulo }))
+    .sort((a, b) => {
+      // O "não sei" fecha a lista: é saída, não primeira escolha.
+      if (a.valor === SEM_VALOR) return 1;
+      if (b.valor === SEM_VALOR) return -1;
+      return (
+        posicao(a.rotulo) - posicao(b.rotulo) ||
+        a.rotulo.localeCompare(b.rotulo, "pt-BR")
+      );
+    });
+
+  return { campo, titulo: TITULOS[campo], opcoes };
+}
+
+export type RefinoGrupo = {
+  /** Etapa 1. Só existe quando o grupo cobre mais de uma região. */
+  regiao: SeletorVariacao | null;
+  /** Etapa 2. Vazio quando não sobrou nada para perguntar. */
+  seletores: SeletorVariacao[];
+  /** A variação final, quando tudo que precisava ser respondido foi. */
+  escolhido: ExameCatalogo | null;
+};
+
+const DEPOIS_DA_REGIAO: CampoVariacao[] = ["lado", "contraste", "detalhe", "convenio"];
+
+/**
+ * Reduz o grupo até uma variação só.
+ *
+ * A tela antiga despejava as 20 variações de "RM Dedo da Mão" de uma vez, com
+ * texto repetido. Aqui só vira pergunta o campo que de fato separa as linhas
+ * que sobraram: um campo com um valor só se resolve sozinho, sem ocupar a
+ * tela, e por isso a maioria dos grupos cai direto no resultado.
+ */
+export function refinarGrupo(
+  grupo: GrupoExame,
+  escolhas: Partial<Record<CampoVariacao, string>>,
+): RefinoGrupo {
+  const regiao = montarSeletor(grupo.variacoes, "regiao");
+  let restantes = grupo.variacoes;
+
+  if (regiao) {
+    const filtradas = restantes.filter(
+      (exame) => chaveNaUrl(exame.regiao) === escolhas.regiao,
+    );
+    // Sem região escolhida a etapa 2 nem é montada: ela depende da região.
+    if (filtradas.length === 0) return { regiao, seletores: [], escolhido: null };
+    restantes = filtradas;
+  }
+
+  const seletores: SeletorVariacao[] = [];
+  let falta = false;
+
+  for (const campo of DEPOIS_DA_REGIAO) {
+    const seletor = montarSeletor(restantes, campo);
+    if (!seletor) continue;
+    seletores.push(seletor);
+
+    const escolhido = escolhas[campo];
+    // Valor fora das opções acontece quando o paciente troca uma resposta
+    // anterior e a lista muda: a pergunta volta, em vez de filtrar por nada.
+    if (!escolhido || !seletor.opcoes.some((opcao) => opcao.valor === escolhido)) {
+      falta = true;
+      continue;
+    }
+
+    restantes = restantes.filter(
+      (exame) => chaveNaUrl(valorDoCampo(exame, campo)) === escolhido,
+    );
+  }
+
+  return {
+    regiao,
+    seletores,
+    escolhido: !falta && restantes.length === 1 ? restantes[0] : null,
+  };
 }
 
 // ── Ponte com as páginas de modalidade ────────────────────────────────────

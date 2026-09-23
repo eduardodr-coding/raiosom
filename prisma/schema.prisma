@@ -59,12 +59,15 @@ model Solicitacao {
   // paciente veio de lá; nula quando ele entrou direto pela página da
   // modalidade. Desnormalizada pelo mesmo motivo acima, e com uma razão a
   // mais: o catálogo é regerado a partir do CSV que a clínica edita, então
-  // `catalogoId` pode apontar para outra linha depois. `catalogoNomeInterno`
-  // é o nome no sistema da clínica, que a central usa para achar o exame —
-  // nunca é exibido ao paciente nem entra na mensagem do WhatsApp.
-  catalogoId          Int?
-  catalogoNomeInterno String? @db.VarChar(200)
-  catalogoVariacao    String? @db.VarChar(200)
+  // `catalogoId` pode apontar para outra linha depois. `catalogoCodigo` é o
+  // código no sistema da clínica, que a central usa para achar o exame — nunca
+  // é exibido ao paciente nem entra na mensagem do WhatsApp. Quando a linha do
+  // catálogo carrega mais de um código, `catalogoCodigos` guarda a lista
+  // inteira: qual deles cobrar é decisão da clínica, não do site.
+  catalogoId       Int?
+  catalogoVariacao String? @db.VarChar(200)
+  catalogoCodigo   String? @db.VarChar(255)
+  catalogoCodigos  String? @db.Text
 
   // Paciente
   pacienteNome   String   @db.VarChar(160)

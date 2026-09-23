@@ -90,9 +90,9 @@ paciente abandonar a solicitação no meio — fica só o telefone da central.
 
 ## Catálogo de exames
 
-A busca de `/exames` usa o catálogo do sistema da clínica: 1351 exames
-reunidos em 346 grupos. A clínica edita os CSV, o script gera os JSON, o site
-lê só os JSON.
+A busca de `/exames` usa o catálogo do sistema da clínica: 844 exames reunidos
+em 346 grupos. A clínica edita os CSV, o script gera os JSON, o site lê só os
+JSON.
 
 | Arquivo | Papel |
 | --- | --- |
@@ -115,13 +115,28 @@ O `nome_interno` é o nome do exame no sistema da clínica. Ele entra no índice
 da busca, porque é o que muitos pedidos médicos trazem escrito, mas **nunca
 aparece para o paciente** nem chega ao bundle do navegador. Quando o paciente
 escolhe uma variação em `/exames/grupo/[grupo]`, o que viaja na URL é o id da
-linha (`/agendar/<exame>?exame=676`), e quem resolve o id de volta é o
+linha (`/agendar/<exame>?exame=462`), e quem resolve o id de volta é o
 servidor — na página do agendamento e outra vez na API, que também confere se
-a variação pertence mesmo àquela modalidade. O nome interno só reaparece no
+a variação pertence mesmo àquela modalidade. O código interno só reaparece no
 painel, para a central achar o exame no sistema.
 
 Como o id é a linha do CSV, regerar o catálogo pode reatribuir ids. Por isso a
-solicitação grava o nome interno e o rótulo da variação junto, e não só o id.
+solicitação grava o código interno e o rótulo da variação junto, e não só o id.
+
+**Uma linha pode ter mais de um código interno**, separados por `|` no
+`nome_interno`, quando a clínica fundiu linhas que ficaram idênticas para o
+paciente. São 274 hoje. O agendamento usa o primeiro (`codigoDoAgendamento`) e
+a ficha do painel mostra a lista inteira, porque qual código cobrar em cada
+convênio é decisão da clínica, não do site — a coluna `revisar` do CSV marca
+essas linhas.
+
+A escolha da variação acontece em duas etapas em `/exames/grupo/[grupo]`:
+primeiro a região, quando o grupo cobre mais de uma, e depois lado, contraste,
+detalhe e convênio na mesma tela. Só vira pergunta o campo que de fato separa
+as linhas restantes — por isso a maioria dos grupos cai direto no resultado. O
+contraste sempre oferece “não sei” quando existe linha sem contraste
+informado: boa parte dos pedidos médicos não diz, e o paciente não pode travar
+por causa disso.
 
 ## Rotas
 
@@ -155,9 +170,10 @@ solicitação grava o nome interno e o rótulo da variação junto, e não só o
 O nome do exame é gravado junto da solicitação de propósito: o conteúdo vive
 em `content/exames.ts` e pode mudar, mas o pedido tem que preservar o que o
 paciente viu na hora. Pelo mesmo motivo, quando o paciente escolhe uma
-variação na busca, `solicitacoes` guarda `catalogoId`, `catalogoNomeInterno`
-e `catalogoVariacao` — os três nulos no fluxo em que ele entra direto pela
-página da modalidade.
+variação na busca, `solicitacoes` guarda `catalogoId`, `catalogoVariacao`,
+`catalogoCodigo` e `catalogoCodigos` — todos nulos no fluxo em que ele entra
+direto pela página da modalidade. `catalogoCodigos` só vem preenchido quando a
+linha tem mais de um código e a clínica ainda precisa dizer qual usar.
 
 ## LGPD e segurança
 

@@ -4,21 +4,12 @@
 
 /* ── Busca da listagem ──────────────────────────────────────────────────── */
 
+/* Só a moldura: o campo em si é o mesmo da home, em componentes.css. */
 .busca-pagina {
-  display: flex;
-  gap: var(--e-2);
   max-width: 640px;
   margin-top: var(--e-6);
-  padding: var(--e-2);
   border: 1px solid var(--borda);
-  border-radius: var(--raio-md);
-  background: var(--branco);
   box-shadow: var(--sombra-sm);
-}
-
-.busca-pagina:focus-within {
-  outline: 3px solid var(--agua-500);
-  outline-offset: 2px;
 }
 
 .filtros {
@@ -477,12 +468,107 @@
   }
 }
 
+/* ── Escolha da variação (etapa 2) ──────────────────────────────────────── */
+
+.escolha-exame {
+  display: grid;
+  gap: var(--e-6);
+  justify-items: start;
+}
+
+.escolha {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.escolha__titulo {
+  padding: 0;
+  margin-bottom: var(--e-3);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-lg);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.opcoes-escolha {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-3);
+}
+
+/* Mesma pílula do formulário de agendamento: é a mesma pergunta de rádio, e
+   duas aparências para a mesma coisa só confundem quem já passou por lá. */
+.opcao-escolha {
+  position: relative;
+  cursor: pointer;
+}
+
+.opcao-escolha input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.opcao-escolha span {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--e-3) var(--e-5);
+  border: 1.5px solid var(--borda);
+  border-radius: var(--raio);
+  background: var(--branco);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-base);
+  font-weight: var(--peso-medio);
+  color: var(--navy-800);
+  transition:
+    border-color var(--transicao),
+    background-color var(--transicao),
+    color var(--transicao);
+}
+
+.opcao-escolha:hover span {
+  border-color: var(--borda-forte);
+}
+
+.opcao-escolha input:checked + span {
+  border-color: var(--cor-acao);
+  background: var(--agua-100);
+  color: var(--cor-acao-sobre-claro);
+}
+
+.opcao-escolha input:focus-visible + span {
+  outline: 3px solid var(--agua-500);
+  outline-offset: 2px;
+}
+
 .grupo-acoes {
   margin-top: var(--e-8);
   padding: var(--e-6);
   border: 1px solid var(--agua-100);
   border-radius: var(--raio-md);
   background: var(--agua-100);
+}
+
+.grupo-acoes__rotulo {
+  font-size: var(--txt-sm);
+  font-weight: var(--peso-semi);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0b5b66;
+}
+
+.grupo-acoes__exame {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--e-3);
+  margin-top: var(--e-2);
+  margin-bottom: var(--e-4);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-xl);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
 }
 
 .grupo-acoes__texto {

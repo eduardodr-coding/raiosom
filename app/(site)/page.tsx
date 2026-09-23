@@ -73,7 +73,7 @@ export default function Home() {
                 id="busca-hero"
                 name="q"
                 type="search"
-                placeholder="Digite seu exame (ex: ressonância de joelho)"
+                placeholder="Ex.: ressonância de joelho"
                 autoComplete="off"
               />
               <Button type="submit">Buscar</Button>
@@ -336,7 +336,7 @@ export default function Home() {
                   </p>
                   <div className="unidade-card__acoes">
                     <Button href={CLINICA.links.portalResultados} external>
-                      Ver exame
+                      Ver exame online
                     </Button>
                     <Button href={ENTREGA_EXAMES.mapa} external variant="contorno">
                       Como chegar

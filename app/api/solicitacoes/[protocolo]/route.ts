@@ -44,7 +44,10 @@ export async function GET(
         slug: solicitacao.exameSlug,
         nome: solicitacao.exameNome,
         variacao: solicitacao.catalogoVariacao,
-        nomeInterno: solicitacao.catalogoNomeInterno,
+        codigo: solicitacao.catalogoCodigo,
+        // Só vem preenchido quando a clínica ainda precisa decidir qual código
+        // usar para esta opção.
+        codigosPossiveis: solicitacao.catalogoCodigos?.split(" | ") ?? null,
       },
       paciente: {
         nome: solicitacao.pacienteNome,

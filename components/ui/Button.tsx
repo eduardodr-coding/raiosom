@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
+import { IconeRede } from "@/components/ui/icones";
 import { cx } from "@/lib/cx";
 
 export type ButtonVariant =
@@ -48,6 +49,24 @@ function montarClasses(
 }
 
 /**
+ * O símbolo do WhatsApp entra pelo próprio botão, e não em cada chamada.
+ *
+ * São vários CTAs espalhados pelo site; deixar o ícone a cargo de quem usa o
+ * componente é garantir que uns tenham e outros não. Em branco, como o texto,
+ * sobre o verde oficial da marca.
+ */
+function Conteudo({ variant, children }: { variant?: ButtonVariant; children: ReactNode }) {
+  if (variant !== "whatsapp") return <>{children}</>;
+
+  return (
+    <>
+      <IconeRede rede="whatsapp" tamanho={20} />
+      {children}
+    </>
+  );
+}
+
+/**
  * Botão do design system. Renderiza `<button>`, `<Link>` (rota interna) ou
  * `<a>` (link externo) conforme as props — para que um CTA que navega seja
  * mesmo um link, e não um botão com onClick, que quebra abrir em nova aba e
@@ -66,14 +85,14 @@ export function Button(props: ComoBotao | ComoLink) {
           {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           {...resto}
         >
-          {children}
+          <Conteudo variant={variant}>{children}</Conteudo>
         </a>
       );
     }
 
     return (
       <Link href={href} className={classes} {...resto}>
-        {children}
+        <Conteudo variant={variant}>{children}</Conteudo>
       </Link>
     );
   }
@@ -99,7 +118,7 @@ export function Button(props: ComoBotao | ComoLink) {
       {...resto}
     >
       {loading && <span className="btn__spinner" aria-hidden="true" />}
-      {children}
+      <Conteudo variant={variant}>{children}</Conteudo>
     </button>
   );
 }

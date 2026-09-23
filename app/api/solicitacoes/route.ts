@@ -2,7 +2,12 @@ import { createHmac } from "node:crypto";
 import { NextResponse } from "next/server";
 import { CLINICA } from "@/content/clinica";
 import { examePorSlug } from "@/content/exames";
-import { exameDoCatalogo, paginaDoExame, rotuloVariacao } from "@/lib/catalogo";
+import {
+  codigoDoAgendamento,
+  exameDoCatalogo,
+  paginaDoExame,
+  rotuloVariacao,
+} from "@/lib/catalogo";
 import { sessionSecret } from "@/lib/env";
 import { formatarProtocolo } from "@/lib/protocolo";
 import { prisma } from "@/lib/prisma";
@@ -171,8 +176,14 @@ export async function POST(request: Request) {
           exameSlug: exame.slug,
           exameNome: exame.nome,
           catalogoId: variacao?.id ?? null,
-          catalogoNomeInterno: variacao?.nomeInterno ?? null,
           catalogoVariacao: variacao ? rotuloVariacao(variacao) : null,
+          catalogoCodigo: variacao ? codigoDoAgendamento(variacao) : null,
+          // Quando a linha tem mais de um código, a lista inteira vai junto:
+          // o site não tem como saber qual a clínica cobra em cada convênio.
+          catalogoCodigos:
+            variacao && variacao.codigos.length > 1
+              ? variacao.codigos.join(" | ")
+              : null,
           pacienteNome: dados.pacienteNome,
           cpf: dados.cpf,
           dataNascimento: nascimento,

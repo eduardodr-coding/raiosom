@@ -90,8 +90,17 @@ export default async function PaginaSolicitacao({ params }: Props) {
               {solicitacao.catalogoVariacao && (
                 <Campo rotulo="Exame solicitado" valor={solicitacao.catalogoVariacao} destaque />
               )}
-              {solicitacao.catalogoNomeInterno && (
-                <Campo rotulo="Nome no sistema" valor={solicitacao.catalogoNomeInterno} />
+              {solicitacao.catalogoCodigo && (
+                <Campo rotulo="Código no sistema" valor={solicitacao.catalogoCodigo} />
+              )}
+              {/* Esta linha do catálogo tem mais de um código e a clínica
+                  ainda não disse qual vale. O site usou o primeiro; quem
+                  confirma é quem está atendendo. */}
+              {solicitacao.catalogoCodigos && (
+                <Campo
+                  rotulo="Códigos possíveis — confirmar qual usar"
+                  valor={solicitacao.catalogoCodigos}
+                />
               )}
               <Campo rotulo="Unidade" valor={rotuloUnidade(solicitacao.unidade)} />
               <Campo rotulo="Turno de preferência" valor={rotuloTurno(solicitacao.turno)} />

@@ -179,7 +179,7 @@ export default function PaginaUnidades() {
                 </p>
                 <div className="unidade-card__acoes">
                   <Button href={CLINICA.links.portalResultados} external>
-                    Ver exame
+                    Ver exame online
                   </Button>
                   <Button href={ENTREGA_EXAMES.mapa} external variant="contorno">
                     Como chegar

@@ -72,10 +72,11 @@
   --btn-borda: rgb(255 255 255 / 40%);
 }
 
+/* Verde oficial da marca com texto e símbolo em branco. */
 .btn--whatsapp {
   --btn-fundo: var(--whatsapp);
   --btn-fundo-hover: var(--whatsapp-escuro);
-  --btn-texto: #06371a;
+  --btn-texto: var(--branco);
 }
 
 .btn--fantasma {
@@ -216,6 +217,68 @@
 .badge--sobre-escuro {
   background: rgb(255 255 255 / 12%);
   color: var(--branco);
+}
+
+/* ── Barra de busca ─────────────────────────────────────────────────────── */
+
+/*
+ * Input e botão dentro da mesma pílula branca.
+ *
+ * Mora aqui, e não em home.css, porque a mesma busca aparece na home e em
+ * /exames: enquanto o estilo do campo só vinha com a home, em /exames o input
+ * ficava com a largura padrão do navegador e cortava o placeholder no meio.
+ * Cada página aplica só a própria moldura (largura, borda, sombra).
+ */
+.busca,
+.busca-pagina {
+  display: flex;
+  gap: var(--e-2);
+  padding: var(--e-2);
+  border-radius: var(--raio-md);
+  background: var(--branco);
+}
+
+.busca__campo {
+  flex: 1;
+  min-width: 0;
+  padding: var(--e-4);
+  border: 0;
+  background: transparent;
+  font-family: var(--fonte-texto);
+  font-size: var(--txt-base);
+  color: var(--texto);
+}
+
+.busca__campo:focus {
+  outline: none;
+}
+
+.busca__campo::placeholder {
+  color: var(--texto-tenue);
+}
+
+.busca:focus-within,
+.busca-pagina:focus-within {
+  outline: 3px solid var(--agua-500);
+  outline-offset: 2px;
+}
+
+/* No celular o campo e o botão não cabem lado a lado sem espremer o
+   placeholder: o campo passa a ocupar a linha inteira. */
+@media (max-width: 560px) {
+  .busca,
+  .busca-pagina {
+    flex-wrap: wrap;
+  }
+
+  .busca__campo {
+    flex-basis: 100%;
+  }
+
+  .busca .btn,
+  .busca-pagina .btn {
+    flex: 1;
+  }
 }
 
 /* ── Chip (busca rápida, seleção de turno) ──────────────────────────────── */
