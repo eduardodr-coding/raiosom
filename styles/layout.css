@@ -455,6 +455,46 @@
   color: var(--branco);
 }
 
+/* Faixa com todos os endereços, na largura toda: nas colunas de cima os
+   seis endereços com horário esticavam o rodapé demais. */
+.rodape__unidades {
+  margin-top: var(--e-12);
+  padding-top: var(--e-10);
+  border-top: 1px solid rgb(255 255 255 / 12%);
+}
+
+.rodape__enderecos {
+  display: grid;
+  gap: var(--e-6) var(--e-10);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+}
+
+@media (max-width: 960px) {
+  .rodape__enderecos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .rodape__enderecos {
+    grid-template-columns: 1fr;
+  }
+}
+
+.rodape__enderecos li {
+  display: grid;
+  gap: var(--e-1);
+  align-content: start;
+}
+
+.rodape__endereco-nome {
+  font-weight: var(--peso-semi);
+  color: var(--branco);
+}
+
 .rodape__base {
   display: flex;
   flex-wrap: wrap;

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { RedesSociais } from "@/components/site/RedesSociais";
-import { CLINICA, UNIDADES } from "@/content/clinica";
+import { CLINICA, ENTREGA_EXAMES, UNIDADES } from "@/content/clinica";
 import { EXAMES } from "@/content/exames";
 
 const INSTITUCIONAL = [
@@ -14,9 +14,28 @@ const INSTITUCIONAL = [
   { href: "/trabalhe-conosco", rotulo: "Trabalhe Conosco" },
 ];
 
-export function Footer() {
-  const matriz = UNIDADES[0];
+// Todos os endereços que o paciente pode precisar visitar, na ordem da
+// página /unidades: as unidades e, por último, o prédio onde se retira o
+// exame impresso. A filial de Cachoeirinha ainda não tem endereço publicado
+// (ver content/clinica.ts), então aparece só a cidade.
+const ENDERECOS = [
+  ...UNIDADES.map((unidade) => ({
+    nome: unidade.nome,
+    endereco: [unidade.endereco, unidade.complemento, unidade.cidade]
+      .filter(Boolean)
+      .join(" · "),
+    horarios: unidade.horarios,
+    mapa: unidade.mapa,
+  })),
+  {
+    nome: `${ENTREGA_EXAMES.nome} · retirada de exames`,
+    endereco: `${ENTREGA_EXAMES.endereco} · ${ENTREGA_EXAMES.cidade}`,
+    horarios: ENTREGA_EXAMES.horarios,
+    mapa: ENTREGA_EXAMES.mapa,
+  },
+];
 
+export function Footer() {
   return (
     <footer className="rodape">
       <div className="container">
@@ -104,11 +123,25 @@ export function Footer() {
               <li>
                 <a href={`mailto:${CLINICA.emails.agendamento}`}>{CLINICA.emails.agendamento}</a>
               </li>
-              <li>
-                {matriz.endereco} · {matriz.cidade}
-              </li>
             </ul>
           </div>
+        </div>
+
+        <div className="rodape__unidades">
+          <h2 className="rodape__titulo">Nossas unidades</h2>
+          <ul className="rodape__enderecos">
+            {ENDERECOS.map((item) => (
+              <li key={item.nome}>
+                <span className="rodape__endereco-nome">{item.nome}</span>
+                <a href={item.mapa} target="_blank" rel="noopener noreferrer">
+                  {item.endereco}
+                </a>
+                {item.horarios.map((horario) => (
+                  <span key={horario}>{horario}</span>
+                ))}
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="rodape__base">

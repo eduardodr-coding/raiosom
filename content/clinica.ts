@@ -184,7 +184,7 @@ export function unidadePorSlug(slug: string): Unidade | undefined {
 export const ENTREGA_EXAMES = {
   nome: "Prédio administrativo",
   descricao: "Somente retirada de exames: não realizamos exames neste endereço",
-  horarios: ["Segunda a sexta: 07h30 às 19h00"],
+  horarios: ["Seg a Sex: 07h30 às 19h00"],
   endereco: "Rua Doutor Luiz Bastos do Prado, 1617",
   cidade: "Gravataí / RS",
   mapa: "https://www.google.com/maps/search/?api=1&query=Rua+Doutor+Luiz+Bastos+do+Prado%2C+1617%2C+Gravata%C3%AD+-+RS",
