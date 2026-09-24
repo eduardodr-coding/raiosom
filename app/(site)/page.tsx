@@ -44,10 +44,10 @@ export default function Home() {
       <section className="hero">
         <Image
           className="hero__foto"
-          src="/unidades/recep-matriz.jpg"
+          src="/unidades/recepcao-matriz.jpg"
           alt=""
-          width={1350}
-          height={716}
+          width={1600}
+          height={1200}
           priority
           sizes="100vw"
         />
