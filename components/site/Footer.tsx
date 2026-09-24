@@ -16,8 +16,8 @@ const INSTITUCIONAL = [
 
 // Todos os endereços que o paciente pode precisar visitar, na ordem da
 // página /unidades: as unidades e, por último, o prédio onde se retira o
-// exame impresso. A filial de Cachoeirinha ainda não tem endereço publicado
-// (ver content/clinica.ts), então aparece só a cidade.
+// exame impresso. Uma unidade cadastrada sem endereço aparece só com a
+// cidade.
 const ENDERECOS = [
   ...UNIDADES.map((unidade) => ({
     nome: unidade.nome,

@@ -309,7 +309,6 @@ reverso reescreva esse cabeçalho; sem proxy na frente, ele é forjável.
   panorâmico (Radiografia Odontológica) — o documento associava `do.jpg` à
   odontológica e dizia que a densitometria não tinha foto. Corrigido em
   `content/exames.ts`; vale confirmar com a clínica.
-- **Endereço da filial de Cachoeirinha.** O site antigo só publica o da matriz.
 - **“Exames Cardiológicos”.** A frase-resumo do Figma cita ECG e ergometria; o
   conteúdo do site antigo só menciona o ecocardiograma. Confirmar o que a
   clínica realiza.

@@ -77,9 +77,9 @@ export default function PaginaUnidades() {
                           </>
                         ) : (
                           <>
+                            {/* Unidade nova cadastrada antes de a clínica
+                                informar o endereço. */}
                             {unidade.cidade}
-                            {/* TODO: publicar o endereço completo da filial assim que
-                                a clínica informar. */}
                             <br />
                             Endereço completo pelo telefone {CLINICA.telefonePrincipal}.
                           </>

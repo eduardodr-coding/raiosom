@@ -113,13 +113,11 @@ export const UNIDADES: Unidade[] = [
     nome: "Raio Som Cachoeirinha",
     cidade: "Cachoeirinha / RS",
     descricao: "Ressonância, tomografia, ultrassom, mamografia e densitometria",
-    // TODO: pedir à clínica o endereço completo da filial — o site antigo só
-    // publica o da matriz. Até lá o mapa cai numa busca pelo nome da unidade.
-    endereco: null,
-    complemento: null,
+    endereco: "Rua Padre Réus, 206",
+    complemento: "Vila Regina",
     horarios: ["Seg a Sex: 08h00 às 18h00"],
     telefone: "(51) 3484.4000",
-    mapa: "https://www.google.com/maps/search/?api=1&query=Raio+Som+Cachoeirinha+RS",
+    mapa: "https://www.google.com/maps/search/?api=1&query=Rua+Padre+R%C3%A9us%2C+206%2C+Cachoeirinha+-+RS",
     foto: "/unidades/cachoeirinha.jpg",
   },
   {
