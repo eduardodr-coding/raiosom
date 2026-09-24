@@ -53,6 +53,16 @@
   box-shadow: var(--sombra-sm);
 }
 
+/* Azul da marca, para a ação principal quando ela divide o espaço com o
+   primário: no card da home, o portal de resultados fica logo abaixo do
+   pré-agendamento e não pode ter a mesma cor. */
+.btn--azul {
+  --btn-fundo: var(--navy-800);
+  --btn-fundo-hover: var(--navy-600);
+  --btn-texto: var(--branco);
+  box-shadow: var(--sombra-sm);
+}
+
 .btn--contorno {
   --btn-fundo: transparent;
   --btn-fundo-hover: var(--navy-100);
@@ -80,9 +90,13 @@
 }
 
 /* O símbolo não encolhe quando o texto do botão quebra em duas linhas: sem
-   isso ele vira um ponto verde ao lado de um bloco de texto. */
+   isso ele vira um ponto verde ao lado de um bloco de texto.
+   A margem negativa faz o ícone (24px) ocupar só a altura de uma linha de
+   texto (1.2em) e avançar sobre o padding: sem ela o botão do WhatsApp
+   ficava uns 5px mais alto que os outros ao lado dele. */
 .btn--whatsapp svg {
   flex: none;
+  margin-block: calc((1.2em - 24px) / 2);
 }
 
 .btn--fantasma {

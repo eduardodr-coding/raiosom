@@ -216,7 +216,14 @@
   }
 }
 
+/* Os cards de uma linha têm a mesma altura e os botões ficam todos no pé,
+   alinhados entre si, por mais que o endereço ou os horários de cada
+   unidade tenham tamanhos diferentes. O Revelar em volta do card é o item
+   da grade; ele estica sozinho e o card ocupa a altura dele. */
 .unidade-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   overflow: hidden;
   border: 1px solid var(--borda);
   border-radius: var(--raio-md);
@@ -256,6 +263,9 @@
 }
 
 .unidade-card__corpo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   padding: var(--e-6);
 }
 
@@ -306,20 +316,14 @@
   text-decoration: none;
 }
 
+/* Um botão embaixo do outro, na largura do card: lado a lado, "Agendar
+   nesta unidade" e "Perguntar no WhatsApp" quebravam em duas ou três linhas
+   e cada card ficava com botões de um tamanho. */
 .unidade-card__acoes {
-  display: flex;
+  display: grid;
   gap: var(--e-3);
-  margin-top: var(--e-5);
-}
-
-.unidade-card__acoes .btn:first-child {
-  flex: 1;
-}
-
-@media (max-width: 420px) {
-  .unidade-card__acoes {
-    flex-direction: column;
-  }
+  margin-top: auto;
+  padding-top: var(--e-5);
 }
 
 /* ── Resultado da busca sem correspondência ─────────────────────────────── */

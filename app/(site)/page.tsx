@@ -129,7 +129,7 @@ export default function Home() {
               Acesse laudos e imagens pelo portal ou pelo aplicativo, a qualquer hora.
             </p>
             <div className="hero-card__acoes">
-              <Button href={CLINICA.links.portalResultados} external variant="contorno" block>
+              <Button href={CLINICA.links.portalResultados} external variant="azul" block>
                 Acessar portal de resultados
               </Button>
               <BaixarApp />
@@ -306,7 +306,7 @@ export default function Home() {
                     {ENTREGA_EXAMES.descricao}.
                   </p>
                   <div className="unidade-card__acoes">
-                    <Button href={CLINICA.links.portalResultados} external>
+                    <Button href={CLINICA.links.portalResultados} external variant="azul">
                       Ver exame online
                     </Button>
                     <Button href={ENTREGA_EXAMES.mapa} external variant="contorno">

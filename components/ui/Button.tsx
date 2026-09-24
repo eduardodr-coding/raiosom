@@ -5,6 +5,7 @@ import { cx } from "@/lib/cx";
 
 export type ButtonVariant =
   | "primario"
+  | "azul"
   | "contorno"
   | "contorno-claro"
   | "whatsapp"

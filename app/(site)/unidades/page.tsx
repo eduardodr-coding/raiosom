@@ -178,7 +178,7 @@ export default function PaginaUnidades() {
                   {ENTREGA_EXAMES.descricao}.
                 </p>
                 <div className="unidade-card__acoes">
-                  <Button href={CLINICA.links.portalResultados} external>
+                  <Button href={CLINICA.links.portalResultados} external variant="azul">
                     Ver exame online
                   </Button>
                   <Button href={ENTREGA_EXAMES.mapa} external variant="contorno">
