@@ -223,15 +223,23 @@
   grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
+/* Quatro por linha do tablet para baixo: com duas, os 26 logos viravam uma
+   coluna de 13 cartões que atravessava a tela inteira várias vezes. */
 @media (max-width: 900px) {
   .grade-logos {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
+/* No celular o cartão fica com uns 75px: espaço e respiro menores para o
+   logo não encolher mais do que o necessário. */
 @media (max-width: 560px) {
   .grade-logos {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--e-2);
+  }
+
+  .grade-logos .logo-convenio {
+    padding: var(--e-1);
   }
 }
 
