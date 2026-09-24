@@ -154,8 +154,9 @@ virada do ano; o total de unidades é `UNIDADES.length + 1` (as unidades de
 atendimento mais o prédio administrativo, onde se retiram os exames).
 
 **Pré-agendamento.** O site não marca horário: ele coleta os dados e o pedido
-e a central confirma pelo WhatsApp. Por isso todo botão e texto usa
+e a central confirma pelo WhatsApp. Por isso os botões e textos usam
 “pré-agendamento”, e as instruções de cada exame aparecem como “Orientações”.
+A exceção, pedida pela clínica, é o botão do menu: “Agende seu exame”.
 
 **Unidades no pré-agendamento.** O formulário oferece só as unidades que
 realizam o exame (`unidades` de cada exame em `content/exames.ts`), e a API

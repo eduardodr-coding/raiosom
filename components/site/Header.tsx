@@ -116,12 +116,13 @@ export function Header() {
             </div>
           </nav>
 
-          {/* Só o pré-agendamento: o portal de resultados já está na barra
+          {/* Só o botão de agendar: o portal de resultados já está na barra
               do topo de todas as páginas, e com os dois botões o cabeçalho
               não cabia na largura do container. No celular os dois continuam
-              no menu. */}
+              no menu. O menu diz "Agende seu exame"; o resto do site usa
+              "pré-agendamento", a pedido da clínica. */}
           <div className="cabecalho__acoes">
-            <Button href="/agendar">Pré-agendamento</Button>
+            <Button href="/agendar">Agende seu exame</Button>
           </div>
 
           <button
@@ -186,7 +187,7 @@ export function Header() {
                 Meus resultados
               </Button>
               <Button href="/agendar" block>
-                Pré-agendamento
+                Agende seu exame
               </Button>
             </div>
           </div>
