@@ -74,7 +74,7 @@ export default async function PaginaExame({ params }: Props) {
             <figure className="exame-topo__foto">
               <Image
                 src={exame.imagem}
-                alt={`Equipamento de ${exame.nome.toLowerCase()} da Raio Som`}
+                alt={exame.imagemAlt ?? `Equipamento de ${exame.nome.toLowerCase()} da Raio Som`}
                 width={800}
                 height={533}
                 priority

@@ -302,7 +302,8 @@ reverso reescreva esse cabeçalho; sem proxy na frente, ele é forjável.
   separados: nenhuma das duas afirma qual logo é qual plano.
 - **`public/convenios/31.png` está em branco** — o arquivo existe, mas não tem
   logo nenhum dentro. Ficou fora da lista em `content/convenios.ts`; é só
-  devolver o número quando a arte certa chegar. Hoje são 30 logos exibidos.
+  devolver o número quando a arte certa chegar. Hoje são 26 logos exibidos;
+  o 33 (VerteMed) é o único com nome e logo confirmados pela clínica.
 - **Duas fotos de exame estavam trocadas no material de briefing.** `do.jpg` é
   o densitômetro GE Lunar (Densitometria Óssea) e `radio.jpg` é o aparelho
   panorâmico (Radiografia Odontológica) — o documento associava `do.jpg` à

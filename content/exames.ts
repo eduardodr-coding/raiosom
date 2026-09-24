@@ -45,6 +45,11 @@ export type Exame = {
   laudo?: string;
   horarioAtendimento?: string;
   imagem: string | null;
+  /**
+   * Texto alternativo da foto. Sem ele vale "Equipamento de <exame> da Raio
+   * Som", que só serve quando a foto mostra o aparelho.
+   */
+  imagemAlt?: string;
   unidades: UnidadeSlug[];
   agendamento: TipoAgendamento;
   /** Sinônimos e termos do pedido médico, usados pela busca. */
@@ -262,7 +267,11 @@ export const EXAMES: Exame[] = [
     modalidades: ["Mamas", "Próstata", "Tireoide"],
     contraste: null,
     chegarAntesMin: 15,
-    imagem: null,
+    // Tela do equipamento durante uma biópsia de próstata, recortada para
+    // tirar data, número do exame e nomes que apareciam na foto original.
+    imagem: "/exames/biopsia.jpg",
+    imagemAlt:
+      "Tela do equipamento durante uma biópsia de próstata, com a região a ser coletada marcada na ressonância e no ultrassom",
     unidades: TODAS_GRAVATAI,
     agendamento: "solicitacao",
     termosBusca: [
