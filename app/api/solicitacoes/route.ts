@@ -239,6 +239,7 @@ export async function POST(request: Request) {
       convenio: ehParticular ? "Particular" : dados.convenio,
       turno: dados.turno,
       comTurno: exame.agendamento !== "ordem-de-chegada",
+      comPedido: arquivo !== null,
     });
 
     return NextResponse.json({

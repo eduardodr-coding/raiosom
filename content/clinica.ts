@@ -6,12 +6,19 @@
  * site inteiro (header, footer, páginas de exame, mensagem do WhatsApp).
  */
 
+/** Ano de fundação, conforme a página de história do site antigo. */
+const FUNDACAO = 1974;
+
 export const CLINICA = {
   nome: "Raio Som",
   nomeCompleto: "Centro Clínico Raio Som",
   descricao: "Diagnóstico por Imagem",
-  anos: 50,
-  desde: 1974,
+  /**
+   * Anos de história, contados a partir da fundação. Era um número fixo e o
+   * site seguia dizendo "50 anos" dois anos depois do aniversário.
+   */
+  anos: new Date().getFullYear() - FUNDACAO,
+  desde: FUNDACAO,
 
   telefones: ["(51) 3484.4000"],
   /** Número principal, já em formato `tel:`. */
@@ -93,7 +100,7 @@ export const UNIDADES: Unidade[] = [
     cidade: "Gravataí / RS",
     descricao: "Ressonância, tomografia, ultrassom, mamografia, raios X e densitometria",
     endereco: "Rua Doutor Luiz Bastos do Prado, 1586",
-    complemento: "Ao lado do Estacionamento GTI Park",
+    complemento: "Ao lado do estacionamento GTI Park",
     horarios: ["Seg a Sex: 07h00 às 23h00", "Sábado: 08h00 às 17h00"],
     telefone: "(51) 3484.4000",
     mapa: "https://www.google.com/maps/search/?api=1&query=Rua+Doutor+Luiz+Bastos+do+Prado%2C+1586%2C+Gravata%C3%AD+-+RS",
@@ -123,7 +130,7 @@ export const UNIDADES: Unidade[] = [
     cidade: "Gravataí / RS",
     // Ponto de marcação apenas — não realiza exames no local. Por isso não
     // aparece em `exame.unidades` de nenhum exame em content/exames.ts.
-    descricao: "Ponto de atendimento e marcação, os exames são realizados nas unidades com equipamento",
+    descricao: "Ponto de atendimento e marcação. Os exames são realizados nas unidades com equipamento",
     endereco: "Rua Benjamin Constant, 169 - Sala 202",
     complemento: "Bairro Passo das Pedras",
     horarios: ["Seg a Sex: 08h00 às 18h00"],
@@ -138,7 +145,7 @@ export const UNIDADES: Unidade[] = [
     nome: "Raio Som IOG",
     cidade: "Gravataí / RS",
     // Ponto de marcação apenas — não realiza exames no local.
-    descricao: "Ponto de atendimento e marcação, os exames são realizados nas unidades com equipamento",
+    descricao: "Ponto de atendimento e marcação. Os exames são realizados nas unidades com equipamento",
     endereco: "Av. Dorival Cândido Luz de Oliveira, 459",
     complemento: "Centro",
     horarios: ["Seg a Sex: 08h00 às 18h00"],
@@ -176,13 +183,20 @@ export function unidadePorSlug(slug: string): Unidade | undefined {
  */
 export const ENTREGA_EXAMES = {
   nome: "Prédio administrativo",
-  descricao: "Somente retirada de exames, não realizamos exames neste endereço",
+  descricao: "Somente retirada de exames: não realizamos exames neste endereço",
   horarios: ["Segunda a sexta: 07h30 às 19h00"],
   endereco: "Rua Doutor Luiz Bastos do Prado, 1617",
   cidade: "Gravataí / RS",
   mapa: "https://www.google.com/maps/search/?api=1&query=Rua+Doutor+Luiz+Bastos+do+Prado%2C+1617%2C+Gravata%C3%AD+-+RS",
   foto: "/unidades/administrativo.jpg",
 };
+
+/**
+ * Quantas unidades a Raio Som tem para o paciente: as de `UNIDADES` mais o
+ * prédio administrativo, que é a conta que a clínica divulga. Fica aqui para
+ * o número do "Sobre" e o texto de "Unidades" não se desencontrarem.
+ */
+export const TOTAL_UNIDADES = UNIDADES.length + 1;
 
 export const TURNOS = [
   { valor: "manha", rotulo: "Manhã" },

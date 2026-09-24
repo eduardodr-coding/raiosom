@@ -4,7 +4,7 @@
  * Os dados saem de `data/*.csv` (editados pela clínica) e viram JSON pelo
  * `scripts/gerar-catalogo.mjs`. Aqui só se lê o JSON gerado, nunca o CSV.
  *
- * São 1351 exames em 346 grupos. Cabe na memória do processo, então a busca
+ * São 844 exames em 346 grupos. Cabe na memória do processo, então a busca
  * roda no servidor a cada request, sem banco e sem índice externo: o form de
  * `/exames` é um GET puro, o resultado é uma URL compartilhável e a página
  * funciona sem JavaScript.
@@ -439,7 +439,7 @@ export function refinarGrupo(
  * De qual página de exame cada modalidade do catálogo é filha.
  *
  * O catálogo diz o que a clínica realiza; as 8 páginas de `content/exames.ts`
- * é que trazem regras de comparecimento e o formulário. Sem esta ponte, quem
+ * é que trazem as orientações de comparecimento e o formulário. Sem esta ponte, quem
  * chegasse pela busca não teria como agendar.
  */
 const PAGINA_POR_MODALIDADE: Record<string, string> = {

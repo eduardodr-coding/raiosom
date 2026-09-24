@@ -12,7 +12,7 @@ import "@/styles/exames.css";
 export const metadata: Metadata = {
   title: "Exames",
   description:
-    "Ressonância, tomografia, ultrassonografia, mamografia, raios X digital, densitometria óssea, radiografia odontológica e exames cardiológicos. Veja as regras de comparecimento e agende.",
+    "Ressonância, tomografia, ultrassonografia, mamografia, raios X digital, densitometria óssea, radiografia odontológica e exames cardiológicos. Veja as orientações de cada exame e faça o pré-agendamento.",
 };
 
 type Props = {
@@ -24,7 +24,7 @@ export default async function PaginaExames({ searchParams }: Props) {
   const termo = q.trim();
 
   // Duas telas na mesma rota. Sem busca, o paciente navega pelas modalidades
-  // (8 páginas com preço de atenção baixo). Com busca, ele procura o nome que
+  // (9 páginas, leitura rápida). Com busca, ele procura o nome que
   // está no pedido médico, e aí quem responde é o catálogo do sistema.
   const grupos = termo ? buscarGrupos(termo) : [];
 

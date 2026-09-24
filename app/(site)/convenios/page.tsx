@@ -67,7 +67,7 @@ export default function PaginaConvenios() {
 
           <Revelar style={{ marginTop: "var(--e-10)", maxWidth: 760 }}>
             <Aviso tipo="info" titulo="Não achou o seu plano na lista?">
-              Mande o nome do seu convênio e o exame do pedido médico para a central, a resposta
+              Mande o nome do seu convênio e o exame do pedido médico para a central. A resposta
               vem na hora, com a confirmação de cobertura e do que o plano exige (autorização
               prévia, por exemplo).
             </Aviso>

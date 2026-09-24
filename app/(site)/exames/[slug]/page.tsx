@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { RegrasExame } from "@/components/exames/RegrasExame";
+import { OrientacoesExame } from "@/components/exames/OrientacoesExame";
 import { Revelar } from "@/components/Revelar";
 import { Aviso } from "@/components/ui/Aviso";
 import { Button } from "@/components/ui/Button";
-import { CLINICA, UNIDADES } from "@/content/clinica";
+import { CLINICA, ENTREGA_EXAMES, UNIDADES } from "@/content/clinica";
 import { CONVENIOS_NOMES, CONVENIOS_OUTROS } from "@/content/convenios";
 import { EXAMES, examePorSlug } from "@/content/exames";
 
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: exame.nome,
-    description: `${exame.descricao} Veja as regras de comparecimento, o que trazer e agende enviando a foto do pedido médico.`,
+    description: `${exame.descricao} Veja as orientações, o que levar no dia e faça o pré-agendamento.`,
   };
 }
 
@@ -90,14 +90,14 @@ export default async function PaginaExame({ params }: Props) {
           {porOrdemDeChegada && (
             <Aviso tipo="info" titulo="Este exame não tem horário marcado">
               O atendimento é por ordem de chegada. {exame.horarioAtendimento} Você não precisa
-              escolher um turno, é só vir dentro desse horário com o pedido médico e um documento
+              escolher um turno: é só vir dentro desse horário com o pedido médico e um documento
               com foto.
             </Aviso>
           )}
 
           {/* Ordem pensada para quem ainda não conhece o exame: primeiro
               entende o que vai acontecer, depois se tem contraste, e só então
-              as regras de comparecimento, que é a parte acionável de véspera. */}
+              as orientações de comparecimento, que são a parte acionável de véspera. */}
           {exame.comoEFeito && (
             <Revelar className="bloco">
               <h2 className="bloco__titulo">Como é feito</h2>
@@ -112,7 +112,7 @@ export default async function PaginaExame({ params }: Props) {
             </Revelar>
           )}
 
-          <RegrasExame exame={exame} />
+          <OrientacoesExame exame={exame} />
 
           {exame.restricoes && (
             <Revelar className="bloco">
@@ -142,11 +142,12 @@ export default async function PaginaExame({ params }: Props) {
               <h2 className="bloco__titulo">Quando sai o laudo</h2>
               <p className="bloco__texto">{exame.laudo}</p>
               <p className="bloco__texto">
-                Os laudos também ficam disponíveis no{" "}
+                Você acompanha o laudo pelo{" "}
                 <a href={CLINICA.links.portalResultados} target="_blank" rel="noopener noreferrer">
                   portal de resultados
                 </a>{" "}
-                e no aplicativo da Raio Som.
+                e pelo aplicativo da Raio Som. O exame impresso é retirado no prédio
+                administrativo, na {ENTREGA_EXAMES.endereco}, em Gravataí.
               </p>
             </Revelar>
           )}
@@ -159,15 +160,15 @@ export default async function PaginaExame({ params }: Props) {
           <p className="card-agendar__texto">
             {porOrdemDeChegada
               ? "Não há reserva de horário. Se quiser, envie o pedido médico antes: a central confere a cobertura do convênio e avisa o melhor horário para vir."
-              : "Preencha seus dados, anexe a foto do pedido e finalize com nossa central no WhatsApp."}
+              : "Preencha seus dados, anexe a foto do pedido médico, se tiver, e finalize com a nossa central pelo WhatsApp."}
           </p>
 
           <div className="card-agendar__acoes">
             <Button href={`/agendar/${exame.slug}`} block>
-              {porOrdemDeChegada ? "Enviar pedido e tirar dúvidas" : "Solicitar agendamento"}
+              {porOrdemDeChegada ? "Enviar pedido e tirar dúvidas" : "Fazer pré-agendamento"}
             </Button>
             <Button href={CLINICA.whatsapp.link} external variant="whatsapp" block>
-              Tirar dúvida no WhatsApp
+              Tirar dúvidas no WhatsApp
             </Button>
           </div>
 

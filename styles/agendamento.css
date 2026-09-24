@@ -343,11 +343,14 @@ fieldset.form-secao {
 
 /* ── Passo 1: escolha do exame ──────────────────────────────────────────── */
 
+/* Todos os botões do mesmo tamanho: colunas iguais e linhas iguais, mesmo
+   quando um nome quebra em duas linhas ("Tomografia Computadorizada"). */
 .escolha-exame {
   display: grid;
   gap: var(--e-3);
   max-width: 620px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
 }
 
 @media (max-width: 620px) {

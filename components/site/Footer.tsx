@@ -9,6 +9,7 @@ const INSTITUCIONAL = [
   { href: "/sobre", rotulo: "A Clínica" },
   { href: "/sobre#historia", rotulo: `${CLINICA.anos} anos` },
   { href: "/sobre#padi", rotulo: "Acreditação PADI" },
+  { href: "/noticias", rotulo: "Notícias" },
   { href: "/convenios", rotulo: "Convênios" },
   { href: "/trabalhe-conosco", rotulo: "Trabalhe Conosco" },
 ];

@@ -28,8 +28,8 @@ export default function PaginaTrabalheConosco() {
           <h1>Trabalhe conosco</h1>
           <p className="pagina-topo__texto">
             Somos um centro clínico de diagnóstico por imagem com {CLINICA.anos} anos de história e
-            acreditação PADI. Se você quer fazer parte da equipe, mande seu currículo, chamamos
-            quando surge uma vaga do seu perfil.
+            acreditação PADI. Se você quer fazer parte da equipe, mande seu currículo: entramos em contato
+            quando surgir uma vaga no seu perfil.
           </p>
         </div>
       </div>
@@ -56,7 +56,7 @@ export default function PaginaTrabalheConosco() {
             <p>
               Seu currículo fica guardado com o RH. Quando abrir uma vaga compatível, o RH entra
               em contato pelo telefone ou e-mail que você informou. Não temos prazo fixo de
-              retorno, depende da abertura de vagas.
+              retorno: isso depende da abertura de vagas.
             </p>
 
             <h2>Seus dados</h2>

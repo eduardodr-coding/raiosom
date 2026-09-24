@@ -13,6 +13,11 @@ export type DadosMensagem = {
   turno: string;
   /** Exames por ordem de chegada não reservam turno. */
   comTurno?: boolean;
+  /**
+   * O paciente anexou o pedido médico. A foto é opcional no formulário, então
+   * a mensagem não pode afirmar que ela foi enviada quando não foi.
+   */
+  comPedido?: boolean;
 };
 
 /**
@@ -40,7 +45,12 @@ export function montarMensagem(dados: DadosMensagem): string {
     linhas.push(`Turno de preferência: ${rotuloTurno(dados.turno)}`);
   }
 
-  linhas.push("", "Já anexei o pedido médico pelo site.");
+  linhas.push(
+    "",
+    dados.comPedido === false
+      ? "Vou levar o pedido médico no dia do exame."
+      : "Já anexei o pedido médico pelo site.",
+  );
 
   return linhas.join("\n");
 }

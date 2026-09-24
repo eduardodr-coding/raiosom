@@ -15,6 +15,7 @@ const MENU = [
   { href: "/convenios", rotulo: "Convênios" },
   { href: "/unidades", rotulo: "Unidades" },
   { href: "/sobre", rotulo: "A Clínica" },
+  { href: "/noticias", rotulo: "Notícias" },
 ];
 
 export function Header() {
@@ -69,7 +70,7 @@ export function Header() {
             <span className="marca__logo">
               <Image
                 src="/marca/logo.png"
-                alt="Raio Som Diagnóstico por Imagem · 50 anos"
+                alt="Raio Som Diagnóstico por Imagem · Qualidade PADI acreditada pelo CBR"
                 width={755}
                 height={142}
                 priority
@@ -115,11 +116,12 @@ export function Header() {
             </div>
           </nav>
 
+          {/* Só o pré-agendamento: o portal de resultados já está na barra
+              do topo de todas as páginas, e com os dois botões o cabeçalho
+              não cabia na largura do container. No celular os dois continuam
+              no menu. */}
           <div className="cabecalho__acoes">
-            <Button href={CLINICA.links.portalResultados} external variant="contorno">
-              Meus resultados
-            </Button>
-            <Button href="/agendar">Agendar exame</Button>
+            <Button href="/agendar">Pré-agendamento</Button>
           </div>
 
           <button
@@ -184,7 +186,7 @@ export function Header() {
                 Meus resultados
               </Button>
               <Button href="/agendar" block>
-                Agendar exame
+                Pré-agendamento
               </Button>
             </div>
           </div>

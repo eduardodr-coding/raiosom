@@ -68,7 +68,8 @@ export function FormularioAgendamento({
   // Só as unidades que realizam este exame. Os pontos de atendimento (Solaris,
   // IOG) não entram em nenhum `exame.unidades`: lá o paciente só marca, o
   // exame acontece em outro lugar. Oferecê-los aqui era prometer um
-  // atendimento que não existe no endereço.
+  // atendimento que não existe no endereço. Pelo mesmo motivo a Millenarium
+  // só aparece na ultrassonografia, o único exame que ela realiza.
   const unidadesDoExame = UNIDADES.filter((item) => exame.unidades.includes(item.slug));
 
   function limparErro(campo: string) {
@@ -428,7 +429,11 @@ export function FormularioAgendamento({
 
         <div style={{ marginTop: "var(--e-6)" }}>
           <Button type="submit" size="grande" block loading={enviando}>
-            {enviando ? "Enviando…" : "Continuar no WhatsApp"}
+            {enviando
+              ? "Enviando…"
+              : semWhatsapp
+                ? "Enviar pré-agendamento"
+                : "Continuar no WhatsApp"}
           </Button>
         </div>
       </div>

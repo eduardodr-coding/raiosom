@@ -150,30 +150,30 @@
   color: var(--texto-suave);
 }
 
-.regras-exame {
+.orientacoes-exame {
   padding: var(--e-8);
   border: 1px solid var(--agua-100);
   border-radius: var(--raio-md);
   background: var(--agua-100);
 }
 
-.regras-exame .lista-itens {
+.orientacoes-exame .lista-itens {
   margin-top: var(--e-6);
 }
 
-.regras-exame__duvida {
+.orientacoes-exame__duvida {
   margin-top: var(--e-6);
   color: #094a52;
 }
 
 /* O botão ocupa a linha inteira no celular: é onde a maioria dos pacientes
    toca, e alvo estreito ao lado de texto erra o toque. */
-.regras-exame__acao {
+.orientacoes-exame__acao {
   margin-top: var(--e-4);
 }
 
 @media (max-width: 560px) {
-  .regras-exame__acao .btn {
+  .orientacoes-exame__acao .btn {
     display: flex;
     width: 100%;
   }
@@ -293,8 +293,17 @@
   }
 }
 
+.numeros-destaque {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-4);
+  margin-top: var(--e-8);
+}
+
+/* Cada número é um link para a parte do site que o explica. */
 .numero-destaque {
   min-width: 150px;
+  align-items: center;
   text-align: center;
 }
 
@@ -470,7 +479,7 @@
 
 /* ── Escolha da variação (etapa 2) ──────────────────────────────────────── */
 
-.escolha-exame {
+.form-variacao {
   display: grid;
   gap: var(--e-6);
   justify-items: start;

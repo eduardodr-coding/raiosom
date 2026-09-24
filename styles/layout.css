@@ -345,20 +345,16 @@
 }
 
 /* Dois degraus antes do menu hambúrguer:
-   · até 1200px o botão secundário "Meus resultados" sai (o link do portal
-     continua na topbar) e a navegação aperta o espaçamento;
-   · até 940px o menu inteiro vira hambúrguer. */
-@media (max-width: 1200px) {
+   · até 1440px a navegação aperta o espaçamento;
+   · até 1200px o menu inteiro vira hambúrguer. Medido com o item "Notícias"
+     e o botão "Pré-agendamento": abaixo disso o botão saía cortado. */
+@media (max-width: 1440px) {
   .nav {
     gap: var(--e-5);
   }
-
-  .cabecalho__acoes .btn--contorno {
-    display: none;
-  }
 }
 
-@media (max-width: 940px) {
+@media (max-width: 1200px) {
   .nav,
   .cabecalho__acoes {
     display: none;

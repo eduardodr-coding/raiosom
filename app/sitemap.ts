@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { EXAMES } from "@/content/exames";
+import { NOTICIAS } from "@/content/noticias";
 
 const BASE = "https://www.raiosom.com.br";
 
@@ -11,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/convenios",
     "/unidades",
     "/sobre",
+    "/noticias",
     "/trabalhe-conosco",
     "/transparencia",
     "/transparencia/igualdade-salarial",
@@ -29,6 +31,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.9,
+    })),
+    ...NOTICIAS.map((noticia) => ({
+      url: `${BASE}/noticias/${noticia.slug}`,
+      lastModified: new Date(`${noticia.data}T12:00:00Z`),
+      changeFrequency: "yearly" as const,
+      priority: 0.6,
     })),
   ];
 }

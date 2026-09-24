@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: grupo.nome,
-    description: `${grupo.nome} na Raio Som: escolha a opção que está no seu pedido médico e envie a solicitação de agendamento.`,
+    description: `${grupo.nome} na Raio Som: escolha a opção que está no seu pedido médico e faça o pré-agendamento.`,
   };
 }
 
@@ -105,7 +105,7 @@ export default async function PaginaGrupo({ params, searchParams }: Props) {
               variações: o paciente responde de uma vez, a URL fica
               compartilhável e a tela funciona sem JavaScript. */}
           {seletores.length > 0 && (
-            <form className="escolha-exame" method="get">
+            <form className="form-variacao" method="get">
               {escolhas.regiao && (
                 <input type="hidden" name="regiao" value={escolhas.regiao} />
               )}
@@ -158,10 +158,10 @@ export default async function PaginaGrupo({ params, searchParams }: Props) {
                     {/* O que viaja é o id da linha do catálogo, nunca o código
                         interno: a URL fica à vista do paciente. */}
                     <Button href={`/agendar/${modalidade.slug}?exame=${escolhido.id}`}>
-                      Solicitar agendamento
+                      Fazer pré-agendamento
                     </Button>
                     <Button href={`/exames/${modalidade.slug}`} variant="contorno">
-                      Regras e detalhes
+                      Orientações e detalhes
                     </Button>
                   </div>
                 </>

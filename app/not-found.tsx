@@ -16,7 +16,7 @@ export default function NaoEncontrado() {
           <p className="kicker">Erro 404</p>
           <h1>Esta página não existe</h1>
           <p className="subtitulo" style={{ marginInline: "auto" }}>
-            O endereço pode ter mudado com o novo site. Busque o exame que você precisa ou fale com
+            O endereço pode ter mudado com o novo site. Busque o exame de que você precisa ou fale com
             a central.
           </p>
           <div
@@ -33,7 +33,7 @@ export default function NaoEncontrado() {
               Falar no WhatsApp
             </Button>
             <Button href="/" variant="contorno">
-              Ir para a Home
+              Ir para a página inicial
             </Button>
           </div>
         </div>

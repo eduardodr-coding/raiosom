@@ -22,19 +22,27 @@
   object-position: center 30%;
 }
 
-/* Véu escuro sobre a foto: mais forte à esquerda (onde fica o texto branco,
-   que precisa de contraste suficiente) e mais suave à direita, deixando a
-   foto da recepção aparecer perto do card branco. */
+/* Véu azul sobre a foto da recepção. Mais forte à esquerda, onde fica o
+   texto branco, e bem mais leve à direita, onde o card tem fundo próprio e a
+   foto pode aparecer. */
 .hero__veu {
   position: absolute;
   inset: 0;
   z-index: 0;
   background: linear-gradient(
     100deg,
-    rgb(15 27 61 / 93%) 0%,
-    rgb(15 27 61 / 88%) 45%,
-    rgb(15 27 61 / 60%) 100%
+    rgb(15 27 61 / 80%) 0%,
+    rgb(15 27 61 / 66%) 45%,
+    rgb(15 27 61 / 28%) 100%
   );
+}
+
+/* No celular o texto ocupa a largura toda: o véu fica uniforme para o branco
+   não cair sobre a parte clara da foto. */
+@media (max-width: 900px) {
+  .hero__veu {
+    background: rgb(15 27 61 / 74%);
+  }
 }
 
 .hero__grid {
@@ -104,7 +112,7 @@
   color: var(--texto-suave-sobre-escuro);
 }
 
-/* ── Card de resultados do hero ─────────────────────────────────────────── */
+/* ── Card do hero: pré-agendamento e resultados ─────────────────────────── */
 
 .hero-card {
   padding: var(--e-10);
@@ -130,70 +138,10 @@
   margin-top: var(--e-6);
 }
 
-/* Escolha da loja (Android/iOS) dentro de um <details> */
-.baixar-app__gatilho {
-  cursor: pointer;
-  list-style: none;
-}
-
-/* O marcador padrão do <summary> apareceria junto do rótulo do botão. */
-.baixar-app__gatilho::-webkit-details-marker {
-  display: none;
-}
-
-.baixar-app__gatilho::after {
-  content: "▾";
-  font-size: var(--txt-sm);
-}
-
-.baixar-app[open] .baixar-app__gatilho::after {
-  content: "▴";
-}
-
-.baixar-app__opcoes {
-  display: grid;
-  gap: var(--e-3);
-  margin-top: var(--e-3);
-}
-
-/* ── Grade de exames ────────────────────────────────────────────────────── */
-
-.grade-exames {
-  display: grid;
-  gap: var(--e-5);
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-@media (max-width: 1080px) {
-  .grade-exames {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 560px) {
-  .grade-exames {
-    grid-template-columns: 1fr;
-  }
-}
-
-.card-exame__titulo {
-  font-family: var(--fonte-titulo);
-  font-size: var(--txt-lg);
-  font-weight: var(--peso-semi);
-  color: var(--navy-800);
-}
-
-.card-exame__acao {
-  margin-top: auto;
-  padding-top: var(--e-5);
-  font-family: var(--fonte-titulo);
-  font-size: var(--txt-sm);
-  font-weight: var(--peso-semi);
-  color: var(--cor-acao);
-}
-
-.card-exame:hover .card-exame__acao {
-  text-decoration: underline;
+.hero-card__divisor {
+  height: 1px;
+  margin-block: var(--e-8);
+  background: var(--borda);
 }
 
 /* ── Passos ─────────────────────────────────────────────────────────────── */

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Revelar } from "@/components/Revelar";
+import { BaixarApp } from "@/components/site/BaixarApp";
 import { Button } from "@/components/ui/Button";
 import { CLINICA, ENTREGA_EXAMES, UNIDADES } from "@/content/clinica";
 import { CONVENIOS_LOGOS, CONVENIOS_NOMES, CONVENIOS_OUTROS } from "@/content/convenios";
@@ -23,16 +24,16 @@ const BUSCAS_RAPIDAS = [
 const PASSOS = [
   {
     titulo: "Busque seu exame",
-    texto: "Digite o nome ou a modalidade e veja na hora se realizamos, em qual unidade.",
+    texto: "Digite o nome que está no pedido médico e veja na hora se realizamos o exame e em qual unidade.",
   },
   {
     titulo: "Veja os detalhes e o convênio",
-    texto: "O que trazer, se o exame usa contraste e se o seu plano cobre, antes de sair de casa.",
+    texto: "Veja o que levar no dia, se o exame usa contraste e se o seu plano cobre, antes de sair de casa.",
   },
   {
-    titulo: "Agende com o pedido",
+    titulo: "Faça o pré-agendamento",
     texto:
-      "Anexe a foto do pedido médico e seus dados. A central fecha o horário com você no WhatsApp.",
+      "Preencha seus dados e anexe a foto do pedido médico. A central confirma o horário com você pelo WhatsApp.",
   },
 ];
 
@@ -58,8 +59,8 @@ export default function Home() {
             </span>
             <h1 className="hero__titulo">O exame de imagem certo, sem complicação.</h1>
             <p className="hero__sub">
-              Descubra se realizamos o seu exame e agende em poucos passos. Anexe
-              seu pedido médico e pronto.
+              Descubra se realizamos o seu exame e faça o pré-agendamento em poucos
+              passos, direto pelo site.
             </p>
 
             {/* Form GET puro: funciona sem JavaScript e deixa o resultado da
@@ -107,63 +108,33 @@ export default function Home() {
           </div>
 
           <Revelar className="hero-card">
+            {/* Duas perguntas, duas saídas: quem vai fazer o exame começa o
+                pré-agendamento; quem já fez vai atrás do laudo. */}
+            <span className="badge badge--acao">Pré-agendamento</span>
+            <h2 className="hero-card__titulo">Vai fazer um exame?</h2>
+            <p className="hero-card__texto">
+              Envie seus dados e a foto do pedido médico. A central confirma o horário com você.
+            </p>
+            <div className="hero-card__acoes">
+              <Button href="/agendar" block>
+                Fazer pré-agendamento
+              </Button>
+            </div>
+
+            <div className="hero-card__divisor" aria-hidden="true" />
+
             <span className="badge badge--acao">Resultado online</span>
             <h2 className="hero-card__titulo">Já fez seu exame?</h2>
             <p className="hero-card__texto">
               Acesse laudos e imagens pelo portal ou pelo aplicativo, a qualquer hora.
             </p>
             <div className="hero-card__acoes">
-              <Button href={CLINICA.links.portalResultados} external block>
+              <Button href={CLINICA.links.portalResultados} external variant="contorno" block>
                 Acessar portal de resultados
               </Button>
-              {/* <details> em vez de um menu com JavaScript: o navegador já dá
-                  o abrir/fechar e a semântica de acessibilidade de graça, e a
-                  escolha da loja continua funcionando sem JS. */}
-              <details className="baixar-app">
-                <summary className="btn btn--contorno btn--bloco baixar-app__gatilho">
-                  Baixar APP
-                </summary>
-                <div className="baixar-app__opcoes">
-                  <Button href={CLINICA.links.appPlayStore} external variant="contorno" block>
-                    Android · Google Play
-                  </Button>
-                  <Button href={CLINICA.links.appAppStore} external variant="contorno" block>
-                    iPhone · App Store
-                  </Button>
-                </div>
-              </details>
+              <BaixarApp />
             </div>
           </Revelar>
-        </div>
-      </section>
-
-      {/* ── Nossos exames ────────────────────────────────────────────────── */}
-      <section className="secao">
-        <div className="container">
-          <Revelar className="secao__cabecalho">
-            <div>
-              <span className="kicker">Nossos exames</span>
-              <h2>Tudo em diagnóstico por imagem</h2>
-            </div>
-            <Link className="link-seta" href="/exames">
-              Ver todos os exames
-            </Link>
-          </Revelar>
-
-          <div className="grade-exames">
-            {EXAMES.map((exame, indice) => (
-              <Revelar key={exame.slug} delay={indice * 40}>
-                <Link
-                  className="card card--interativo card-exame"
-                  href={`/exames/${exame.slug}`}
-                  style={{ height: "100%" }}
-                >
-                  <h3 className="card-exame__titulo">{exame.nome}</h3>
-                  <span className="card-exame__acao">Ver detalhes e agendar →</span>
-                </Link>
-              </Revelar>
-            ))}
-          </div>
         </div>
       </section>
 

@@ -1,0 +1,69 @@
+/* =============================================================================
+   Raio Som — notícias
+   ========================================================================== */
+
+.lista-noticias {
+  display: grid;
+  gap: var(--e-6);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 700px) {
+  .lista-noticias {
+    grid-template-columns: 1fr;
+  }
+}
+
+.noticia-card__figura {
+  overflow: hidden;
+  margin: calc(-1 * var(--e-6)) calc(-1 * var(--e-6)) var(--e-5);
+  border-radius: var(--raio-md) var(--raio-md) 0 0;
+  aspect-ratio: 16 / 9;
+}
+
+.noticia-card__figura img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.noticia-card__data {
+  display: block;
+  margin-bottom: var(--e-2);
+  font-size: var(--txt-sm);
+  font-weight: var(--peso-semi);
+  color: var(--cor-acao-sobre-claro);
+}
+
+.noticias-vazio {
+  max-width: 60ch;
+  color: var(--texto-suave);
+}
+
+.noticias-vazio__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-3);
+  margin-top: var(--e-5);
+}
+
+/* Largura de leitura confortável para texto corrido. */
+.noticia-corpo {
+  max-width: 760px;
+}
+
+.noticia-corpo p {
+  margin-top: var(--e-5);
+  font-size: var(--txt-lg);
+  color: var(--texto-suave);
+}
+
+.noticia-corpo__imagem {
+  width: 100%;
+  height: auto;
+  border-radius: var(--raio-md);
+}
+
+.noticia-corpo__voltar {
+  margin-top: var(--e-10);
+}

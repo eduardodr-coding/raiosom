@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Revelar } from "@/components/Revelar";
 import { Button } from "@/components/ui/Button";
-import { CLINICA, ENTREGA_EXAMES, UNIDADES } from "@/content/clinica";
+import { CLINICA, ENTREGA_EXAMES, TOTAL_UNIDADES, UNIDADES } from "@/content/clinica";
 import { EXAMES } from "@/content/exames";
 
 import "@/styles/home.css";
@@ -12,7 +12,7 @@ import "@/styles/exames.css";
 export const metadata: Metadata = {
   title: "Unidades",
   description:
-    "Matriz em Gravataí e filial em Cachoeirinha: endereços, horários de atendimento e retirada de exames da Raio Som.",
+    "As unidades da Raio Som em Gravataí e Cachoeirinha: endereços, horários de atendimento e retirada de exames.",
 };
 
 export default function PaginaUnidades() {
@@ -28,9 +28,9 @@ export default function PaginaUnidades() {
           </ol>
           <h1>Onde estamos</h1>
           <p className="pagina-topo__texto">
-            {UNIDADES.length} unidades na região metropolitana, mais o prédio administrativo,
-            onde os exames impressos são retirados. A matriz, em Gravataí, realiza todas as
-            modalidades.
+            São {TOTAL_UNIDADES} unidades na região metropolitana. A matriz, em Gravataí, realiza
+            todas as modalidades, e o prédio administrativo, na mesma rua, é onde os exames
+            impressos são retirados.
           </p>
         </div>
       </div>
@@ -110,7 +110,7 @@ export default function PaginaUnidades() {
                           </>
                         ) : (
                           <>
-                            Ponto de atendimento e marcação, não realiza exames neste
+                            Ponto de atendimento e marcação: não realiza exames neste
                             endereço. Fale pelo WhatsApp para marcar em uma unidade com
                             equipamento.
                           </>

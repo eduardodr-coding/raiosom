@@ -4,11 +4,11 @@ import type { Exame } from "@/content/exames";
 import { linkWhatsApp } from "@/lib/whatsapp";
 
 /**
- * Regras de comparecimento da página do exame.
+ * Orientações de comparecimento da página do exame.
  *
  * Um componente só para todas as modalidades: o que muda de uma para outra sai
  * do mapa abaixo, não de cópias do bloco página por página, senão a primeira
- * correção de regra passa a valer em umas páginas e não em outras.
+ * correção passa a valer em umas páginas e não em outras.
  *
  * O que fazer antes do exame não mora mais no site: variava por convênio e por
  * aparelho, e o texto publicado acabava divergindo do que a central falava.
@@ -31,7 +31,7 @@ const EXTRAS_POR_EXAME: Record<string, string[]> = {
   ],
 };
 
-export function RegrasExame({ exame }: { exame: Exame }) {
+export function OrientacoesExame({ exame }: { exame: Exame }) {
   // `chegarAntesMin` fica em content/exames.ts porque os selos da listagem e do
   // agendamento leem o mesmo valor. Aqui só entra o padrão de quem não tem.
   const minutos = exame.chegarAntesMin ?? ANTECEDENCIA_PADRAO;
@@ -50,8 +50,8 @@ export function RegrasExame({ exame }: { exame: Exame }) {
   );
 
   return (
-    <Revelar className="bloco regras-exame">
-      <h2 className="bloco__titulo">Regras para o seu exame</h2>
+    <Revelar className="bloco orientacoes-exame">
+      <h2 className="bloco__titulo">Orientações para o seu exame</h2>
 
       <ul className="lista-itens">
         {itens.map((item) => (
@@ -59,11 +59,11 @@ export function RegrasExame({ exame }: { exame: Exame }) {
         ))}
       </ul>
 
-      <p className="regras-exame__duvida">
+      <p className="orientacoes-exame__duvida">
         Dúvidas sobre as orientações do seu exame? Fale com a gente pelo WhatsApp.
       </p>
 
-      <div className="regras-exame__acao">
+      <div className="orientacoes-exame__acao">
         <Button href={link} external variant="whatsapp">
           Tirar dúvidas no WhatsApp
         </Button>

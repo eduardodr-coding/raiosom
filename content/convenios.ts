@@ -11,7 +11,7 @@
 
 export const CONVENIOS_NOMES = [
   "Unimed",
-  "IPÊ Saúde",
+  "IPE Saúde",
   "Bradesco",
   "Amil",
   "Cabergs",

@@ -74,7 +74,8 @@ components/
   ui/             design system (Button, Input, Select, FileUpload, Stepper…)
   site/           header e rodapé
   agendamento/    formulário e tela de confirmação
-content/          conteúdo tipado: exames, unidades, convênios, clínica
+content/          conteúdo tipado: exames, unidades, convênios, clínica,
+                  institucional (história, missão, visão, valores), notícias
 content/catalogo/ catálogo gerado (JSON) — não editar à mão
 data/             CSV do catálogo de exames e dos sinônimos (fonte)
 lib/              prisma, env, storage, validação, sessão, máscaras
@@ -138,14 +139,41 @@ contraste sempre oferece “não sei” quando existe linha sem contraste
 informado: boa parte dos pedidos médicos não diz, e o paciente não pode travar
 por causa disso.
 
+## Conteúdo que muda com frequência
+
+**Notícias.** Cada notícia é um objeto em `NOTICIAS`, em `content/noticias.ts`
+(`slug`, `titulo`, `data` no formato AAAA-MM-DD, `resumo`, `paragrafos` e
+`imagem` opcional em `public/`). A lista sai da mais nova para a mais antiga,
+a página da notícia e o sitemap são gerados no build, então publicar é editar
+o arquivo, fazer commit e publicar o site. Sem nenhuma notícia, `/noticias`
+mostra um aviso com os links do Instagram e do Facebook.
+
+**Idade e número de unidades.** Nenhum dos dois é escrito à mão. A idade é
+`ano atual − 1974` (`CLINICA.anos`, em `content/clinica.ts`) e vira sozinha na
+virada do ano; o total de unidades é `UNIDADES.length + 1` (as unidades de
+atendimento mais o prédio administrativo, onde se retiram os exames).
+
+**Pré-agendamento.** O site não marca horário: ele coleta os dados e o pedido
+e a central confirma pelo WhatsApp. Por isso todo botão e texto usa
+“pré-agendamento”, e as instruções de cada exame aparecem como “Orientações”.
+
+**Unidades no pré-agendamento.** O formulário oferece só as unidades que
+realizam o exame (`unidades` de cada exame em `content/exames.ts`), e a API
+recusa qualquer outra. Por isso a Millenarium aparece apenas na
+ultrassonografia, o único exame que ela faz; Solaris e IOG são pontos de
+marcação e não aparecem em nenhum.
+
 ## Rotas
 
 | Rota | O que é |
 | --- | --- |
 | `/` | Home |
 | `/exames`, `/exames/[slug]` | Busca e página de cada modalidade |
+| `/exames/grupo/[grupo]` | Escolha da variação do catálogo |
 | `/convenios`, `/unidades`, `/sobre`, `/trabalhe-conosco` | Institucionais |
+| `/noticias`, `/noticias/[slug]` | Lista de notícias e página de cada uma |
 | `/politica-de-privacidade` | Política de Privacidade e Cookies |
+| `/agendar` | Passo 1 do pré-agendamento: escolha do exame |
 | `/agendar/[examSlug]` | Passo 2: dados do paciente + upload do pedido |
 | `/agendar/[examSlug]/confirmacao` | Passo 3: protocolo e handoff no WhatsApp |
 | `POST /api/solicitacoes` | Cria a solicitação, salva o arquivo, devolve o protocolo |
@@ -265,7 +293,7 @@ reverso reescreva esse cabeçalho; sem proxy na frente, ele é forjável.
 ## Pendências com a clínica
 
 - **Nomes dos convênios.** Os nomes usados hoje vieram do Figma aprovado
-  (Unimed, IPÊ Saúde, Bradesco, Amil, Cabergs, SulAmérica, IPERGS, Doctor
+  (Unimed, IPE Saúde, Bradesco, Amil, Cabergs, SulAmérica, IPERGS, Doctor
   Clin, GEAP, Cassi, Postal Saúde) e são plausíveis, mas **não foram
   confirmados pela clínica**, nem o pareamento com os 30 logos de
   `public/convenios/`. Está marcado com `// TODO` em `content/convenios.ts`.
@@ -288,6 +316,22 @@ reverso reescreva esse cabeçalho; sem proxy na frente, ele é forjável.
   agendamento pelo site" foi escrita agora para declarar o novo tratamento
   (upload do pedido, protocolo, retenção de 90 dias) e precisa passar pela
   Encarregada de Proteção de Dados antes de publicar.
+- **Logo sem o número de aniversário.** O `public/marca/logo.png` tinha a
+  faixa “50 anos”; ela foi apagada e o resto da arte ficou intacto. Uma versão
+  “52 anos” precisa vir do designer da clínica.
+- **Biópsia no catálogo.** A página da biópsia mostra só mamas, próstata e
+  tireoide, guiadas por ultrassom. O `data/catalogo_exames.csv` ainda tem os
+  grupos de tórax, períneo e vasos/órgãos e as linhas guiadas por tomografia,
+  que aparecem na busca. Para tirá-las, basta marcar `exibir = NAO` e rodar o
+  script do catálogo.
+- **Raios X.** O site antigo diz que é por ordem de chegada; o conteúdo atual
+  diz que tem agendamento prévio. Confirmar qual vale.
+- **Horário de retirada de exames.** O site diz a partir das 7h30; o site
+  antigo dizia 8h e incluía sábado, das 8h às 12h.
+- **Corpo clínico.** As listas de médicos do site antigo não batem entre as
+  páginas “Sobre” e “Corpo clínico”, então nenhuma lista foi publicada.
+- **Data da primeira notícia.** Está com a data de hoje; trocar pela data real
+  de lançamento do site.
 
 
 Para rodar local:

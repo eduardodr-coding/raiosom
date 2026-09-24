@@ -378,10 +378,10 @@ export default function PaginaPrivacidade() {
           <h2>11. Responsabilidade</h2>
           <p>
             A RAIO SOM prevê a responsabilidade dos agentes que atuam nos processos de tratamento
-            de dados, em conformidade com os artigos 42 ao 45 da Lei Geral de Proteção de Dados.
+            de dados, em conformidade com os artigos 42 a 45 da Lei Geral de Proteção de Dados.
           </p>
           <p>
-            Nos comprometemos em manter esta Política de Privacidade atualizada, observando suas
+            Comprometemo-nos a manter esta Política de Privacidade atualizada, observando suas
             disposições e zelando por seu cumprimento. Além disso, também assumimos o compromisso
             de buscar condições técnicas e organizativas seguramente aptas a proteger todo o
             processo de tratamento de dados.
@@ -418,7 +418,7 @@ export default function PaginaPrivacidade() {
 
           <h2>14. Lei e foro</h2>
           <p>
-            Todo o contido nesta Política de Privacidade é regido e interpretado pelas Leis da
+            Todo o conteúdo desta Política de Privacidade é regido e interpretado pelas Leis da
             República Federativa do Brasil, ficando eleita a Comarca de Gravataí, Estado do Rio
             Grande do Sul, para dirimir quaisquer controvérsias e disputas relacionadas,
             renunciando a qualquer outro foro, por mais privilegiado que seja.

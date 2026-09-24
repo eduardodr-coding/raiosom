@@ -169,7 +169,7 @@ export function Confirmacao({ exameNome, porOrdemDeChegada }: ConfirmacaoProps) 
             {porOrdemDeChegada
               ? "Este exame é por ordem de chegada: não existe reserva de turno. A central confirma o pedido médico e a cobertura do convênio e orienta o horário de atendimento."
               : "O agendamento só é confirmado depois que a central validar o pedido médico e a cobertura do convênio."}{" "}
-            Atendimento de segunda a sexta, 07h às 23h, e sábado até 17h.
+            Atendimento de segunda a sexta, das 7h às 23h, e aos sábados, das 8h às 17h.
           </p>
         </div>
       </div>

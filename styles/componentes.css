@@ -188,6 +188,148 @@
   font-size: var(--txt-base);
 }
 
+/* Título e chamada de card clicável (lista de exames, transparência). Global
+   porque /exames e /transparencia não carregam o CSS da home, onde isto
+   morava. */
+.card-exame__titulo {
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-lg);
+  font-weight: var(--peso-semi);
+  color: var(--navy-800);
+}
+
+.card-exame__acao {
+  margin-top: auto;
+  padding-top: var(--e-5);
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-sm);
+  font-weight: var(--peso-semi);
+  color: var(--cor-acao);
+}
+
+.card-exame:hover .card-exame__acao {
+  text-decoration: underline;
+}
+
+/* ── Modal do app ───────────────────────────────────────────────────────── */
+
+/* margin: auto centraliza o <dialog> aberto com showModal(); o reset global
+   (* { margin: 0 }) tirava isso e o modal colava no canto superior. */
+.modal-app {
+  margin: auto;
+  width: min(560px, calc(100% - 2 * var(--e-4)));
+  max-width: none;
+  padding: 0;
+  border: 0;
+  border-radius: var(--raio-lg);
+  background: var(--branco);
+  color: var(--texto);
+  box-shadow: var(--sombra-lg);
+}
+
+/* O resto da página fica desfocado atrás do modal. */
+.modal-app::backdrop {
+  background: rgb(15 27 61 / 35%);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.modal-app__caixa {
+  position: relative;
+  padding: var(--e-10) var(--e-8) var(--e-8);
+  text-align: center;
+}
+
+.modal-app__fechar {
+  position: absolute;
+  top: var(--e-3);
+  right: var(--e-3);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--texto-suave);
+  cursor: pointer;
+}
+
+.modal-app__fechar:hover,
+.modal-app__fechar:focus-visible {
+  background: var(--neutro-100);
+  color: var(--navy-800);
+}
+
+.modal-app__titulo {
+  font-size: var(--txt-2xl);
+}
+
+.modal-app__texto {
+  margin-top: var(--e-3);
+  color: var(--texto-suave);
+}
+
+.modal-app__lojas {
+  display: grid;
+  gap: var(--e-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: var(--e-8);
+}
+
+@media (max-width: 520px) {
+  .modal-app__lojas {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Botão de loja no formato dos selos oficiais: fundo preto, ícone e texto
+   brancos. Grande de propósito: é a única coisa a fazer dentro do modal. */
+.loja {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--e-3);
+  min-height: 84px;
+  padding: var(--e-4) var(--e-5);
+  border-radius: var(--raio-md);
+  background: #000;
+  color: #fff;
+  text-align: left;
+  text-decoration: none;
+  transition:
+    transform var(--transicao-rapida),
+    box-shadow var(--transicao);
+}
+
+.loja:hover,
+.loja:focus-visible {
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-md);
+}
+
+.loja svg {
+  flex: none;
+}
+
+.loja__texto {
+  display: grid;
+  line-height: 1.15;
+}
+
+.loja__pre {
+  font-size: var(--txt-xs);
+}
+
+.loja__nome {
+  font-family: var(--fonte-titulo);
+  font-size: var(--txt-xl);
+  font-weight: var(--peso-semi);
+}
+
 /* ── Badge ──────────────────────────────────────────────────────────────── */
 
 .badge {
