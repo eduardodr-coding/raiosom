@@ -19,7 +19,7 @@ export function BaixarApp() {
     <>
       <button
         type="button"
-        className="btn btn--contorno btn--bloco"
+        className="btn btn--primario btn--bloco"
         onClick={() => dialogo.current?.showModal()}
       >
         Baixar APP
@@ -28,10 +28,10 @@ export function BaixarApp() {
       {/* Sem JavaScript o botão acima não abre nada; aí as lojas aparecem
           direto como links, para ninguém ficar sem o caminho. */}
       <noscript>
-        <a className="btn btn--contorno btn--bloco" href={CLINICA.links.appAppStore}>
+        <a className="btn btn--primario btn--bloco" href={CLINICA.links.appAppStore}>
           App Store
         </a>
-        <a className="btn btn--contorno btn--bloco" href={CLINICA.links.appPlayStore}>
+        <a className="btn btn--primario btn--bloco" href={CLINICA.links.appPlayStore}>
           Google Play
         </a>
       </noscript>
