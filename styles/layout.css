@@ -261,13 +261,6 @@
   background: var(--navy-100);
 }
 
-.menu-mobile__link--sub {
-  padding-left: var(--e-5);
-  font-size: var(--txt-base);
-  font-weight: var(--peso-medio);
-  color: var(--texto-suave);
-}
-
 .cabecalho__acoes {
   display: flex;
   align-items: center;
@@ -297,15 +290,18 @@
   transition: transform var(--transicao), opacity var(--transicao);
 }
 
-.menu-botao[aria-expanded="true"] .menu-botao__barra:nth-child(1) {
+/* As barras são o 2º, 3º e 4º filho: o 1º é o texto "Abrir menu" para
+   leitor de tela. Contando a partir do 1 o X saía torto (uma barra sumia,
+   outra girava e a última ficava parada). */
+.menu-botao[aria-expanded="true"] .menu-botao__barra:nth-child(2) {
   transform: translateY(6px) rotate(45deg);
 }
 
-.menu-botao[aria-expanded="true"] .menu-botao__barra:nth-child(2) {
+.menu-botao[aria-expanded="true"] .menu-botao__barra:nth-child(3) {
   opacity: 0;
 }
 
-.menu-botao[aria-expanded="true"] .menu-botao__barra:nth-child(3) {
+.menu-botao[aria-expanded="true"] .menu-botao__barra:nth-child(4) {
   transform: translateY(-6px) rotate(-45deg);
 }
 

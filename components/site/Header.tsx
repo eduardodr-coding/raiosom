@@ -159,7 +159,9 @@ export function Header() {
                   </Link>
                 </li>
               ))}
-              {/* No celular não existe hover: o submenu vira uma lista aberta. */}
+              {/* No celular fica só "Transparência": o submenu aberto logo
+                  abaixo parecia mais um item do menu. A página lista os
+                  relatórios. */}
               <li>
                 <Link
                   href="/transparencia"
@@ -169,13 +171,6 @@ export function Header() {
                   Transparência
                 </Link>
               </li>
-              {ITENS_TRANSPARENCIA.map((item) => (
-                <li key={item.slug}>
-                  <Link href={item.href} className="menu-mobile__link menu-mobile__link--sub">
-                    {item.titulo}
-                  </Link>
-                </li>
-              ))}
               <li>
                 <Link href="/trabalhe-conosco" className="menu-mobile__link">
                   Trabalhe Conosco
