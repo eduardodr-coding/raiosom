@@ -41,7 +41,9 @@ export const CONVENIOS_TOTAL_LOGOS = 26;
  * 6 Biocare Vita · 13 Postal Saúde · 17 IPG · 19 LifeDay · 22 Porto Seguro.
  *
  * A ordem da grade é a alfabética da arte original, por isso o 33 (VerteMed)
- * vem logo depois do 28 (Verte Saúde), e não no fim.
+ * vem logo depois do 28 (Verte Saúde), e não no fim. São dois convênios
+ * diferentes e os dois continuam: não é logo repetido (confirmado pela
+ * clínica em 24/09/2026).
  */
 export const CONVENIOS_LOGOS: string[] = [
   1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 14, 15, 18, 20, 21, 23, 24, 25, 26, 27, 28, 33, 29, 30, 32,
