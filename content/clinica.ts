@@ -115,7 +115,7 @@ export const UNIDADES: Unidade[] = [
     descricao: "Ressonância, tomografia, ultrassom, mamografia e densitometria",
     endereco: "Rua Padre Réus, 206",
     complemento: "Vila Regina",
-    horarios: ["Seg a Sex: 08h00 às 18h00"],
+    horarios: ["Seg a Sex: 06h30 às 19h00", "Sábado: 07h30 às 19h00"],
     telefone: "(51) 3484.4000",
     mapa: "https://www.google.com/maps/search/?api=1&query=Rua+Padre+R%C3%A9us%2C+206%2C+Cachoeirinha+-+RS",
     foto: "/unidades/cachoeirinha.jpg",
