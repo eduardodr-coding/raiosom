@@ -32,9 +32,9 @@
   z-index: 0;
   background: linear-gradient(
     100deg,
-    rgb(15 27 61 / 88%) 0%,
-    rgb(15 27 61 / 76%) 45%,
-    rgb(15 27 61 / 45%) 100%
+    rgb(15 27 61 / 84%) 0%,
+    rgb(15 27 61 / 71%) 45%,
+    rgb(15 27 61 / 40%) 100%
   );
 }
 
@@ -42,7 +42,7 @@
    não cair sobre a parte clara da foto. */
 @media (max-width: 900px) {
   .hero__veu {
-    background: rgb(15 27 61 / 82%);
+    background: rgb(15 27 61 / 79%);
   }
 }
 
