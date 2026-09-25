@@ -72,6 +72,26 @@ export function FormularioAgendamento({
   // só aparece na ultrassonografia, o único exame que ela realiza.
   const unidadesDoExame = UNIDADES.filter((item) => exame.unidades.includes(item.slug));
 
+  // A filial de Cachoeirinha não aceita Unimed. O card continua na lista,
+  // mas desabilitado, para o paciente entender o motivo em vez de a unidade
+  // simplesmente sumir da tela.
+  const cachoeirinhaBloqueada = convenio === "Unimed";
+
+  function selecionarConvenio(valor: string) {
+    setConvenio(valor);
+    limparErro("convenio");
+    if (valor === "Unimed" && unidade === "cachoeirinha") {
+      const alternativa = unidadesDoExame.find((item) => item.slug !== "cachoeirinha");
+      if (alternativa) {
+        setUnidade(alternativa.slug);
+        toast.mostrar(
+          "A unidade Cachoeirinha não atende pelo convênio Unimed. Selecionamos outra unidade.",
+          "info",
+        );
+      }
+    }
+  }
+
   function limparErro(campo: string) {
     setErros((atuais) => {
       if (!atuais[campo]) return atuais;
@@ -298,10 +318,7 @@ export function FormularioAgendamento({
           label="Convênio ou particular"
           name="convenio"
           value={convenio}
-          onChange={(e) => {
-            setConvenio(e.target.value);
-            limparErro("convenio");
-          }}
+          onChange={(e) => selecionarConvenio(e.target.value)}
           placeholder="Selecione"
           error={erros.convenio}
           required
@@ -334,24 +351,35 @@ export function FormularioAgendamento({
       <fieldset className="form-secao">
         <legend className="form-secao__titulo">Em qual unidade você prefere?</legend>
         <div className="opcoes-unidade">
-          {unidadesDoExame.map((item) => (
-            <label className="opcao-cartao" key={item.slug}>
-              <input
-                className="opcao-cartao__entrada"
-                type="radio"
-                name="unidade"
-                value={item.slug}
-                checked={unidade === item.slug}
-                onChange={() => setUnidade(item.slug)}
-              />
-              <span className="opcao-cartao__titulo">{item.etiqueta}</span>
-              <span className="opcao-cartao__texto">
-                {item.endereco ?? item.descricao}
-                <br />
-                {item.horarios.join(" · ")}
-              </span>
-            </label>
-          ))}
+          {unidadesDoExame.map((item) => {
+            const desabilitada = cachoeirinhaBloqueada && item.slug === "cachoeirinha";
+            return (
+              <label
+                className="opcao-cartao"
+                key={item.slug}
+                data-desabilitado={desabilitada || undefined}
+              >
+                <input
+                  className="opcao-cartao__entrada"
+                  type="radio"
+                  name="unidade"
+                  value={item.slug}
+                  checked={unidade === item.slug}
+                  disabled={desabilitada}
+                  onChange={() => setUnidade(item.slug)}
+                />
+                <span className="opcao-cartao__titulo">{item.etiqueta}</span>
+                <span className="opcao-cartao__texto">
+                  {item.endereco ?? item.descricao}
+                  <br />
+                  {item.horarios.join(" · ")}
+                </span>
+                {desabilitada && (
+                  <span className="opcao-cartao__aviso">Não atende convênio Unimed.</span>
+                )}
+              </label>
+            );
+          })}
         </div>
       </fieldset>
 

@@ -138,6 +138,15 @@ export async function POST(request: Request) {
     });
   }
 
+  // A filial de Cachoeirinha não aceita o convênio Unimed. O formulário já
+  // desabilita essa combinação, mas quem posta direto na API pode tentar
+  // mandar mesmo assim.
+  if (dados.unidade === "cachoeirinha" && dados.convenio === "Unimed") {
+    return erro("Confira os campos destacados.", 422, {
+      unidade: "A unidade Cachoeirinha não atende pelo convênio Unimed. Escolha outra unidade.",
+    });
+  }
+
   const nascimento = lerDataNascimento(dados.dataNascimento);
   if (!nascimento) {
     return erro("Confira os campos destacados.", 422, {

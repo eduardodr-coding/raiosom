@@ -642,6 +642,27 @@ select.campo__controle {
   outline-offset: 2px;
 }
 
+/* Unidade que não atende o convênio escolhido: continua visível, mas não dá
+   pra marcar — sumir com o card faria o paciente achar que a unidade não
+   existe mais. */
+.opcao-cartao[data-desabilitado] {
+  cursor: not-allowed;
+  background: var(--neutro-100);
+  opacity: 0.7;
+}
+
+.opcao-cartao[data-desabilitado]:hover {
+  border-color: var(--borda);
+}
+
+.opcao-cartao__aviso {
+  display: block;
+  margin-top: var(--e-2);
+  font-size: var(--txt-xs);
+  font-weight: var(--peso-semi);
+  color: var(--alerta-500);
+}
+
 .opcao-cartao__entrada {
   position: absolute;
   opacity: 0;
