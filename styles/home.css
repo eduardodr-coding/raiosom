@@ -22,28 +22,24 @@
   object-position: center 38%;
 }
 
-/* Véu azul sobre a foto da recepção. Mais forte à esquerda, onde fica o
-   texto branco, e mais leve à direita, onde o card tem fundo próprio e a
-   foto pode aparecer — mas nunca tão leve a ponto de a foto competir com o
-   texto branco. */
+/* Véu azul uniforme sobre a foto da recepção, em 50% no computador e no
+   celular, a pedido da clínica. */
 .hero__veu {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(
-    100deg,
-    rgb(15 27 61 / 84%) 0%,
-    rgb(15 27 61 / 71%) 45%,
-    rgb(15 27 61 / 40%) 100%
-  );
+  background: rgb(15 27 61 / 50%);
 }
 
-/* No celular o texto ocupa a largura toda: o véu fica uniforme para o branco
-   não cair sobre a parte clara da foto. */
-@media (max-width: 900px) {
-  .hero__veu {
-    background: rgb(15 27 61 / 79%);
-  }
+/* Com o véu em 50%, as partes claras da foto encostam no texto: a sombra
+   suave mantém o texto legível sem escurecer a foto inteira. */
+.hero__kicker,
+.hero__titulo,
+.hero__sub,
+.hero__confianca {
+  text-shadow:
+    0 1px 2px rgb(15 27 61 / 60%),
+    0 2px 14px rgb(15 27 61 / 70%);
 }
 
 .hero__grid {
