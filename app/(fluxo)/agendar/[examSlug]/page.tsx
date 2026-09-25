@@ -110,7 +110,7 @@ export default async function PaginaAgendar({ params, searchParams }: Props) {
               color: "var(--texto-suave)",
             }}
           >
-            Atendimento de segunda a sexta, das 7h às 23h, e aos sábados, das 8h às 17h. Telefone{" "}
+            {CLINICA.horarioAgendamento} Telefone{" "}
             <a href={CLINICA.telefoneLink}>{CLINICA.telefonePrincipal}</a>.
           </p>
         </aside>

@@ -32,6 +32,15 @@ export const CLINICA = {
     link: "https://wa.me/5551996859824",
   },
 
+  /**
+   * Horário de agendamento: quando a central responde telefone e WhatsApp
+   * para confirmar o pedido e fechar o horário. Não é o horário de
+   * atendimento das unidades (quando o prédio está aberto e o exame
+   * acontece) — esse fica em `horarios`, em cada item de `UNIDADES`.
+   */
+  horarioAgendamento:
+    "Atendimento de segunda a sexta, das 7h45 às 19h, e aos sábados, das 8h às 17h30.",
+
   emails: {
     agendamento: "agendamento@raiosom.com.br",
     privacidade: "privacidade@raiosom.com.br",
@@ -101,7 +110,11 @@ export const UNIDADES: Unidade[] = [
     descricao: "Ressonância, tomografia, ultrassom, mamografia, raios X e densitometria",
     endereco: "Rua Doutor Luiz Bastos do Prado, 1586",
     complemento: "Ao lado do estacionamento GTI Park",
-    horarios: ["Seg a Sex: 07h00 às 23h00", "Sábado: 08h00 às 17h00"],
+    // Horário de atendimento da matriz: quando o prédio está aberto e os
+    // exames acontecem. Diferente do horário de agendamento (CLINICA abaixo),
+    // que é quando a central responde telefone e WhatsApp para fechar o
+    // horário — mais curto, porque depende de gente na linha.
+    horarios: ["Seg a Sex: 05h40 às 00h00", "Sábado: 08h00 às 00h00"],
     telefone: "(51) 3484.4000",
     mapa: "https://www.google.com/maps/search/?api=1&query=Rua+Doutor+Luiz+Bastos+do+Prado%2C+1586%2C+Gravata%C3%AD+-+RS",
     foto: "/unidades/matriz.jpg",
