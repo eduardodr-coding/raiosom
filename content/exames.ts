@@ -90,7 +90,7 @@ export const EXAMES: Exame[] = [
     comoEFeito:
       "A tomografia computadorizada usa raios X em dose controlada para gerar imagens do corpo em cortes, como fatias, e identificar alterações em órgãos e estruturas de qualquer região, inclusive coração, pulmões e abdome. Trabalhamos sempre com a menor exposição possível à radiação. Assim como os raios X convencionais, o exame não é recomendado para gestantes, a menos que seja indispensável e autorizado pelo médico que o solicitou.",
     contraste:
-      "O contraste é uma substância que realça tecidos, órgãos e vasos sanguíneos nas imagens. Não existe contraindicação geral: alguns pacientes, como gestantes, asmáticos e pessoas com alergia, são avaliados com mais atenção pelo especialista. Quando o seu exame usar contraste, nossa equipe passa todas as orientações pelo WhatsApp.",
+      "O contraste é uma substância que realça tecidos, órgãos e vasos sanguíneos nas imagens. A tomografia com contraste pode ser realizada pela maioria dos pacientes. Gestantes, asmáticos e pessoas com alergias precisam de avaliação médica e, quando necessário, preparo antialérgico antes do exame.",
     chegarAntesMin: 15,
     laudo: "O laudo fica pronto em 3 dias úteis.",
     imagem: "/exames/tomo.jpg",
