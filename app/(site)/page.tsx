@@ -19,6 +19,8 @@ const BUSCAS_RAPIDAS = [
   { rotulo: "Mamografia", termo: "mamografia" },
   { rotulo: "Raio X", termo: "raio x" },
   { rotulo: "Biópsia", termo: "biopsia" },
+  { rotulo: "Densitometria Óssea", termo: "densitometria" },
+  { rotulo: "Radiologia Odontológica", termo: "odontologia" },
 ];
 
 const PASSOS = [
@@ -96,7 +98,7 @@ export default function Home() {
               <span className="selo-padi">
                 <Image
                   src="/marca/padi.png"
-                  alt="Selo de Qualidade PADI acreditada pelo Colégio Brasileiro de Radiologia"
+                  alt="Programa de Qualidade PADI, acreditação do Colégio Brasileiro de Radiologia"
                   width={1250}
                   height={1250}
                   sizes="68px"

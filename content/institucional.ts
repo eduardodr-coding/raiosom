@@ -23,7 +23,7 @@ export const DIFERENCIAIS = [
   "Diversidade de exames",
   "Inovação tecnológica",
   "Protocolos de segurança e confiabilidade",
-  "Selo de Qualidade PADI",
+  "Programa de Qualidade PADI (Programa de Acreditação em Diagnóstico por Imagem)",
   "União e trabalho em equipe",
 ];
 

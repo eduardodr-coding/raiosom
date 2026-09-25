@@ -12,7 +12,7 @@ import "@/styles/exames.css";
 
 export const metadata: Metadata = {
   title: "A Clínica",
-  description: `${CLINICA.anos} anos de diagnóstico por imagem em Gravataí, Cachoeirinha e região, com o Selo de Qualidade PADI do Colégio Brasileiro de Radiologia.`,
+  description: `${CLINICA.anos} anos de diagnóstico por imagem em Gravataí, Cachoeirinha e região, com o Programa de Qualidade PADI do Colégio Brasileiro de Radiologia.`,
 };
 
 // Cada número leva à parte do site que o explica: quem clica em "unidades"
@@ -134,11 +134,16 @@ export default function PaginaSobre() {
           <div className="sobre-grid">
             <Revelar>
               <span className="kicker">Qualidade acreditada</span>
-              <h2>{CLINICA.acreditacao.selo}</h2>
+              <h2>
+                {CLINICA.acreditacao.selo} ({CLINICA.acreditacao.programa})
+              </h2>
               <p className="subtitulo">
-                A Raio Som é acreditada pelo PADI, o {CLINICA.acreditacao.programa} do{" "}
-                {CLINICA.acreditacao.orgao}. Na prática, isso significa protocolos de segurança
-                auditados, laudos assinados por especialistas e equipe treinada periodicamente.
+                A clínica Raio Som mantém o {CLINICA.acreditacao.programa}, reforçando nosso
+                compromisso com o alto padrão de qualidade, segurança e eficiência profissional.
+              </p>
+              <p className="subtitulo">
+                Nosso modelo assistencial é pautado na experiência do paciente, cuidado coordenado,
+                agilidade no atendimento e precisão diagnóstica.
               </p>
               <div className="numeros-destaque">
                 {NUMEROS.map((item) => (
@@ -157,7 +162,7 @@ export default function PaginaSobre() {
             <Revelar style={{ display: "grid", placeItems: "center", gap: "var(--e-6)" }}>
               <Image
                 src="/marca/padi.png"
-                alt="Selo de Qualidade PADI acreditada, CBR"
+                alt="Programa de Qualidade PADI, acreditação do CBR"
                 width={1250}
                 height={1250}
                 sizes="(max-width: 900px) 60vw, 280px"
@@ -180,40 +185,41 @@ export default function PaginaSobre() {
         <div className="container">
           <Revelar>
             <span className="kicker">Como trabalhamos</span>
-            <h2>O que a acreditação muda para você</h2>
+            <h2>O que nosso programa de qualidade entrega para você?</h2>
           </Revelar>
 
           <div className="passos" style={{ marginTop: "var(--e-8)" }}>
             <Revelar>
               <div className="card" style={{ height: "100%" }}>
                 <h3 className="passo__titulo" style={{ marginTop: 0 }}>
-                  Laudo de especialista
+                  Corpo clínico
                 </h3>
                 <p className="passo__texto">
-                  Todo exame é laudado por especialista, e o laudo fica disponível no portal de
-                  resultados e no aplicativo.
+                  Corpo clínico renomado, formado por especialistas nas diversas modalidades
+                  oferecidas.
                 </p>
               </div>
             </Revelar>
             <Revelar delay={80}>
               <div className="card" style={{ height: "100%" }}>
                 <h3 className="passo__titulo" style={{ marginTop: 0 }}>
-                  Protocolo de segurança
+                  Parque tecnológico
                 </h3>
                 <p className="passo__texto">
-                  Conferência de identificação, questionário de segurança na ressonância e dupla
-                  checagem do pedido médico antes de cada exame.
+                  Parque tecnológico moderno, com equipamentos de alto desempenho e manutenções
+                  preventivas periódicas.
                 </p>
               </div>
             </Revelar>
             <Revelar delay={160}>
               <div className="card" style={{ height: "100%" }}>
                 <h3 className="passo__titulo" style={{ marginTop: 0 }}>
-                  Equipe treinada
+                  Equipes qualificadas
                 </h3>
                 <p className="passo__texto">
-                  Treinamento periódico das equipes técnica e de atendimento, uma exigência do
-                  programa de acreditação do Colégio Brasileiro de Radiologia.
+                  Equipes assistenciais e de atendimento altamente qualificadas, dedicadas à
+                  segurança, ao acolhimento e à melhor experiência do paciente, com protocolos
+                  institucionais que promovem um cuidado individualizado, humanizado e seguro.
                 </p>
               </div>
             </Revelar>

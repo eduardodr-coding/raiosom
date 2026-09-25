@@ -5,7 +5,7 @@ import { Revelar } from "@/components/Revelar";
 import { Aviso } from "@/components/ui/Aviso";
 import { Button } from "@/components/ui/Button";
 import { CLINICA } from "@/content/clinica";
-import { CONVENIOS_LOGOS, CONVENIOS_TOTAL_LOGOS } from "@/content/convenios";
+import { CONVENIOS_LOGOS } from "@/content/convenios";
 
 import "@/styles/home.css";
 import "@/styles/exames.css";
@@ -30,25 +30,13 @@ export default function PaginaConvenios() {
             <li>Convênios</li>
           </ol>
           <h1>Convênios atendidos</h1>
-          <p className="pagina-topo__texto">
-            Atendemos {CONVENIOS_TOTAL_LOGOS} planos de saúde, além do atendimento particular. A cobertura varia
-            por exame e por contrato, então a confirmação final é sempre feita pela central antes
-            do atendimento.
-          </p>
+          <p className="pagina-topo__texto">Consulte os convênios aceitos.</p>
         </div>
       </div>
 
       <section className="secao">
         <div className="container">
-          <Revelar>
-            <span className="kicker">Lista de parceiros</span>
-            <h2>Convênios Parceiros</h2>
-            <p className="subtitulo">
-              Logos dos planos com os quais a Raio Som mantém credenciamento.
-            </p>
-          </Revelar>
-
-          <Revelar className="grade-logos" style={{ marginTop: "var(--e-8)" }}>
+          <Revelar className="grade-logos">
             {CONVENIOS_LOGOS.map((logo) => (
               <div className="logo-convenio" key={logo}>
                 <Image
