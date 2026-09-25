@@ -34,6 +34,14 @@ npx prisma migrate dev   # cria as tabelas no MySQL
 npm run dev              # http://localhost:3000
 ```
 
+**Sem o MySQL rodando o pré-agendamento ainda funciona**, mas pela metade: a
+API tenta gravar, desiste em cerca de 2 segundos e manda o paciente para o
+WhatsApp com a mensagem pronta, só que sem protocolo, sem o pedido médico
+guardado e sem aparecer no painel. É de propósito — banco fora do ar não pode
+travar o paciente —, mas em produção o banco precisa estar no ar. O log do
+servidor mostra `[solicitacoes] falha ao gravar a solicitação` quando isso
+acontece.
+
 Gere um `SESSION_SECRET` novo com:
 
 ```bash

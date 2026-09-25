@@ -49,7 +49,6 @@ export function FormularioAgendamento({
   const [email, setEmail] = useState("");
   const [semEmail, setSemEmail] = useState(false);
   const [convenio, setConvenio] = useState("");
-  const [carteirinha, setCarteirinha] = useState("");
   const [unidade, setUnidade] = useState(
     unidadeInicial && exame.unidades.includes(unidadeInicial as never)
       ? unidadeInicial
@@ -61,9 +60,6 @@ export function FormularioAgendamento({
 
   const [erros, setErros] = useState<Erros>({});
   const [enviando, setEnviando] = useState(false);
-
-  const ehParticular = convenio === "particular";
-  const pedeCarteirinha = convenio !== "" && !ehParticular;
 
   // Só as unidades que realizam este exame. Os pontos de atendimento (Solaris,
   // IOG) não entram em nenhum `exame.unidades`: lá o paciente só marca, o
@@ -112,8 +108,6 @@ export function FormularioAgendamento({
     if (!semEmail && !emailValido(email))
       novos.email = "Informe um e-mail válido, ex.: nome@email.com.";
     if (!convenio) novos.convenio = "Escolha o convênio ou particular.";
-    if (pedeCarteirinha && !carteirinha.trim())
-      novos.carteirinha = "Informe o número da carteirinha.";
     if (!turno) novos.turno = "Escolha o turno de preferência.";
     // O pedido médico é o único campo opcional: quem não tem a foto na hora
     // leva o papel no dia.
@@ -147,7 +141,6 @@ export function FormularioAgendamento({
     dados.set("email", semEmail ? "" : email.trim());
     dados.set("semEmail", String(semEmail));
     dados.set("convenio", convenio);
-    dados.set("carteirinha", ehParticular ? "" : carteirinha.trim());
     dados.set("unidade", unidade);
     dados.set("turno", turno);
     dados.set("consentimento", String(consentimento));
@@ -175,16 +168,24 @@ export function FormularioAgendamento({
             whatsapp: corpo.whatsapp,
             semWhatsapp: corpo.semWhatsapp,
             comPedido: corpo.comPedido,
+            semRegistro: corpo.semRegistro === true,
             exameSlug: exame.slug,
           }),
         );
       } catch {
         // Navegador com armazenamento bloqueado: a confirmação cai no texto
         // genérico, que ainda leva o paciente ao WhatsApp com o protocolo.
+        // Sem protocolo não há texto genérico que sirva: vai direto.
+        if (!corpo.protocolo && !corpo.semWhatsapp) {
+          window.location.href = corpo.whatsapp;
+          return;
+        }
       }
 
       router.push(
-        `/agendar/${exame.slug}/confirmacao?protocolo=${encodeURIComponent(corpo.protocolo)}`,
+        corpo.protocolo
+          ? `/agendar/${exame.slug}/confirmacao?protocolo=${encodeURIComponent(corpo.protocolo)}`
+          : `/agendar/${exame.slug}/confirmacao`,
       );
     } catch {
       toast.mostrar(
@@ -330,23 +331,6 @@ export function FormularioAgendamento({
           ))}
         </Select>
       </div>
-
-      {pedeCarteirinha && (
-        <div className="form-secao">
-          <Input
-            label="Número da carteirinha"
-            name="carteirinha"
-            value={carteirinha}
-            onChange={(e) => {
-              setCarteirinha(e.target.value);
-              limparErro("carteirinha");
-            }}
-            hint="Está na frente da carteirinha do convênio."
-            error={erros.carteirinha}
-            required
-          />
-        </div>
-      )}
 
       <fieldset className="form-secao">
         <legend className="form-secao__titulo">Em qual unidade você prefere?</legend>

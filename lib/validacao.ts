@@ -139,7 +139,6 @@ export const esquemaSolicitacao = z.object({
   /** `particular`, o nome do convênio, ou `outro`. */
   convenio: z.string().trim().min(1, "Escolha o convênio ou particular.").max(120),
 
-  carteirinha: z.string().trim().max(60).optional().or(z.literal("")),
 
   unidade: z.enum(UNIDADES_VALIDAS, { message: "Escolha a unidade." }),
 
@@ -193,17 +192,3 @@ export function validarContato(dados: {
   return erros;
 }
 
-/**
- * Regra que o zod sozinho não cobre: convênio escolhido pede carteirinha.
- * Retorna os erros por campo, no mesmo formato usado pelo formulário.
- */
-export function validarCarteirinha(dados: {
-  convenio: string;
-  carteirinha?: string;
-}): Record<string, string> {
-  const ehParticular = dados.convenio === "particular";
-  if (!ehParticular && !dados.carteirinha?.trim()) {
-    return { carteirinha: "Informe o número da carteirinha do convênio." };
-  }
-  return {};
-}

@@ -26,7 +26,6 @@ import {
   lerDataNascimento,
   naoPossui,
   somenteDigitos,
-  validarCarteirinha,
   validarContato,
 } from "@/lib/validacao";
 import { linkWhatsApp, montarMensagem } from "@/lib/whatsapp";
@@ -92,7 +91,6 @@ export async function POST(request: Request) {
     email: String(form.get("email") ?? ""),
     semEmail: String(form.get("semEmail") ?? ""),
     convenio: String(form.get("convenio") ?? ""),
-    carteirinha: String(form.get("carteirinha") ?? ""),
     unidade: String(form.get("unidade") ?? ""),
     turno: String(form.get("turno") ?? ""),
     consentimento: String(form.get("consentimento") ?? ""),
@@ -110,7 +108,7 @@ export async function POST(request: Request) {
 
   const dados = analise.data;
 
-  const errosCampos = { ...validarCarteirinha(dados), ...validarContato(dados) };
+  const errosCampos = validarContato(dados);
   if (Object.keys(errosCampos).length > 0) {
     return erro("Confira os campos destacados.", 422, errosCampos);
   }
@@ -182,10 +180,30 @@ export async function POST(request: Request) {
 
   // ── Persistência ─────────────────────────────────────────────────────────
   const arquivo = bytes ? await salvarPedidoMedico(bytes) : null;
+  const ehParticular = dados.convenio === "particular";
+  const whatsappPaciente = naoPossui(dados.semWhatsapp) ? null : somenteDigitos(dados.whatsapp);
+  const emailPaciente = naoPossui(dados.semEmail) ? null : dados.email;
+
+  const mensagemPara = (protocolo: string | null) =>
+    montarMensagem({
+      protocolo,
+      // A variação, quando existe, é mais específica que a modalidade e é o
+      // que a central precisa ler. O nome interno fica de fora de propósito:
+      // esta string vira `wa.me/?text=` e passa pela tela do paciente.
+      exameNome: variacao ? rotuloVariacao(variacao) : exame.nome,
+      pacienteNome: dados.pacienteNome,
+      cpf: dados.cpf,
+      dataNascimento: formatarDataBR(nascimento),
+      whatsapp: whatsappPaciente,
+      email: emailPaciente,
+      unidade: dados.unidade,
+      convenio: ehParticular ? "Particular" : dados.convenio,
+      turno: dados.turno,
+      comTurno: exame.agendamento !== "ordem-de-chegada",
+    });
 
   try {
     const ano = new Date().getFullYear();
-    const ehParticular = dados.convenio === "particular";
 
     const protocolo = await prisma.$transaction(async (tx) => {
       const contador = await tx.contadorProtocolo.upsert({
@@ -213,11 +231,14 @@ export async function POST(request: Request) {
           pacienteNome: dados.pacienteNome,
           cpf: dados.cpf,
           dataNascimento: nascimento,
-          whatsapp: naoPossui(dados.semWhatsapp) ? null : somenteDigitos(dados.whatsapp),
-          email: naoPossui(dados.semEmail) ? null : dados.email,
+          whatsapp: whatsappPaciente,
+          email: emailPaciente,
           tipoCobertura: ehParticular ? "particular" : "convenio",
           convenioNome: ehParticular ? null : dados.convenio,
-          carteirinha: ehParticular ? null : dados.carteirinha || null,
+          // O site não pede mais a carteirinha: a central confere a cobertura
+          // com o paciente no WhatsApp. A coluna segue no banco para os
+          // registros antigos.
+          carteirinha: null,
           unidade: dados.unidade,
           turno: dados.turno,
           arquivoChave: arquivo?.chave ?? null,
@@ -235,21 +256,7 @@ export async function POST(request: Request) {
       return numero;
     });
 
-    const mensagem = montarMensagem({
-      protocolo,
-      // A variação, quando existe, é mais específica que a modalidade e é o
-      // que a central precisa ler. O nome interno fica de fora de propósito:
-      // esta string vira `wa.me/?text=` e passa pela tela do paciente.
-      exameNome: variacao ? rotuloVariacao(variacao) : exame.nome,
-      pacienteNome: dados.pacienteNome,
-      cpf: dados.cpf,
-      dataNascimento: formatarDataBR(nascimento),
-      unidade: dados.unidade,
-      convenio: ehParticular ? "Particular" : dados.convenio,
-      turno: dados.turno,
-      comTurno: exame.agendamento !== "ordem-de-chegada",
-      comPedido: arquivo !== null,
-    });
+    const mensagem = mensagemPara(protocolo);
 
     return NextResponse.json({
       protocolo,
@@ -270,9 +277,19 @@ export async function POST(request: Request) {
       // Só a mensagem do erro — nada do paciente.
       causa: causa instanceof Error ? causa.message : "desconhecida",
     });
-    return erro(
-      `Não conseguimos registrar sua solicitação agora. Tente de novo em instantes ou ligue para ${CLINICA.telefonePrincipal}.`,
-      500,
-    );
+
+    // Banco fora do ar não pode travar o paciente: o objetivo do site é
+    // entregá-lo à central com os dados prontos, e a mensagem do WhatsApp
+    // leva tudo o que o atendente precisa. Ele segue sem protocolo, e o
+    // pedido médico, que não teve onde ser guardado, vai pela conversa.
+    const mensagem = mensagemPara(null);
+    return NextResponse.json({
+      protocolo: null,
+      semRegistro: true,
+      mensagem,
+      whatsapp: linkWhatsApp(mensagem),
+      semWhatsapp: naoPossui(dados.semWhatsapp),
+      comPedido: false,
+    });
   }
 }

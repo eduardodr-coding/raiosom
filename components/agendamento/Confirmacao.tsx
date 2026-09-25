@@ -8,13 +8,20 @@ import { normalizarProtocolo, protocoloValido } from "@/lib/protocolo";
 import { CHAVE_SESSAO } from "./FormularioAgendamento";
 
 type Guardado = {
-  protocolo: string;
+  /** Nulo quando a solicitação não pôde ser gravada (ver `semRegistro`). */
+  protocolo: string | null;
   mensagem: string;
   whatsapp: string;
   /** O paciente marcou "Não possuo" no WhatsApp: mandá-lo para lá não resolve. */
   semWhatsapp?: boolean;
   /** Anexou o pedido médico. Opcional no formulário. */
   comPedido?: boolean;
+  /**
+   * O banco estava fora do ar: não há protocolo nem pedido médico guardado,
+   * mas a mensagem está pronta e o paciente segue para a central do mesmo
+   * jeito.
+   */
+  semRegistro?: boolean;
   exameSlug: string;
 };
 
@@ -61,11 +68,17 @@ export function Confirmacao({ exameNome, porOrdemDeChegada }: ConfirmacaoProps) 
     if (!bruto) return null;
     try {
       const guardado = JSON.parse(bruto) as Guardado;
+      // Sem registro, não há protocolo na URL para conferir.
+      if (guardado.semRegistro) return protocoloUrl ? null : guardado;
       return guardado.protocolo === protocoloUrl ? guardado : null;
     } catch {
       return null;
     }
   }, [bruto, protocoloUrl]);
+
+  if (dados?.semRegistro) {
+    return <ConfirmacaoSemRegistro dados={dados} porOrdemDeChegada={porOrdemDeChegada} />;
+  }
 
   if (!protocoloValido(protocoloUrl)) {
     return (
@@ -170,6 +183,78 @@ export function Confirmacao({ exameNome, porOrdemDeChegada }: ConfirmacaoProps) 
               ? "Este exame é por ordem de chegada: não existe reserva de turno. A central confirma o pedido médico e a cobertura do convênio e orienta o horário de atendimento."
               : "O agendamento só é confirmado depois que a central validar o pedido médico e a cobertura do convênio."}{" "}
             {CLINICA.horarioAgendamento}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Confirmação quando a solicitação não foi gravada (banco fora do ar).
+ *
+ * Não há protocolo para mostrar nem pedido médico guardado, mas o paciente
+ * não perde nada: a mensagem pronta leva todos os dados para a central, e a
+ * foto do pedido vai pela própria conversa.
+ */
+function ConfirmacaoSemRegistro({
+  dados,
+  porOrdemDeChegada,
+}: {
+  dados: Guardado;
+  porOrdemDeChegada: boolean;
+}) {
+  const semWhatsapp = dados.semWhatsapp === true;
+
+  return (
+    <div className="confirmacao">
+      <span className="confirmacao__icone" aria-hidden="true">
+        ✓
+      </span>
+
+      <h1 className="confirmacao__titulo">
+        {semWhatsapp ? "Falta só ligar para a central" : "Sua mensagem está pronta"}
+      </h1>
+      <p className="confirmacao__texto">
+        {semWhatsapp
+          ? "Ligue para a central e informe seus dados. Um atendente vai conferir seu pedido"
+          : "Falta só um passo: enviar a mensagem para a central. Envie também a foto do pedido médico na conversa. Um atendente vai conferir seu pedido"}
+        {porOrdemDeChegada
+          ? " e orientar o melhor horário para você vir."
+          : " e fechar o horário com você."}
+      </p>
+
+      {!semWhatsapp && (
+        <div className="previa">
+          <p className="previa__rotulo">A mensagem que vai ser enviada</p>
+          <div className="balao">{dados.mensagem}</div>
+        </div>
+      )}
+
+      <div className="confirmacao__acoes">
+        {semWhatsapp ? (
+          <Button href={CLINICA.telefoneLink} size="grande" block>
+            Ligar para a central: {CLINICA.telefonePrincipal}
+          </Button>
+        ) : (
+          <>
+            <Button href={dados.whatsapp} external variant="whatsapp" size="grande" block>
+              Abrir o WhatsApp da Raio Som
+            </Button>
+            <Button href={CLINICA.telefoneLink} variant="contorno" block>
+              Prefiro ligar: {CLINICA.telefonePrincipal}
+            </Button>
+          </>
+        )}
+      </div>
+
+      <div className="aviso" style={{ marginTop: "var(--e-8)", textAlign: "left" }}>
+        <span aria-hidden="true">!</span>
+        <div>
+          <p className="aviso__titulo">Seu horário ainda não está marcado</p>
+          <p>
+            O agendamento só é confirmado depois que a central validar o pedido médico e a
+            cobertura do convênio. {CLINICA.horarioAgendamento}
           </p>
         </div>
       </div>
