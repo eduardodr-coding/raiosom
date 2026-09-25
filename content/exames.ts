@@ -163,7 +163,7 @@ export const EXAMES: Exame[] = [
   },
   {
     slug: "raios-x-digital",
-    nome: "Radiografia Digitais",
+    nome: "Radiografia Digital",
     sigla: "RX",
     resumo: "Baixa dose de radiação e resultado rápido.",
     descricao:
