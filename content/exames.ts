@@ -163,7 +163,7 @@ export const EXAMES: Exame[] = [
   },
   {
     slug: "raios-x-digital",
-    nome: "Raios X Digital",
+    nome: "Radiografia Digitais",
     sigla: "RX",
     resumo: "Baixa dose de radiação e resultado rápido.",
     descricao:
@@ -204,7 +204,7 @@ export const EXAMES: Exame[] = [
   },
   {
     slug: "radiografia-odontologica",
-    nome: "Radiografia Odontológica",
+    nome: "Radiologia Odontológica",
     sigla: "RO",
     resumo: "Panorâmica, periapical, Cone Beam e documentação.",
     descricao:

@@ -306,7 +306,7 @@ reverso reescreva esse cabeçalho; sem proxy na frente, ele é forjável.
   o 33 (VerteMed) é o único com nome e logo confirmados pela clínica.
 - **Duas fotos de exame estavam trocadas no material de briefing.** `do.jpg` é
   o densitômetro GE Lunar (Densitometria Óssea) e `radio.jpg` é o aparelho
-  panorâmico (Radiografia Odontológica) — o documento associava `do.jpg` à
+  panorâmico (Radiologia Odontológica) — o documento associava `do.jpg` à
   odontológica e dizia que a densitometria não tinha foto. Corrigido em
   `content/exames.ts`; vale confirmar com a clínica.
 - **“Exames Cardiológicos”.** A frase-resumo do Figma cita ECG e ergometria; o
