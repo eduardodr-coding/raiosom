@@ -270,6 +270,12 @@
   padding: var(--e-6);
 }
 
+/* A etiqueta (MATRIZ · GRAVATAÍ etc.) centralizada no topo do card, em vez de
+   colada à esquerda — o resto do conteúdo continua alinhado à esquerda. */
+.unidade-card__corpo .badge {
+  align-self: center;
+}
+
 .unidade-card__nome {
   margin-top: var(--e-4);
   font-family: var(--fonte-titulo);

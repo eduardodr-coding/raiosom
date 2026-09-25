@@ -147,6 +147,18 @@ export function Footer() {
         <div className="rodape__base">
           <p>
             © {new Date().getFullYear()} {CLINICA.nomeCompleto}. Todos os direitos reservados.
+            <span className="rodape__credito">
+              {" "}
+              · Desenvolvido por{" "}
+              <a
+                className="rodape__credito-link"
+                href="https://www.linkedin.com/in/eduardo-dorneles-ribeiro/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Eduardo Dorneles
+              </a>
+            </span>
           </p>
           <p>
             <Link href="/politica-de-privacidade">Política de Privacidade e Cookies · LGPD</Link>

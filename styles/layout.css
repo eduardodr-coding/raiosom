@@ -507,6 +507,24 @@
   font-size: var(--txt-xs);
 }
 
+/* Crédito do desenvolvedor, mais discreto que o aviso de direitos autorais.
+   O link do nome herda o mesmo cinza (a especificidade extra bate a regra
+   geral ".rodape a", que deixa os links do rodapé mais claros) e só clareia
+   no hover, como qualquer link. */
+.rodape__credito {
+  color: rgb(255 255 255 / 45%);
+}
+
+.rodape .rodape__base a.rodape__credito-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.rodape .rodape__base a.rodape__credito-link:hover {
+  color: var(--branco);
+  text-decoration: underline;
+}
+
 /* ── Casca das páginas internas ─────────────────────────────────────────── */
 
 .trilha {
